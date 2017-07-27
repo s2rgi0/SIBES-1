@@ -572,8 +572,9 @@
 		var tabla = $('#tabla_res');
 		var i_e = "";
 		var tab = "";
-
-		/////////////////////////////////////USR ID////////////////////////////////////////////////////////
+		var mensg = $('#msg_res');
+		var i_a = "";
+		//////////////////////USR ID/////////////////////////
 		var usr_id = $('#usr_id').val();
 		//alert(usr_id)
 
@@ -595,7 +596,7 @@
 
 	    	//alert('elija un reino')
 	    	//$('#MSG_REINO').modal('show');
-	    	sweetAlert("Seleccione un Reino!", "", "error");
+	    	sweetAlert("Seleccione una taxonomia", "", "warning");
 
 	    }
 
@@ -611,19 +612,23 @@
             	console.log(data)
             	console.log(data.length)
 
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
 
-
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
             	for(var i = 0 ; i < data.length ; i++ )
                     {
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
@@ -631,7 +636,8 @@
 
 
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -662,24 +668,29 @@
             	console.log(data)
             	console.log(data.length)
 
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
-
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
             	for(var i = 0 ; i < data.length ; i++ )
                     {
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
 
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -708,23 +719,28 @@
             	console.log(data)
             	console.log(data.length)
 
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
-
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
             	for(var i = 0 ; i < data.length ; i++ )
                     {
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -755,21 +771,26 @@
             	console.log(data)
             	console.log(data.length)
 
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th scope="col">Reino</th><th scope="col">Division</th><th scope="col">Clase</th><th scope="col">Orden</th><th scope="col">Familia</th><th scope="col">Genero</th><th scope="col">Especie</th><th scope="col">Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
-
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th scope="col">Reino</th><th scope="col">Division</th><th scope="col">Clase</th><th scope="col">Orden</th><th scope="col">Familia</th><th scope="col">Genero</th><th scope="col">Especie</th><th scope="col">Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
             	for(var i = 0 ; i < data.length ; i++ )
                     {
                    		if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -799,21 +820,26 @@
             	console.log(data)
             	console.log(data.length)
 
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
-
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
             	for(var i = 0 ; i < data.length ; i++ )
                     {
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -842,22 +868,27 @@
             success:function(data){
             	console.log(data)
             	console.log(data.length)
-
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
 
             	for(var i = 0 ; i < data.length ; i++ )
                     {
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -886,24 +917,29 @@
             success:function(data){
             	console.log(data)
             	console.log(data.length)
-
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th><th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
 
             	for(var i = 0 ; i < data.length ; i++ )
                     {
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
@@ -932,24 +968,29 @@
             success:function(data){
             	console.log(data)
             	console.log(data.length)
-
-            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th> <th>Subespecie</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
+            	if(data.length == 1){
+            		msg = '<h1><p>Se encontro '+data.length+' resultado</p></h1>';
+            	}else{
+            		msg = '<h1><p>Se encontraron '+data.length+' resultados</p></h1>';
+            	}
+            	tab = '<table id="resultados" class="table table-striped table-bordered table-hover" width="80%" cellspacing="0" style="background-color: white;" > <thead><tr><th>Reino</th><th>Division</th><th>Clase</th><th>Orden</th><th>Familia</th><th>Genero</th><th>Especie</th> <th>Subespecie</th><th>Información</th></tr></thead> <tbody class="row_consulta"></tbody></table>';
 
             	for(var i = 0 ; i < data.length ; i++ )
                     {
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Ver</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
                     }
-
+                    mensg.html("");
+                    mensg.html(msg);
                     tabla.html("");
                     tabla.html(tab);
                     var row = $('.row_consulta').parent().parent();
