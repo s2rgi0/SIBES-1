@@ -85,7 +85,11 @@
 
 
 </table>
+<div id="links" >
+        
+    {{ $especie->links() }}
 
+</div>
 
 
 
