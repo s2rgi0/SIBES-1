@@ -278,7 +278,10 @@ setTimeout ("$('#btn_gug').select2();", 4000);
   </center>
 
 <center>
+    <div id="msg_res" style="color:#527041;"   >
 
+    </div>
+  <br>
   <div id="tabla_res" style="font-size:small;" >
 
 
@@ -295,110 +298,6 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 </div>
 
 @include('scripts.jquery_consulta_int_esp')
-
-
-
-<!--vemos informacion de especie-->
-
-<div class="modal fade" id="MSG_esp" role="dialog" >
-  <div class="modal-dialog modal-md ">
-    <!-- Modal content-->
-      <div class="modal-content" style=" vertical-align: middle;" >
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"></h4>
-        </div>
-          <form method="get" action="Informacion" id="info_esp" >
-            <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-            <div class="modal-body">
-            <div class="row">
-                <center>
-                  <h4>¿Desea ver la informacion de la especie?</h4>
-                </center>
-                 <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
-
-
-
-
-        <input type="hidden" name="id_esp" value="" id="id_esp" class="" >
-            </div>
-            </div>
-            <div class="modal-footer">
-              <center>
-                <button type="submit" class="btn btn-success btn-md " > Si </button>
-              </center>
-            </div>
-          </form>
-        </div>
-  </div>
-</div>
-
-
-<!--vemos informacion de subespecie-->
-
-<div class="modal fade" id="MSG_sub" role="dialog" >
-  <div class="modal-dialog modal-md ">
-    <!-- Modal content-->
-      <div class="modal-content" style=" vertical-align: middle;" >
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"></h4>
-        </div>
-          <form method="get" action="Informacion_Sub" id="info_sub" >
-            <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-            <div class="modal-body">
-            <div class="row">
-                <center>
-                  <h4>¿Desea ver la informacion de la subespecie?</h4>
-                </center>
-                <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
-
-
-                <input type="hidden" name="id_sub" value="" id="id_sub" class="" >
-            </div>
-            </div>
-            <div class="modal-footer">
-              <center>
-                <button type="submit" class="btn btn-success btn-md " > Si </button>
-              </center>
-            </div>
-          </form>
-        </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="MSG_REINO" role="dialog" >
-  <div class="modal-dialog modal-md ">
-    <!-- Modal content-->
-      <div class="modal-content" style=" vertical-align: middle;" >
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"></h4>
-        </div>
-          
-            <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-            <div class="modal-body">
-            <div class="row">
-                <center>
-                  <h4>Debe seleccionar un reino para realizar una consulta</h4>
-                </center>
-                <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
-
-
-              
-            </div>
-            </div>
-            <div class="modal-footer">
-              <center>
-                <button type="submit" class="btn btn-success btn-md " id="btn_reino" > Aceptar </button>
-              </center>
-            </div>
-          
-        </div>
-  </div>
-</div>
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -451,3 +350,4 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 
 </body>
 </html>
+
