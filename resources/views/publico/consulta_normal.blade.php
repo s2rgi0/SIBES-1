@@ -47,11 +47,12 @@
     </div>
     <div class="col-md-6" >
 
-    <br>
+    <br><br>
         <center>
+        <h2 style="font-family: 'Baloo', cursive; color: #aa913f;" >Ingresar Busqueda</h2>
 
 
-<br><br>
+
     <br><br>
     <form action="Consulta_Publica" method="get" id="frm-consulta" >
 
@@ -65,8 +66,6 @@
             </span>
         </div><!-- /input-group -->
     </form>
-
-
     <br>
     <center>
 

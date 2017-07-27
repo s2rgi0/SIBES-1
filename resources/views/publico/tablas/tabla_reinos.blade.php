@@ -33,7 +33,7 @@
 
                     <input type="hidden" name="id_sub" value="{{ $v_r->idSubespecie }}" >
                     <center>
-                        <button class="btn btn-default btn-sm " value="" style="float: right; ;">Informacion</button>  
+                        <button class="btn btn-default btn-sm " value="" style="float: right; ;">Información</button>  
                     </center>                         
                 </form>
                
@@ -64,7 +64,7 @@
 
                     <input type="hidden" name="id_esp" value="{{ $v_r->idEspecie }}" >
                     <center>
-                        <button class="btn btn-default btn-sm " value="" style="float: right; ;">Informacion</button>  
+                        <button class="btn btn-default btn-sm " value="" style="float: right; ;">Información</button>  
                     </center>
                 
                 </form> 

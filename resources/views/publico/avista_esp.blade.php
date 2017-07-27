@@ -38,15 +38,16 @@
 
     <div class="row">
 
-        <div class="col-md-2" >
+        <div class="col-sm-12 col-md-2" >
 
-        <div id="yolo" style="position: fixed;">
+        <div id="yolo" >
 
-            @include('publico.menu.menu_side_bar_avista')
+            @include('publico.menu.menu_side_bar')
             @include('publico.menu.menu_forms')
+            <br><br>
 
 
-            </div>
+        </div>
 
 
         </div>
@@ -140,12 +141,17 @@
             <div class="col-md-3"  style="padding-left: 50px;"  >
             <center>
             <img src="/imagen_especie/{{ $esp->nombreEspecie }}/{{ $esp->fotografiaEspecie }}"  id="img-avista" class="img-rounded" width="380" height="330" >
+            <br><br>
+            <label style="width:200px;background-color: #b9c14d ;border-color: #b9c14d;" class="btn btn-success" id="desc_avista"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label>
             </center>
+
             </div>
         @else
             <div class="col-md-3" style="padding-left: 20px;" >
             <center>
                 <img src="/imagen/placeholder.png"  id="img-avista" class="img-rounded" width="380" height="330" >
+            <br><br>
+            <label style="width:200px;background-color: #b9c14d ;border-color: #b9c14d;" class="btn btn-success" id="desc_avista"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label>
             </center>
             </div>
         @endif

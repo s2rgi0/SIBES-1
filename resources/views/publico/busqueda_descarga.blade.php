@@ -276,16 +276,19 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
       <input type="hidden" name="estadoMarn" class="estadoMarn" >
     </div>
     <div class="row">
-    <!--
+      <!--
       <div style="padding-top: 5px;padding-bottom: 5px;" >
         <input type="radio" name="gender" value="male"checked class="taxon" > Taxonomia <input type="radio" name="gender" value="female" class="aviston" > Avistamiento  
       </div>
       -->
-      <br>
 
       <center>
-
-        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="background-color: #b9c14d ; border-color: #b9c14d ;width: 200px;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
+      <!--
+        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="width: 200px;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
+        -->
+        <br>
+          <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel_" style="background-color: #b9c14d ; border-color: #b9c14d ;width: 200px;" >Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span>
+          </button>
 
         <!--
         <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel_" style="width: 200px;" >Descargar Excel <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span></button>
@@ -301,6 +304,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
 
   </center>
+
 
 <center>
 
@@ -337,27 +341,29 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel" style="width: 200px;float: left;display: none;" >Descargar Excel <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span></button>
     -->
   </div>
-    <br>
-    <div id="msg_res" style="color:#527041;font-family: 'Ubuntu', bold sans-serif;"   >
 
-    </div>
-    <br><br>
-    <div id="tabla_res" style="font-size:small;"   >
 
-    </div>
-  
 </center>
 
+</div>
+<br><br>
 
-</div>  
+  <div id="tabla_res" style="font-size:small;"   >
+
+  </div>
 </div>
 </div>
 
+<div class="container" >
 
-@include('scripts.buscar_pub')
+
+
+
+</div>
+
+@include('scripts.descarga_publico')
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
 @include('publico.menu.script_menu')
 
 <script type="text/javascript">

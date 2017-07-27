@@ -40,19 +40,41 @@
 
     <div class="col-md-3" >
 
-       @include('publico.menu.menu_reinos')
+       @include('publico.menu.menu_side_bar')
        @include('publico.menu.menu_forms')
 
     </div>
     <div class="col-md-6" >
 
-    <br>
-    <h1>Reino {{ $reino }} </h1>
-        <br><br>
+        @if( count($especie) > 0 )
 
-        <center>
-            @include('publico.tablas.tabla_reinos')
-        </center>
+            <br>
+            <h1>Reino {{ $reino }} 
+            <!--
+            <label class="btn btn-success" id="reino_tax"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label>
+            -->
+            </h1>
+            <h4>Se encontraron {{ count($especie) }} resultados</h4>
+            <center>
+                @include('publico.tablas.tabla_reinos')
+            </center>
+
+        @else
+
+            <br>
+            <h1>Reino {{ $reino }}</h1>
+            <br>
+            <h3>No se encontro resultados en su busqueda</h3>
+
+        @endif
+
+
+
+        
+
+    
+
+
 
     </div>
     </div>

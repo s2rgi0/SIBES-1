@@ -21,7 +21,7 @@
                 <form method="get"  action="avista_sub_publico" > 
 
                     <input type="hidden" name="id_avista" value="{{ $v_r->idAvistamiento }}" >
-                    <button class="btn btn-default btn-Ver btn-sm" style="float: right;" value="{{ $v_r->idAvistamiento }}" ></span> Informacion </button>
+                    <button class="btn btn-default btn-Ver btn-sm" style="float: right;" value="{{ $v_r->idAvistamiento }}" ></span>Información</button>
                  
 
                  </form>

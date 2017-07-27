@@ -52,12 +52,17 @@
 
 
         <br><br>
-        <h2 style="font-family: 'Baloo', cursive; color: #aa913f;" >SISTEMA DE BIODIVERSIDAD </h2>
-        <h2 style="font-family: 'Baloo', cursive;color: #aa913f;" > EL SALVADOR</h2>
-        <h2 style="font-family: 'Baloo', cursive;color: #aa913f;" > prueba git</h2>
-        <h2 style="font-family: 'Baloo', cursive;color: #aa913f;" > prueba git3</h2>
-        hola
-        hola
+        <h2 style="font-family: 'Baloo', cursive; color: #aa913f;" >Sistema de Biodiversidad de El Salvador </h2>
+        <br>
+        <p style="color:#3daf63; " >Bienvenido al Sistema de Biodiversidad SIBES, este proyecto nace como una iniciativa del Ministerio de Medio Ambiente y Recursos Naturales MARN con el proposito de velar por la Biodiversidad de nuestro país. Aqui puedes encontrar información acerca la diferente fauna y flora que se puede encontrar en los distintos ecosistemas del territorio salvadoreño, también se cuenta con la opcion de descargar la información de tus especies favoritas en el vinculo de Descargas, toma tu tiempo y disfrutalo.</p>
+        
+        <center>
+        <br><br>
+        <img src="imagen/hoja.png" alt="SIBES" class="img-responsive" width="13%" >
+
+
+        </center>
+
 
 
     </div>

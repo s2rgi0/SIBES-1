@@ -35,14 +35,15 @@
 
 <div class="row " >
 
-    <div class="col-md-2 " ><!-- el oso-->
-<div id="yolo" style="position: fixed;">
-        @include('publico.menu.menu_side_bar_avista')
+    <div class="col-xs-12 col-md-2 " ><!-- el oso-->
+<div id="yolo" >
+        @include('publico.menu.menu_side_bar')
         @include('publico.menu.menu_forms')
-</div>
+</div><br><br>
+
     </div>
     <div class="col-md-10 " >
-
+  
     @foreach( $especie as $esp )
 
     <form id="frm-desc-avista" action="Exportar_excel_sub" method="get" >
@@ -62,7 +63,7 @@
             <div class="panel" style="width: 100%;" >
 
                 <div class="row"  style="padding-right: 20px;padding-left: 40px;" >
-                <H3><label >Nombre Subespecie:  </label> {{ $esp->nombreEspecie }} , {{ $esp->nombreSubespecie }}</H3></div>
+                <H3><label >Nombre Subespecie:  </label> {{ $esp->nombreEspecie }} , {{ $esp->nombreSubespecie }} </label></H3></div>
 
 
             </div><br>
@@ -129,6 +130,8 @@
             <div class="col-md-2" style="padding-left: 50px;" >
             <center>
             <img src="/imagen_especie/{{$esp->nombreEspecie}}/{{$esp->nombreSubespecie}}/{{$esp->fotografiaEspecie}}"  id="img-avista" class="img-rounded" width="380" height="330" >
+            <br><br>
+            <label class="btn btn-success" id="desc_avista" style="width:200px;background-color: #b9c14d ;border-color: #b9c14d; " >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> 
             </center>
             </div>
         @else
@@ -136,6 +139,9 @@
             <div class="col-md-2"  >
             <center>
             <img src="/imagen/placeholder.png"  id="img-avista" class="img-rounded" width="380" height="330" >
+            <br><br>
+            <label class="btn btn-success" id="desc_avista" style="width:200px;background-color: #b9c14d ;border-color: #b9c14d; " >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> 
+            </center>
             </center>
             </div>
         @endif
