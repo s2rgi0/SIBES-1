@@ -56,7 +56,12 @@
             <label class="btn btn-success" id="depto_tax"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label>
             -->
             </h1>
+            @if(count($especie) == 1)
+            <h4>Se encontro 1 resultado</h4>
+            @else
             <h4>Se encontraron {{ count($especie) }} resultados</h4>
+            @endif
+            
             <center>
                 @include('publico.tablas.tabla_reinos')
             </center>
