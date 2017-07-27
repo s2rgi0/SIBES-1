@@ -31,3 +31,8 @@
         </tbody>
        
     </table>
+    <div id="links" >
+        
+        {{ $avista->links() }}
+
+    </div>
