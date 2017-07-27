@@ -1,0 +1,60 @@
+              body {
+                  background: #E9FADA;
+                  color: #8e7200;
+                  /*
+                  font-family: Verdana, Arial, Helvetica, sans-serif;
+                  font-size: medium;*/
+              }
+              
+              .modal-content {
+                  background: #f2ffe6;
+              }
+              
+              .modal-header {
+                  border-color: #8e7200;
+              }
+              
+              .modal-footer {
+                  border-color: #8e7200;
+              }
+              
+              @media screen and (min-width: 200px) {
+                  body {}
+                  .panel {
+                      width: 90%;
+                      background: #E9FADA;
+                  }
+              }
+              
+              @media screen and (min-width: 480px) {
+                  body {}
+                  .panel {
+                      width: 70%;
+                      background: #E9FADA;
+                  }
+              }
+              
+              @media screen and (min-width: 700px) {
+                  body {}
+                  .panel {
+                      width: 715px;
+                  }
+                  .panel {
+                      border-width: 1px;
+                      border-color: #8e7200;
+                      background: #e6ffe6;
+                  }
+              }
+              
+              .taxo {
+                  float: right;
+              }
+              
+              .reino, .division, .clase, .orden, .familia, .genero, .especie, .subespecie {
+                  width: 320px;
+              }
+              
+              #MSG_MODAL, #N_SUB_Modal {
+                  top: 25%;
+                  outline: none;
+              }

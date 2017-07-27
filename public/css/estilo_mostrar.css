@@ -1,0 +1,74 @@
+body {
+    background: #f2ffe6;
+    color: #8e7200;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: medium;
+    font-weight: normal;
+}
+
+.modal-content {
+    background: #f2ffe6;
+}
+
+.modal-header {
+    border-color: #8e7200;
+}
+
+te lo p .modal-footer {
+    border-color: #8e7200;
+}
+
+h3.titulo {
+    color: #8e7200;
+    font-weight: bold;
+}
+
+.panel {
+    background: #e6ffe6;
+    border-width: 1px;
+    border-color: #8e7200;
+    font-weight: normal;
+}
+
+.taxo {
+    color: #8e7200;
+    font-weight: bold;
+    float: left;
+}
+
+.espec {
+    color: #122D85;
+    font-weight: bold;
+}
+
+.show1 {
+    color: #122D85;
+    font-weight: normal;
+}
+
+.caja {
+    width: 175px;
+    height: 20px;
+}
+
+.especie {
+    width: 200px;
+}
+
+.ul {
+    float: left;
+    list-style-type: none;
+}
+
+.show {
+    text-align: center;
+}
+
+.img {
+    position: relative;
+    width: 400px;
+    /* height: 400px;*/
+    height: auto;
+    overflow: hidden;
+    /*ya n_n solo dejame tomarle foto a esto se lo restregare a mi amigo jajaja*/
+}

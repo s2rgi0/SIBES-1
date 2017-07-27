@@ -1,0 +1,10 @@
+ .navbar {
+     background-color: #aa913f;
+     border-color: #aa913f;
+     color: #eee;
+ }
+ 
+ .navbar-default .navbar-nav>li>a {
+     color: #f5f5f5;
+ }
+ 
