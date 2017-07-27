@@ -3,7 +3,7 @@
 <head>
     <title>MARN | SIBES</title>
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
-            <<link rel=stylesheet href="css/estilo_menu.css" type="text/css">
+            <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
 
             <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
             <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
@@ -49,21 +49,21 @@
 
     @if( count($especie) > 0 )
 
-		<br>
-		<div style="float: left;" ><h1>Resultados Busqueda</h1></div>
-		<br><br>
-		<br>
-		@include('publico.tablas.tabla_reinos')
+        <br>
+        <div style="float: left;" ><h1>Resultados Busqueda</h1></div>
+        <br><br>
+        <br>
+        @include('publico.tablas.tabla_reinos')
 
-	@else
+    @else
 
-		<br><br>
-		<br>
+        <br><br>
+        <br>
 
-		<div style="float: left;" ><h3>{{ $msg }}</h3></div>
-		
+        <div style="float: left;" ><h3>{{ $msg }}</h3></div>
 
-	@endif	
+
+    @endif
 
     </div>
     </div>
@@ -81,6 +81,3 @@
 
 </body>
 </html>
-
-
-
