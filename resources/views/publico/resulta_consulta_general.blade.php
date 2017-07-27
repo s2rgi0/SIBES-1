@@ -49,21 +49,31 @@
 
     @if( count($especie) > 0 )
 
+		<br>
+		<div style="float: left;" ><h1>Resultados Busqueda</h1>
+        @if(count($especie) == 1)
+            <h4>Se encontro 1 resultado</h4>
+        @else
+            <h4>Se encontraron {{ count($especie) }} resultados</h4>
+        @endif
+       
+        
+        </div>
         <br>
-        <div style="float: left;" ><h1>Resultados Busqueda</h1></div>
-        <br><br>
-        <br>
-        @include('publico.tablas.tabla_reinos')
+        
+		<br><br>
+		<br>
+		@include('publico.tablas.tabla_reinos')
 
-    @else
+	@else
 
-        <br><br>
-        <br>
+		<br><br>
+		<br>
 
-        <div style="float: left;" ><h3>{{ $msg }}</h3></div>
+		<div style="float: left;" ><h3>{{ $msg }}</h3></div>
+		
 
-
-    @endif
+	@endif	
 
     </div>
     </div>
@@ -81,3 +91,6 @@
 
 </body>
 </html>
+
+
+
