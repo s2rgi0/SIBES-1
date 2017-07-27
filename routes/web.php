@@ -481,3 +481,5 @@ Route::get('Departamento_Morazan','PublicoController@Departamento_Morazan');
 
 Route::get('Consulta_General','PublicoController@Consulta_General');
 
+Route::get('BUSC_DESC','PublicoController@BUSC_DESC');
+
