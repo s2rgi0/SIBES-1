@@ -8,6 +8,15 @@
 
         $('#agr_avista').click(function(){
 
+            agr_avista();
+
+        })
+
+
+        function agr_avista(){
+
+
+
             //alert('agrregamos avistamiento')
             var r_z = "";
             var zona = $('#id_zona').parent().parent();
@@ -40,6 +49,7 @@
                 },error:function(){
 
                     console.log('no se pudo')
+                    agr_avista();
 
                 }
 
@@ -72,6 +82,7 @@
                 },error:function(){
 
                     console.log('no se pudo')
+                    agr_avista();
 
                 }
 
@@ -105,6 +116,7 @@
                 },error:function(){
 
                     console.log('no se pudo')
+                    agr_avista();
 
                 }
 
@@ -138,6 +150,7 @@
                 },error:function(){
 
                     console.log('no se pudo')
+                    agr_avista();
 
                 }
 
@@ -145,7 +158,7 @@
 
             $('#Avista_Modal').modal('show')
 
-        })
+        }
 
 
         ///////////////////HACER SELECCION DE DEPARTAMENTOS////////////////////////---------------------+
@@ -390,14 +403,6 @@
             $('#_geo_avis').fadeOut();
             $('#_hidro_avis').fadeOut();
 
-                    /*
-                    var val = $("#idFoAvis").val();
-                    if (!val.match(/(?:gif|jpg|png|bmp)$/)) {
-    // inputted file path is not an image of one of the above types
-                    alert("inputted file path is not an image!");
-                    break;
-                    }*/
-
                     $.ajax({
                         type : 'post',
                         url  : '{!! URL::to('SAVE_avista') !!}',
@@ -464,7 +469,7 @@
                             console.log('errores al ingreso')
                             $('#Avista_Modal').modal('hide')
                             sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");   
-                            $('#frm-avista').submit();
+                            $('#frm-avista-refresh').submit();
                             //$("#Error_Modal").modal('show')
                         }
                     })
@@ -944,7 +949,7 @@ $('#frm-editar button').click(function(e){
             error:function(data){
                  $('#VER_Avista_Modal').modal('hide');
                 sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");   
-                $('#frm-avista').submit();
+                $('#frm-avista-refresh').submit();
             }
         })
 
