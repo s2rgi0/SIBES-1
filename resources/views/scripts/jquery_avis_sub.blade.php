@@ -40,18 +40,21 @@
 
 
 
-        } 
+        }       
 
 
-
-
-        
-
-
-        ////ESTA FUNCION LLENA TODOS LOS SELECTS
+        ////ESTA FUNCION LLENA TODOS LOS SELECTS // CUANDO VAMOS AGR AVISTAMIENTO
 
 
         $('#agr_avista').click(function(){
+
+            agr_avista();
+
+        })
+
+
+        function agr_avista(){
+
 
             //alert('agrregamos avistamiento')
             var r_z = "";
@@ -77,13 +80,10 @@
                     zona.find('#id_zona').html(" ");
                     zona.find('#id_zona').append(r_z);
 
-                   
-
-
                 },error:function(){
 
                     console.log('no se pudo')
-
+                    agr_avista();
                 }
 
             })
@@ -109,17 +109,14 @@
                     suelo.find('#id_suelo').html(" ");
                     suelo.find('#id_suelo').append(a_s);
 
-                   
-
-
                 },error:function(){
 
                     console.log('no se pudo')
+                    agr_avista();
 
                 }
 
             })
-
 
             var tierra = $('#id_tierra').parent().parent();
             var a_c = "";
@@ -148,6 +145,7 @@
                 },error:function(){
 
                     console.log('no se pudo')
+                    agr_avista();
 
                 }
 
@@ -181,17 +179,23 @@
                 },error:function(){
 
                     console.log('no se pudo')
-
+                    agr_avista();
                 }
 
             })
 
             $('#Avista_Modal').modal('show')
 
-        })
 
 
-        ///////////////////HACER SELECCION DE DEPARTAMENTOS////////////////////////---------------------+
+
+
+        }
+
+
+
+        ///////HACER SELECCION DE DEPARTAMENTOS////////---------------------+
+
 
         $(document).on('change','#id_zona',function(){
 
@@ -240,7 +244,7 @@
             })
         });
 
-        ///////////////////HACER SELECCION DE MUNICIPIOS////////////////////////---------------------------------+
+        /////HACER SELECCION DE MUNICIPIOS///////////////////----------------------+
 
         $(document).on('change','#id_departamento',function(){
 
@@ -305,7 +309,7 @@
         });
 
 
-        ///////////////////HACER SELECCION DE CANTONES////////////////////////---------------------------------+
+        /////////HACER SELECCION DE CANTONES///////////---------------------------------+
 
         $(document).on('change','#id_municipio',function(){
 
@@ -510,7 +514,7 @@
                             console.log('errores al ingreso')
                              $('#Avista_Modal').modal('hide')
                             sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");  
-                            $('#frm-avista').submit();
+                            $('#frm-avista-refresh').submit();
                             //$("#Error_Modal").modal('show')
                         }
                     })
@@ -521,7 +525,7 @@
         })
 
 
-        ////////////////////////////////////////BTN VER AVISTAMIENTO///////////////////////////---------------------+
+        ////////////BTN VER AVISTAMIENTO////////---------------------+
 
 
         $(document).on('click','.btn-Ver',function(e){
@@ -984,20 +988,12 @@
                     })
                     $("#frm-editar-sub").get(0).reset();
                     $('#VER_Avista_Modal').modal('hide');
-
-
-
-
-
-                    }
-
-
-                    
+                    }                   
             },
             error:function(data){
                 $('#VER_Avista_Modal').modal('hide');
                 sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");   
-                $('#frm-avista').submit();
+                $('#frm-avista-refresh').submit();
             }
         })
         }
@@ -1101,35 +1097,20 @@
         });
 
         $('#id_agregar_usr').click(function(){
-
             //alert('iremos agregar usuario')
             $('#frm-agregar-usr').submit();
-
         });
 
         $('#id_estado_usr').click(function(){
 
             //alert('iremos estado usuario')
             $('#frm-estado-usr').submit();
-
-        });
-
-        
+        });        
         $('#btn_guardo_avis').click(function(){
 
             //alert('iremos estado usuario')
             $('#MSG_exito_save').modal('hide');
 
         });
-
-
-
-
-
-
     });
-
-
-
-
 </script>
