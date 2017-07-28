@@ -84,12 +84,15 @@
                         <div class="row"><label> Familia : </label>{{ $esp->nombreFamilia }}</div>
                         <div class="row"><label> Género :  </label>{{ $esp->nombreGenero }}</div>
 
-                        <div class="row" ><label>Nombre Comun :  </label></div>
-                        <ul style="list-style-type:none"  style="float: left;"  class="show1" >
+                        <div class="row" ><label>Nombre Comun :  </label>
                             @foreach( $nc_sub as $nc )
-                            <li>{{ $nc->nombreComun }}</li>
+                                {{ $nc->nombreComun }}
+                                @if($loop->last)
+                                @else,
+                                @endif
                             @endforeach
-                        </ul>
+                        </div>
+                        
 
 
                         <br>
