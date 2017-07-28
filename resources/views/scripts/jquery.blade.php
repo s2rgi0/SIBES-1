@@ -34,48 +34,7 @@
 //
 		//$(':input','#busqueda-frm').not(':button, :submit, :hidden').val('--Seleccionar--').prop('selected',false);
 
-		@if(count($errors->fdivision->all()))
-
-			 $('#DIV_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fclase->all()))
-
-			 $('#CLA_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->forden->all()))
-
-			 $('#ORD_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->ffamilia->all()))
-
-			 $('#FAM_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fgenero->all()))
-
-			 $('#GEN_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fespecie->all()))
-
-			 $('#ESP_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fsubespecie->all()))
-
-			 $('#SUB_Modal').modal('show');
-
-		@endif
-
+		
 //REINO
 
 		$(document).on('change','.reino',function(){
@@ -645,7 +604,7 @@
 					console.log('sigue el error')
 				}
 
-			});
+				});
 
 
 			} // fin de else
@@ -661,12 +620,8 @@
 		$('#g_div').click(function(e){
 
 			e.preventDefault();
-
-
 			var divis = $('.division').parent().parent().parent();
 			var frm_bus = $('#busqueda-frm');
-
-
 			console.log(divis)
 			var id_rei = $('#rm_id').val();
 			var p_r = $('.reino_modal').parent().parent().parent();
@@ -676,7 +631,13 @@
 			console.log(input);
 			var d_s = " ";
 			var r_d = " ";
-
+			var htr	= " ";
+			var cla = "";
+			var ord = "";
+			var fam = "";
+			var gen = "";
+			var esp = "";
+			var sub = "";
 			//var data = $(this).serialize();
 
 			$.ajax({
@@ -706,7 +667,33 @@
 
 					}else{
 
+					cla+='<option value="0" disabled="true" selected="true">--Clase--</option>';
+					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
+					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
+					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
+					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
+					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
 
+					divis.find('.clase').html(" ");
+					divis.find('.clase').append(cla);
+
+					divis.find('.orden').html(" ");
+					divis.find('.orden').append(ord);
+
+					divis.find('.familia').html(" ");
+					divis.find('.familia').append(fam);
+
+
+					divis.find('.genero').html(" ");
+					divis.find('.genero').append(gen);
+
+					divis.find('.especie').html(" ");
+					divis.find('.especie').append(esp);
+
+					divis.find('.subespecie').html(" ");
+					divis.find('.subespecie').append(sub);
+
+					
 						$.ajax({
 
 						type : 'get',
@@ -718,54 +705,50 @@
 							console.log(data)
 							console.log(data.length)
 							console.log(data)
-
-							//d_s+='<option value="'+data.idDivision+'">'+data.nombreDivision+'</option>';
-
 							for(var i = 0 ; i < 1 ; i++ )
 							{
 							d_s+='<option value="'+data[i].idDivision+'">'+data[i].nombreDivision+'</option>';
 							}
-
-							//d_s+='<option value="'+data.idEspecie+'">'+data.nombreEspecie+'</option>';
-
 							divis.find('.division').html(" ");
 							divis.find('.division').append(d_s);
-
-							frm_bus.find('.reino').val(id_rei);
-
-
 							$("#DIV_Modal").modal('hide');
 							r_d = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							p_r.find('.reino_modal').html(" ");
 							p_r.find('.reino_modal').append(r_d);
 							p_r.find('#rei_input_mod').val(" ");
 							$('#DIV_Modal').trigger("reset");
-
-
+					
 						},
 						error:function(){
 							console.log('NO FUNCIONO EL GET')
 						}
-
 					});
-
-
-
+					$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+					});
 						$('#msg-error').fadeOut();
-
-
-
 					}
-
-
-
-
 			},
 				error:function(data){
 					console.log('no functiono el post')
 					console.log(data)
-				}
-
+			}
 			});
 
 			if(input != null ){
@@ -797,11 +780,16 @@
 			console.log(id_rei);
 			console.log(id_div);
 			console.log(id_div);
-
+			var htr = "";
 			var d_c = "";
 			var c_d = "";
 			var r_c = "";
 			var di_c = "";
+			var ord = "";
+			var fam = "";
+			var gen = "";
+			var esp = "";
+			var sub = "";
 
 
 
@@ -834,6 +822,49 @@
 
 					}else{
 
+					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
+					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
+					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
+					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
+					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
+
+					divis.find('.orden').html(" ");
+					divis.find('.orden').append(ord);
+
+					divis.find('.familia').html(" ");
+					divis.find('.familia').append(fam);
+
+
+					divis.find('.genero').html(" ");
+					divis.find('.genero').append(gen);
+
+					divis.find('.especie').html(" ");
+					divis.find('.especie').append(esp);
+
+					divis.find('.subespecie').html(" ");
+					divis.find('.subespecie').append(sub);
+
+
+						$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+						});
+
 
 					$.ajax({
 
@@ -855,11 +886,7 @@
 
 							divis.find('.clase').html(" ");
 							divis.find('.clase').append(d_c);
-							frm_bus.find('.reino').val(id_rei);
-
-
-
-
+							
 						},
 						error:function(){
 							console.log('NO FUNCIONO EL GET')
@@ -912,7 +939,7 @@
 
 				}
 
-
+					//BORRAMOS LOS CAMPOS DEL MODAL
 					r_c = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 					di_c = '<option value="0" disabled="true" selected="true">--Division--</option>';
 
@@ -965,10 +992,15 @@
 			var d_c = "";
 			var c_d = "";
 			var c_o = "";
+			var htr = "";
 
 			var r_ord = "";
 			var d_ord = "";
 			var c_ord = "";
+			var fam = "";
+			var gen = "";
+			var esp = "";
+			var sub = "";
 
 			$.ajax({
 				type : 'post',
@@ -999,6 +1031,46 @@
 
 					}else{
 
+					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
+					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
+					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
+					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
+
+					divis.find('.familia').html(" ");
+					divis.find('.familia').append(fam);
+
+
+					divis.find('.genero').html(" ");
+					divis.find('.genero').append(gen);
+
+					divis.find('.especie').html(" ");
+					divis.find('.especie').append(esp);
+
+					divis.find('.subespecie').html(" ");
+					divis.find('.subespecie').append(sub);
+
+
+
+						$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+					});
+
 					$.ajax({
 
 						type : 'get',
@@ -1015,7 +1087,9 @@
 							}
 							divis.find('.orden').html(" ");
 							divis.find('.orden').append(d_c);
-							frm_bus.find('.reino').val(id_rei);
+							
+
+							//SE BORRAN LOS CAMPOS
 							r_ord = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							d_ord = '<option value="0" disabled="true" selected="true">--Division--</option>';
 							c_ord = '<option value="0" disabled="true" selected="true">--Clase--</option>';
@@ -1047,6 +1121,7 @@
 							}
 							divis.find('.division').html(" ");
 							divis.find('.division').append(c_d);
+
 							$.ajax({
 								type : 'get',
 								url : '{!! URL::to('Busca_div_clase') !!}',
@@ -1086,6 +1161,8 @@
 							}
 							divis.find('.clase').html(" ");
 							divis.find('.clase').append(c_o);
+
+
 							$.ajax({
 								type : 'get',
 								url : '{!! URL::to('Busca_cla_esp') !!}',
@@ -1105,6 +1182,8 @@
 									console.log('sigue el error')
 									}
 							})
+
+
 						},
 						error:function(){
 						console.log('aqui hay un error')
@@ -1159,11 +1238,15 @@
 			var c_d = "";
 			var c_o = "";
 			var f_o = "";
+			var htr = "";
 
 			var r_fam = "";
 			var d_fam = "";
 			var c_fam = "";
 			var o_fam = "";
+			var gen = "";
+			var esp = "";
+			var sub = "";
 
 
 			$.ajax({
@@ -1193,6 +1276,39 @@
 
 
 					}else{
+
+					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
+					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
+					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
+
+					divis.find('.genero').html(" ");
+					divis.find('.genero').append(gen);
+
+					divis.find('.especie').html(" ");
+					divis.find('.especie').append(esp);
+
+					divis.find('.subespecie').html(" ");
+					divis.find('.subespecie').append(sub);
+
+						$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+					});
 
 						$.ajax({
 
@@ -1415,12 +1531,14 @@
 			var c_o = "";
 			var f_o = "";
 			var g_f = "";
-
+			var htr = "";
 			var r_gen = "";
 			var d_gen = "";
 			var c_gen = "";
 			var o_gen = "";
 			var f_gen = "";
+			var esp = "";
+			var sub = "";
 
 			$.ajax({
 				type : 'post',
@@ -1451,9 +1569,34 @@
 
 					}else{
 
+					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
+					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
 
+					divis.find('.especie').html(" ");
+					divis.find('.especie').append(esp);
 
+					divis.find('.subespecie').html(" ");
+					divis.find('.subespecie').append(sub);
 
+						$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+						});
 
 						$.ajax({
 
@@ -1716,6 +1859,7 @@
 			var f_o = "";
 			var g_f = "";
 			var g_e = "";
+			var htr = "";
 
 			var r_esp = "";
 			var d_esp = "";
@@ -1723,6 +1867,8 @@
 			var o_esp = "";
 			var f_esp = "";
 			var g_esp = "";
+			var sub = "";
+
 
 
 			$.ajax({
@@ -1741,7 +1887,6 @@
 					//$("#DIV_Modal").modal('hide');
 					console.log(data)
 
-
 					if(data.success == false){
 
 						$('#_esp_input,#_gen_esp').text('');
@@ -1755,9 +1900,30 @@
 
 					}else{
 
+					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
 
+					divis.find('.subespecie').html(" ");
+					divis.find('.subespecie').append(sub);
 
-
+						$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+						});
 
 						$.ajax({
 
@@ -2078,7 +2244,7 @@
 			var g_f = "";
 			var g_e = "";
 			var g_s = "";
-
+			var htr = "";
 			var r_sub = "";
 			var d_sub = "";
 			var c_sub = "";
@@ -2115,6 +2281,26 @@
 
 
 					}else{
+
+						$.ajax({
+						type: 'get',
+						url:'{!!  URL::to('pop_rei_div') !!}',
+						data: {'id':id_rei},
+						success:function(data){
+							console.log('success le dimos')
+							console.log(data);
+							console.log(data.length);
+							for(var i = 0 ; i < 1 ; i++ )
+							{
+							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').html(" ");
+							divis.find('.reino').append(htr);
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+					});
 
 
 
@@ -5360,7 +5546,7 @@
 
 		}else{
 			//$("#MSG_MODAL").modal('show');
-			sweetAlert("Debe ingresar una especie!", "", "error");
+			sweetAlert("Debe ingresar una especie", "", "warning");
 		}
 
 		//$("#busqueda-frm").get(0).reset()
