@@ -14,15 +14,22 @@
 <style type="text/css">
 
    @media screen and (min-width: 1000px) {
-    body {
-
-    }
 
     .cuerpo{
       height:500px;/*creo que no es necesario esto*/
     }
+    
+    }
+    @media screen and (min-width: 700px) {
 
-}
+        .side_BAR{
+            position: fixed;
+            z-index: 1;
+        }
+        .contenido{
+            padding-left: 17%;"
+        }
+    }
 </style>
 
 </head>
@@ -33,15 +40,18 @@
 
   <div class="row">
 
-    <div class="col-md-2" >
+    <div class="col-md-2 side_BAR " >
  <div id="yolo">
       @include('publico.menu.menu_side_bar')
       @include('publico.menu.menu_forms')
 </div>
 
     </div>
-    <div class="col-md-10" >
+    <div class="col-md-12" >
+    <div class="contenido" >
+      
 
+    
             <article>
             <div class="container-fluid">
 
@@ -236,7 +246,7 @@
 
           </form>
 
-
+          </div>
     </div>
 
   </div>
