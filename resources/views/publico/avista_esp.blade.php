@@ -28,6 +28,16 @@
 
 }
 
+@media screen and (min-width: 700px) {
+
+        .side_BAR{
+            position: fixed;
+            z-index: 1;
+        }
+        .contenido{
+            padding-left: 17%;"
+        }
+    }
 
 </style>
 
@@ -38,7 +48,7 @@
 
     <div class="row">
 
-        <div class="col-sm-12 col-md-2" >
+        <div class="col-sm-12 col-md-2 side_BAR " >
 
         <div id="yolo" >
 
@@ -51,7 +61,9 @@
 
 
         </div>
-        <div class="col-md-10" >
+        <div class="col-md-12" >
+        <div class="contenido" >
+         
 
         @foreach( $especie as $esp )
 
@@ -179,6 +191,8 @@
         </div>
 
     </div>
+    </div>
+        
 
     <script src="js/jquery-3.2.1.min.js"> </script>
     <script src="js/bootstrap.min.js"> </script>
