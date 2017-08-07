@@ -27,18 +27,17 @@
 
 <!-- menu -->
 <style type="text/css">
-
-    @media screen and (min-width: 400px) {
-    body {
-
+.carousel{
+        box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.3);
     }
+
+
+
+@media screen and (min-width: 600px) {
     .panel
     {
-      width:60%;
-
+      width:75%;
     }
-
-
 }
 
 @media screen and (min-width: 1000px) {
@@ -47,15 +46,29 @@
     }
 
     .cuerpo{
-      height:250px;
+      height:300px;
     }
-
 }
 
+@media screen and (min-width: 700px) {
+
+        header{
+            position: fixed;
+            z-index: 500;
+        }
+        .side_BAR{
+            position: fixed;
+            z-index: 1;
+            padding-top: 85px;
+        }
+        .contenido{
+            padding-top: 80px;
+            padding-left: 35%;"
+        }
+    }
 
 
 </style>
-
 
 <!--MOVIEMIENTO DE LOS SELECT -->
 
@@ -105,22 +118,17 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 <body onload="alpha1();">
 
 
-    <header>
+  <header>
          @include('parciales.nav')
-    </header>
+  </header>
+
+    
 
 
-<div id="cargador" style="background-color: white;
-    width: 100%;
-    bottom: 0px;
-    position: fixed;
-    z-index: 10000;
-    height: 100%;">
-</div>
 
   <div class="row">
 
-  <div class="col-md-2" >
+  <div class="col-md-2 side_BAR "  >
 
     @include('publico.menu.menu_side_bar')
     @include('publico.menu.menu_forms')  
@@ -130,13 +138,13 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
 
 
-  <div class="col-md-6" >
+  <div class="col-md-8" >
 
 
-  <div class="container">
+  <div class="container contenido">
 
   <center>
-  <br>
+  <br><br>
     <h3 style="font-family: 'Ubuntu',  sans-serif;" ><b>Catálogo de Especies de El Salvador</b></h3>
     <br>
 
@@ -337,6 +345,9 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel" style="width: 200px;float: left;display: none;" >Descargar Excel <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span></button>
     -->
   </div>
+
+
+
     <br>
     <div id="msg_res" style="color:#527041;font-family: 'Ubuntu', bold sans-serif;"   >
 
@@ -345,7 +356,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     <div id="tabla_res" style="font-size:small;"   >
 
     </div>
-  
+
 </center>
 
 
