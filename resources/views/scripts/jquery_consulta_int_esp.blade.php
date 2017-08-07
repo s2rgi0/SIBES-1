@@ -624,11 +624,11 @@
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
@@ -679,11 +679,11 @@
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
@@ -730,11 +730,11 @@
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
@@ -781,11 +781,11 @@
                     {
                    		if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
                     }
@@ -830,11 +830,11 @@
                     {
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
                     }
@@ -879,11 +879,11 @@
                     {
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
                     }
@@ -929,11 +929,11 @@
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
@@ -980,11 +980,11 @@
 
                     	if( data[i].nombreSubespecie ){
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-success btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td>'+data[i].nombreSubespecie +'</td><td><form method="get" action="Informacion_Sub" id="info_sub" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_sub" value="'+data[i].idSubespecie+'" id="id_sub" class="" ><button  class="btn btn-default btn-sm btn-Ver_sub" value="'+data[i].idSubespecie+'" >Información</button></form></td></tr>';
 
                     	}else{
 
-                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-success btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
+                    		i_e+= '<tr><td>'+data[i].nombreReino+'</td><td> '+ data[i].nombreDivision +'</td><td>'+data[i].nombreClase+' </td><td>'+data[i].nombreOrden+'</td><td>'+data[i].nombreFamilia +'</td><td>'+data[i].nombreGenero+'</td><td>'+data[i].nombreEspecie +'</td><td></td><td><form method="get" action="Informacion" id="info_esp" ><input type="hidden" name="id_usuario" value="'+usr_id+'" ><input type="hidden" name="id_esp" value="'+data[i].idEspecie+'" id="id_esp" class="" ><button class="btn btn-default btn-sm btn-Ver_esp" value="'+data[i].idEspecie+'" >Información</button></form></td></tr>';
 
                     	}
 
