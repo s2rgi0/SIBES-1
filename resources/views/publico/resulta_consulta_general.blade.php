@@ -19,7 +19,25 @@
     @media screen and (min-width: 1000px) {
 
         .cuerpo{
-        height:250px;
+        height:300px;
+        }
+
+    }
+
+    @media screen and (min-width: 700px) {
+
+        header{
+            position: fixed;
+            z-index: 500;
+        }
+        .side_BAR{
+            position: fixed;
+            z-index: 500;
+            padding-top: 85px;
+        }
+        .contenido{
+            padding-top: 70px;
+            padding-left: 25%;"
         }
 
     }
@@ -39,41 +57,47 @@
 
     <div class="row">
 
-    <div class="col-md-4" >
+    <div class="col-md-3 side_BAR " >
 
        @include('publico.menu.menu_side_bar')
        @include('publico.menu.menu_forms')
 
     </div>
-    <div class="col-md-6" >
-
+    <div class="col-md-10" >
+    <div class="contenido" >
     @if( count($especie) > 0 )
 
-		<br>
-		<div style="float: left;" ><h1>Resultados Busqueda</h1>
+
+
+        <br>
+        <div style="float: left;color: #54a049;" ><h1>Resultados Busqueda</h1>
         @if(count($especie) == 1)
-            <h4>Se encontro 1 resultado</h4>
+            <h4 style="color: #c3d64a;" >Se encontro 1 resultado</h4>
         @else
-            <h4>Se encontraron {{ count($especie) }} resultados</h4>
+            <h4 style="color: #c3d64a;" >Se encontraron {{ count($especie) }} resultados</h4>
         @endif
        
         
         </div>
         <br>
         
-		<br><br>
-		<br>
-		@include('publico.tablas.tabla_reinos')
+        <br><br>
+        <br>
+        @include('publico.tablas.tabla_reinos')
 
-	@else
+    @else
 
-		<br><br>
-		<br>
+        <br><br>
+        <br>
 
-		<div style="float: left;" ><h3>{{ $msg }}</h3></div>
-		
+        <div style="float: left;" ><h3>{{ $msg }}</h3></div>
+        
 
-	@endif	
+    @endif  
+        
+    </div>
+
+    
 
     </div>
     </div>
