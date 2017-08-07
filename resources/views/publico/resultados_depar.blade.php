@@ -16,50 +16,57 @@
     }
 
     @media screen and (min-width: 1000px) {
-    body {
-
-    }
-
         .cuerpo{
         height:300px;
         }
-
     }
 
+    @media screen and (min-width: 700px) {
+
+        header{
+            position: fixed;
+            z-index: 500;
+        }
+        .side_BAR{
+            position: fixed;
+            z-index: 500;
+            padding-top: 85px;
+        }
+        .contenido{
+            padding-top: 70px;
+            padding-left: 25%;"
+        }
+    }
     </style>
-
-
 </head>
 <body>
 
-    <header>
+    <header  >
          @include('parciales.nav')
     </header>
-
-
-
-
     <div class="row">
 
-        <div class="col-md-3" >
+        <div class="col-md-3 side_BAR " >
 
             @include('publico.menu.menu_side_bar')
             @include('publico.menu.menu_forms')
 
        </div>
-       <div class="col-md-6" >
+       <div class="col-md-10"  >
 
-       @if( count($especie) > 0 )
+        <div class="contenido" >
+                
+            @if( count($especie) > 0 )
 
-            <br><h1>Departamento {{ $dpto }} 
+            <br><h1 style="color: #54a049;" >Departamento {{ $dpto }} 
             <!--  
             <label class="btn btn-success" id="depto_tax"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label>
             -->
             </h1>
             @if(count($especie) == 1)
-            <h4>Se encontro 1 resultado</h4>
+            <h4 style="color: #c3d64a;" >Se encontro 1 resultado</h4>
             @else
-            <h4>Se encontraron {{ count($especie) }} resultados</h4>
+            <h4 style="color: #c3d64a;" >Se encontraron {{ count($especie) }} resultados</h4>
             @endif
             
             <center>
@@ -72,10 +79,9 @@
             <h3>No se encontro resultados en su busqueda</h3>
        @endif
 
-        
-       
 
 
+        </div>
 
        </div>
 
