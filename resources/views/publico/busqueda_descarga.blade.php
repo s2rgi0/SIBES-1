@@ -28,29 +28,41 @@
 <!-- menu -->
 <style type="text/css">
 
-    @media screen and (min-width: 400px) {
-    body {
+  
 
-    }
+  @media screen and (min-width: 400px) {
+    
     .panel
     {
-      width:60%;
-
+      width:75%;
     }
+  }
 
-
-}
-
-@media screen and (min-width: 1000px) {
-    body {
-        height: 100%;
-    }
+  @media screen and (min-width: 1000px) {
+    
 
     .cuerpo{
-      height:250px;
+      height:300px;
     }
 
-}
+  }
+
+  @media screen and (min-width: 700px) {
+
+        header{
+            position: fixed;
+            z-index: 500;
+        }
+        .side_BAR{
+            position: fixed;
+            z-index: 1;
+            padding-top: 85px;
+        }
+        .contenido{
+            padding-top: 100px;
+            padding-left: 45%;"
+        }
+    }
 
 
 
@@ -120,7 +132,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
   <div class="row">
 
-  <div class="col-md-2" >
+  <div class="col-md-2  side_BAR" >
 
     @include('publico.menu.menu_side_bar')
     @include('publico.menu.menu_forms')  
@@ -133,7 +145,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
   <div class="col-md-6" >
 
 
-  <div class="container">
+  <div class="container contenido">
 
   <center>
   <br>
