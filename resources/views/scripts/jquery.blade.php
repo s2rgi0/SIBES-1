@@ -34,7 +34,48 @@
 //
 		//$(':input','#busqueda-frm').not(':button, :submit, :hidden').val('--Seleccionar--').prop('selected',false);
 
-		
+		@if(count($errors->fdivision->all()))
+
+			 $('#DIV_Modal').modal('show');
+
+		@endif
+
+		@if(count($errors->fclase->all()))
+
+			 $('#CLA_Modal').modal('show');
+
+		@endif
+
+		@if(count($errors->forden->all()))
+
+			 $('#ORD_Modal').modal('show');
+
+		@endif
+
+		@if(count($errors->ffamilia->all()))
+
+			 $('#FAM_Modal').modal('show');
+
+		@endif
+
+		@if(count($errors->fgenero->all()))
+
+			 $('#GEN_Modal').modal('show');
+
+		@endif
+
+		@if(count($errors->fespecie->all()))
+
+			 $('#ESP_Modal').modal('show');
+
+		@endif
+
+		@if(count($errors->fsubespecie->all()))
+
+			 $('#SUB_Modal').modal('show');
+
+		@endif
+
 //REINO
 
 		$(document).on('change','.reino',function(){
@@ -667,6 +708,9 @@
 
 					}else{
 
+
+
+
 					cla+='<option value="0" disabled="true" selected="true">--Clase--</option>';
 					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
 					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
@@ -743,6 +787,7 @@
 						}
 					});
 						$('#msg-error').fadeOut();
+						swal("Division ingresada", "", "success")
 					}
 			},
 				error:function(data){
@@ -936,6 +981,7 @@
 
 					$("#CLA_Modal").modal('hide');
 					$('#msg-error-clase').fadeOut();
+					swal("Clase ingresada!", "", "success")
 
 				}
 
@@ -1191,6 +1237,7 @@
 					});
 
 					$('#msg-error-orden').fadeOut();
+					swal("Orden ingresado!", "", "success")
 
 
 				}
@@ -1473,6 +1520,7 @@
 					});
 
 					$('#msg-error-familia').fadeOut();
+					swal("Familia ingresada!", "", "success")
 
 
 
@@ -1810,6 +1858,7 @@
 					});
 
 					$('#msg-error-genero').fadeOut();
+					swal("Genero ingresado!", "", "success")
 
 
 
@@ -2186,6 +2235,7 @@
 
 
 					$('#msg-error-especie').fadeOut();
+					swal("Especie ingresada!", "", "success")
 
 
 					}
@@ -2619,6 +2669,7 @@
 					});
 
 					$('#msg-error-subespecie').fadeOut();
+					swal("Subespecie ingresada!", "", "success")
 
 					}
 
@@ -5444,9 +5495,11 @@
 
 		});
 
-
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//////////////////////////////         HACEMOS BUSQUEDA Y CAMBIAMOS ESTADO      ////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////
+		////////		boton busqueda 			////////////////////////////////////
+		///////   HACEMOS BUSQUEDA Y CAMBIAMOS ESTADO      /////////////////////////
+		/// los popups para agregar la especie los llamamos modales y estan ////////
+		/// En la carpeta-> views->modales->nueva.blade.php ////////////////////////  
 
 
 		$('#busqueda-frm').on('submit',function(e){
@@ -5553,7 +5606,7 @@
 
 	});
 
-	//////////////////////////////////             BOTONES DE MODAL CONTINUAR           /////////////////////////////////////
+	///////////////             BOTONES DE MODAL CONTINUAR           ///////////////
 
 	//$('#N_ESP_modal').on('submit',function(e){
 
@@ -5626,8 +5679,7 @@
 	})
 
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//PARA CAMBIAR ESPECIE GUARDAR NUEVO ESTADO Y MOSTRAR EN PNTALLA
+	///////////////////PARA CAMBIAR ESPECIE GUARDAR NUEVO ESTADO Y MOSTRAR EN PANTALLA
 
 
 	$('#N_ESP_modal').on('submit',function(e){
