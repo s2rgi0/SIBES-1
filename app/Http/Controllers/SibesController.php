@@ -724,20 +724,31 @@ class SibesController extends Controller
 
         //dd($usuario[0]->contrasenaUsuario);
 
-        $Contra_Hash = $usuario[0]->contrasenaUsuario;
+        //dd(count($usuario));
 
-        if( Hash::check( $req->intento_usr , $Contra_Hash) ){
+        if( count($usuario) > 0 ){
+
+            $Contra_Hash = $usuario[0]->contrasenaUsuario;
+
+            if( Hash::check( $req->intento_usr , $Contra_Hash) ){
 
             return view('inicio_SIBES', compact('usuario'));
 
-        }else{
+            }else{
 
             $msg = 'verifique su nombre y contraseña';
 
             return view('login', compact('msg'));
-        }
+            }
 
-      
+
+        }else{
+            
+            $msg = 'verifique su nombre y contraseña';
+
+            return view('login', compact('msg'));
+
+        }     
 
     }
 
