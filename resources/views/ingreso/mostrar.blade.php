@@ -88,6 +88,15 @@
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 
 </form>
+<form method="get" action="Informacion" id="frm-modificando" >
+	
+	<input type="hidden" id="id_especie" name="id_esp" value="{{ $esp1_array[ $i ]->idEspecie }}">
+	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
+
+</form>
+<input type="hidden" name="" id="accion" value="{{$msg}}">
+
+
 
 
 	<nav>
@@ -109,13 +118,11 @@
 	<input type="hidden" id="id_esp_avis" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
 
 
-
-
 <div class="container-fluid" >
 <div class="row">
 	<div class="col-xs-12 col-md-12">
 
-		<h3 class="titulo"> Ingreso de Información&nbsp; <label class="btn btn-default btn-group " id="Agregar_link"  style="float: right ;" >
+		<h3 class="titulo"> {{ $msg }} de Información&nbsp; <label class="btn btn-default btn-group " id="Agregar_link"  style="float: right ;" >
 			Agregar  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 		</label>
 		</h3>
@@ -180,7 +187,7 @@
 		<div class="col-xs-12 col-md-12"><!--col1.1-->
 			<label> Nombre Común</label>
 			<input type="text" style="width:175px;height: 22px;" id="nc_input" name="nc_input" class="input_nc" >
-			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" >
+			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" style="background-color: #b9c14d ; border-color: #b9c14d ;" >
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span>
 			</button>
 
@@ -228,7 +235,7 @@
 			</select>
 
 		@endif
-		<div class="" style="display: none;color:#ff3700;float: right;" id="_clase_tipo" ><span class="help-block" ><strong style="color:  #00ff19 ;" >{{ $errors->  first('clase_tipo') }}</strong></span>  </div>
+		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_clase_tipo" ><span class="help-block" ><strong style="color:  #00ff19 ;" >{{ $errors->  first('clase_tipo') }}</strong></span>  </div>
 
 	</div>
 </div><!--FILa-1 interna-->
@@ -253,7 +260,7 @@
 			@endforeach
 		</select>
 	@endif
-	<div class="" style="display: none;color:#ff3700;float: right;" id="_append_cites" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('append_cites') }}</strong></span>  </div>
+	<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_append_cites" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('append_cites') }}</strong></span>  </div>
 
 
 </div>
@@ -287,7 +294,7 @@
 
 	@endif
 
-	<div class="" style="display: none;color:#ff3700;float: right;" id="_cat_marn" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('cat_marn') }} </strong></span>  </div>
+	<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_cat_marn" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('cat_marn') }} </strong></span>  </div>
 
 
 	</div>
@@ -327,7 +334,7 @@
 
 		@endif
 
-		<div class="" style="display: none;color:#ff3700;float: right;" id="_cat_uicn" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('cat_uicn') }} </strong></span>  </div>
+		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_cat_uicn" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('cat_uicn') }} </strong></span>  </div>
 
 
 	</div>
@@ -360,7 +367,7 @@
 
 		@endif
 
-		<div class="" style="display: none;color:#ff3700;float: right;" id="_proce_especie" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('proce_especie') }} </strong></span>  </div>
+		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_proce_especie" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('proce_especie') }} </strong></span>  </div>
 
 </div>
 	</div><!--FILa-5f- interna-->
@@ -392,13 +399,17 @@
     <div class="col-xs-12 col-md-4">
     <br>
     <br>
-			 <button type="submit" class="btn btn-success" value="guardado_especie">Guardar</button>
-
+    <center>
+    	<button type="submit"  style="background-color: #b9c14d ; border-color: #b9c14d ;" class="btn btn-success" value="guardado_especie">Guardar</button>
+    </form>
+		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b9c14d ; border-color: #b9c14d ;" value="guardado_especie" >Cancelar</a>    	
+    </center>
+			
 	</div>
 </div>
 <!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
 
-</form>
+
 </div><!--PANELBODY-->
 	</div><!--PANEL-->
 	</div><!--contanier-->
@@ -646,6 +657,22 @@
 
   			//alert('iremos estado usuario')
   			$('#frm-estado-usr').submit();
+
+  		});
+
+  		$('#btn-cancelar').click(function(){
+
+  			//alert('queremos cancelar')
+  			var cancelar = $('#accion').val();
+  			console.log(cancelar)
+  			if( cancelar == 'Ingreso' ){
+				console.log('estamos Ingresando')
+				$('#frm-agregar-esp').submit();
+  			}else{
+  				console.log('estamos Modificando')
+  				$('#frm-modificando').submit();
+  			}
+  			
 
   		});
 
