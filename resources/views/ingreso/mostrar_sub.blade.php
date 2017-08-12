@@ -80,8 +80,12 @@
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 </form>
 
+<form method="get" action="Informacion_Sub" id="frm-modificando" >
+	<input type="hidden" id="id_sub" name="id_sub" value="{{ $esp1_array[ $i ]->idSubespecie }}">
+	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
+</form>
 
-
+<input type="hidden" name="" id="accion" value="{{$msg}}">
 	<nav>
   		<ul class="nav nav-tabs">
 
@@ -119,8 +123,8 @@
 
 		<div class="row">
 		<div class="col-xs-12">
-		<h4 class="taxo"> &nbsp;&nbsp;Taxonomía de Especie:</h4>
-		<h4><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}&nbsp; {{ $esp1_array[ $i ]->nombreSubespecie }}</label> </h4>
+		<h4 class="taxo"> &nbsp;&nbsp;Taxonomía de Subespecie:</h4>
+		<h4><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }},&nbsp; {{ $esp1_array[ $i ]->nombreSubespecie }}</label> </h4>
 		</div>
 		</div>
 
@@ -169,7 +173,7 @@
 		<div class="col-xs-12 col-md-12"><!--col1.1-->
 			<label>Nombre Común</label>
 			<input  id="nc_input" name="nc_input" class="caja input_nc " >
-			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" >
+			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" style="background-color: #b9c14d ; border-color: #b9c14d ;" >
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span>
 			</button>
 		</div><!--col1.2-->
@@ -233,7 +237,7 @@
 		@endif
 
 
-		<div class="" style="display: none;color:#ff3700;float: right;" id="_clase_tipo" ><span class="help-block" ><strong style="color:  #00ff19 ;" >{{ $errors->  first('clase_tipo') }}</strong></span>  </div>
+		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_clase_tipo" ><span class="help-block" ><strong style="color:  #00ff19 ;" >{{ $errors->  first('clase_tipo') }}</strong></span>  </div>
 
 
 
@@ -270,7 +274,7 @@
 
 	@endif
 
-	<div class="" style="display: none;color:#ff3700;float: right;" id="_append_cites" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('append_cites') }}</strong></span>  </div>
+	<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_append_cites" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('append_cites') }}</strong></span>  </div>
 
 
 
@@ -303,7 +307,7 @@
 
 	@endif
 
-	<div class="" style="display: none;color:#ff3700;float: right;" id="_cat_marn" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('cat_marn') }} </strong></span>  </div>
+	<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_cat_marn" ><span class="help-block" ><strong style="color:  #f44242 ;" >{{ $errors->  first('cat_marn') }} </strong></span>  </div>
 
 
 	</div>
@@ -341,7 +345,7 @@
 
 		@endif
 
-		<div class="" style="display: none;color:#ff3700;float: right;" id="_cat_uicn" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('cat_uicn') }} </strong></span>  </div>
+		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_cat_uicn" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('cat_uicn') }} </strong></span>  </div>
 
 
 	</div>
@@ -373,7 +377,7 @@
 
 		@endif
 
-		<div class="" style="display: none;color:#ff3700;float: right;" id="_proce_especie" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('proce_especie') }} </strong></span>  </div>
+		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_proce_especie" ><span class="help-block" ><strong style="color:  #f44242 ;" >  {{ $errors->  first('proce_especie') }} </strong></span>  </div>
 
 </div>
 </div><!--FILa-5f- interna-->
@@ -405,7 +409,13 @@
     <div class="col-xs-12 col-md-4">
     <br>
     <br>
-			 <button type="submit" class="btn btn-success" value="guardado_especie">Guardar</button>
+    <center>
+    	<button type="submit" class="btn btn-success" style="background-color: #b9c14d ; border-color: #b9c14d ;" value="guardado_especie">Guardar</button>
+    </form>
+		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b9c14d ; border-color: #b9c14d ;" value="guardado_especie" >Cancelar</a>
+    	
+    </center>
+			 
 
 	</div>
 </div>
@@ -414,7 +424,7 @@
 
     	</div>
 
-	</form>
+	
    </div>
 
 @include('modales.mensajes')
@@ -676,9 +686,21 @@
 
   		});
 
+  		$('#btn-cancelar').click(function(){
 
-
-
+  			//alert('queremos cancelar')
+  			var cancelar = $('#accion').val();
+  			console.log(cancelar)
+  			
+  			if( cancelar == 'Ingreso' ){
+				console.log('estamos Ingresando')
+				$('#frm-agregar-esp').submit();
+  			}else{
+  				console.log('estamos Modificando')
+				$('#frm-modificando').submit();  				
+  			}
+  			
+  		});
 
 
 	});
