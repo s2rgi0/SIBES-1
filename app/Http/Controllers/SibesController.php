@@ -680,11 +680,9 @@ class SibesController extends Controller
             $usr->contrasenaUsuario =  Hash::make($req->texContraU);
             $usr->estadoUsuario     = 1;
             $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            //$date                   = date_create(date('Y-m-d H:i:s'));
-
-            $usr->created_at  =  $datetime;  //date_format($date, "Y/m/d H:i:s");
-            $usr->updated_at  =  $datetime;  //date_format($date, "Y/m/d H:i:s");
-                        
+            
+            $usr->created_at  =  $datetime;  
+            $usr->updated_at  =  $datetime;  
 
             $usr->save();
 
