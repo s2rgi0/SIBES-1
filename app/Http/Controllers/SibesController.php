@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Hash;
 use Response;
 use Validator;
 use File;
+use Carbon\Carbon;
 
 class SibesController extends Controller
 {
@@ -115,11 +116,11 @@ class SibesController extends Controller
 
         ], [
 
-            'clase_tipo.required'    => '*',
-            'append_cites.required'  => '*',
-            'cat_marn.required'      => '*',
-            'cat_uicn.required'      => '*',
-            'proce_especie.required' => '*',
+            'clase_tipo.required'    => 'Elija una Clase de Tipo',
+            'append_cites.required'  => 'Elija un Apendice CITES',
+            'cat_marn.required'      => 'Elija una Categoria MARN',
+            'cat_uicn.required'      => 'Elija una Categoria UICN',
+            'proce_especie.required' => 'Elija una Procedencia de Especie',
             'nom_ingles.alpha'       => 'El campo solo permite caracteres alfabeticos',
             'file.max'          => 'demasiado grande',
 
@@ -206,11 +207,11 @@ class SibesController extends Controller
 
         ], [
 
-            'clase_tipo.required'    => '*',
-            'append_cites.required'  => '*',
-            'cat_marn.required'      => '*',
-            'cat_uicn.required'      => '*',
-            'proce_especie.required' => '*',
+            'clase_tipo.required'    => 'Elija una Clase de Tipo',
+            'append_cites.required'  => 'Elija una Apendice CITES',
+            'cat_marn.required'      => 'Elija una Categoria MARN',
+            'cat_uicn.required'      => 'Elija una Categoria UICN',
+            'proce_especie.required' => 'Elija una Prodedencia de Especie',
             'nom_ingles.regex'       => 'El campo solo permite caracteres alfabeticos',
         ]);
 
@@ -669,6 +670,7 @@ class SibesController extends Controller
     public function agregar_usr_dos( Request $req )
     {   
         //dd($req->all());
+        //dd(date('Y-m-d H:m:s'));
 
         $usr = new Usuario();
 
@@ -677,6 +679,12 @@ class SibesController extends Controller
             $usr->nombreUsuario     = $req->textNomdU;
             $usr->contrasenaUsuario =  Hash::make($req->texContraU);
             $usr->estadoUsuario     = 1;
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            //$date                   = date_create(date('Y-m-d H:i:s'));
+
+            $usr->created_at  =  $datetime;  //date_format($date, "Y/m/d H:i:s");
+            $usr->updated_at  =  $datetime;  //date_format($date, "Y/m/d H:i:s");
+                        
 
             $usr->save();
 
