@@ -23,7 +23,7 @@
       <div class="row">
 
         <center>
-          <p><h4>La subespecie fue ingresada al sistema</h4></p>
+          <p><h4>{{$msg_exito}}</h4></p>
         </center>
 
       </div>
