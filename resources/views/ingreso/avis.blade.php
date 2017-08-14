@@ -89,7 +89,7 @@
     <form id="frm-estado-usr" method="get" action="estado_usuario" >
         <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
     </form>
-    <form method="get" action="Avistamiento" id="frm-avista" >
+    <form method="get" action="Avistamiento" id="frm-avista-refresh" >
         <input type="hidden" id="id_especie" name="id_especie" value="{{ $esp->idEspecie }}">
         <input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
     </form>
@@ -398,13 +398,9 @@
                                     Altura:
                                 </label>
                                 <input class="form-control" id="alt_avis"  name="alt_avis">
-                                <div class="alert alert-danger" style="display: none;" id="_alt_avis" > {{ $errors->first('alt_avis') }} </div>
-
                         <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_alt_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->first('alt_avis') }}</strong></span>  </div>
                         </center>
-
-
                         </div>
                         </div>
                         <div class="form-group row">
