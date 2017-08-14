@@ -28,6 +28,7 @@ use Validator;
 use Cache;
 use Redirect;
 use DB;
+use Carbon\Carbon;
 
 class AvistaController extends Controller
 {
@@ -329,11 +330,8 @@ class AvistaController extends Controller
 
                 }else{
 
-
                     return response::json(['success' => false, 'errors' => 'no es una imagen']);
-                }
-
-                
+                }              
 
             }
 
@@ -377,9 +375,9 @@ class AvistaController extends Controller
             $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis;
             $avis->publicacionPdf               = $req->publish;
             $avis->horaAvistamiento             = $req->hora_av;
-
-
-
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            $avis->created_at  =  $datetime;  
+            $avis->updated_at  =  $datetime;
             $avis->save();
 
         } else {
@@ -496,6 +494,9 @@ class AvistaController extends Controller
         $avis->geologiaAvistamiento         = $req->geo_avis_ver;
         $avis->hidrografiaAvistamiento      = $req->hidro_avis_ver;
         $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis_ver;
+        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $avis->created_at  =  $datetime;  
+        $avis->updated_at  =  $datetime;
 
         if( $req->publish_edit != null ){
 
@@ -503,10 +504,6 @@ class AvistaController extends Controller
                 
         }        
         $avis->save();
-
-
-
-
 
         }else{
 
@@ -628,6 +625,9 @@ class AvistaController extends Controller
         $avis->geologiaAvistamiento         = $req->geo_avis_ver;
         $avis->hidrografiaAvistamiento      = $req->hidro_avis_ver;
         $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis_ver;
+        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $avis->created_at  =  $datetime;  
+        $avis->updated_at  =  $datetime;
 
         if( $req->publish_edit_sub != null ){
 
@@ -837,6 +837,9 @@ class AvistaController extends Controller
             $avis->hidrografiaAvistamiento      = $req->hidro_avis;
             $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis;
             $avis->horaAvistamiento             = $req->hora_av;
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            $avis->created_at  =  $datetime;  
+            $avis->updated_at  =  $datetime;
 
 
 
