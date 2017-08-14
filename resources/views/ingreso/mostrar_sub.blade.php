@@ -88,24 +88,17 @@
 <input type="hidden" name="" id="accion" value="{{$msg}}">
 	<nav>
   		<ul class="nav nav-tabs">
-
-
 	  		<li role="presentation" class="active" id="" ><a>Especie</a></li>
-
 	  	<!--	<li role="presentation" class="active" id="Avista_link" ><a>Avistamientos</a></li>
-
 	  		<li role="presentation" class="active" id="Mapa_link" ><a>Mapa</a></li>-->
-
 		</ul>
 	</nav>
-
-
 	<input type="hidden" id="id_esp_avis" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
 
 
 
 <div class="container-fluid" >
-	<h3 class="titulo">&nbsp; Ingreso de información &nbsp; <label class="btn btn-default btn-group " id="Agregar_link"  style="float: right ;" >
+	<h3 class="titulo">&nbsp; {{ $msg }} de información &nbsp; <label class="btn btn-default btn-group " id="Agregar_link"  style="float: right ;" >
 			Agregar  <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h3>
 
 	<div  class="panel" >
@@ -480,7 +473,7 @@
 
 			 		if( !$('#nc_input').val()) {
 
-			 			alert('ingrese un nimbre comun');
+			 			//alert('ingrese un nombre comun');
 			 			$(".input_nc").val("");
 
     				}else{
@@ -583,6 +576,7 @@
 
 	       					}else{
 	       						$("#Exito_Sub_Modal").modal('show')
+	       						$("#frm-especie-sub").get(0).reset()
 	       					}
 	       					
 	       				},error:function(){
@@ -592,16 +586,10 @@
 	       					$('#frm-InfoX').submit();
 
 	       				}
-
-
-	       			})
-
-	       			$("#frm-especie-sub").get(0).reset()
+	       			})   	
 
     			}
-
-
-			});
+    		});
 
 
 
