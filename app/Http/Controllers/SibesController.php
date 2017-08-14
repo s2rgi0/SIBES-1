@@ -173,6 +173,9 @@ class SibesController extends Controller
             $especie->idCategoriaMARN          = $req->cat_marn;
             $especie->idCategoriaUICN          = $req->cat_uicn;
             $especie->idApendiceCITES          = $req->append_cites;
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            $especie->created_at  =  $datetime;  
+            $especie->updated_at  =  $datetime;
             $especie->save();
 
         } else {
@@ -260,6 +263,9 @@ class SibesController extends Controller
             $especie->idCategoriaMARN          = $req->cat_marn;
             $especie->idCategoriaUICN          = $req->cat_uicn;
             $especie->idApendiceCITES          = $req->append_cites;
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            $especie->created_at  =  $datetime;  
+            $especie->updated_at  =  $datetime;
             $especie->save();
 
         } else {
@@ -286,7 +292,9 @@ class SibesController extends Controller
 
             $n->idEspecie   = $req->id;
             $n->nombreComun = $req->nombre;
-
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            $n->created_at  =  $datetime;  
+            $n->updated_at  =  $datetime;
             $n->save();
 
             return response(['msg' => 'por fin ingresamos']);
@@ -305,7 +313,9 @@ class SibesController extends Controller
 
             $n->idSubespecie = $req->id;
             $n->nombreComun  = $req->nombre;
-
+            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            $n->created_at  =  $datetime;  
+            $n->updated_at  =  $datetime;
             $n->save();
 
             return response(['msg' => 'por fin ingresamos']);
@@ -687,7 +697,7 @@ class SibesController extends Controller
             $usr->save();
 
         //dd($usr);
-             $tipo = Tipo::all();
+            $tipo = Tipo::all();
 
             $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
         //dd($usuario);
@@ -786,7 +796,8 @@ class SibesController extends Controller
         $usar = Usuario::find($req->id);
 
         $usar->estadoUsuario = 0;
-
+        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $usr->updated_at  =  $datetime;  
         $usar->save();
 
     }
@@ -797,9 +808,12 @@ class SibesController extends Controller
         $usar = Usuario::find($req->id);
 
         $usar->idTipo = $req->rol;
+        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $usar->updated_at  =  $datetime;  
 
+        // $usr->created_at  =  $datetime;  
+      
         $usar->save();
-
         //dd($usar);
 
     }
