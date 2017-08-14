@@ -797,7 +797,7 @@ class SibesController extends Controller
 
         $usar->estadoUsuario = 0;
         $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-        $usr->updated_at  =  $datetime;  
+        $usar->updated_at  =  $datetime;  
         $usar->save();
 
     }
