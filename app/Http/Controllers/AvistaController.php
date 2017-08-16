@@ -305,6 +305,7 @@ class AvistaController extends Controller
 
             $fecha_avi  = "";
             $fecha_ingr = "";
+            $hora 		= "";
 
             $avis = new Avistamiento;
 
@@ -346,10 +347,9 @@ class AvistaController extends Controller
 
             }
 
-            if ($req->fecha_ing != null) {
+            if ( $req->hora_av != null) {
 
-                $date       = date_create($req->fecha_ing);
-                $fecha_ingr = date_format($date, "Y/m/d H:i:s");
+                $hora = $req->hora_av;
 
             }            
 
@@ -374,7 +374,7 @@ class AvistaController extends Controller
             $avis->hidrografiaAvistamiento      = $req->hidro_avis;
             $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis;
             $avis->publicacionPdf               = $req->publish;
-            $avis->horaAvistamiento             = $req->hora_av;
+            $avis->horaAvistamiento = $hora;
             $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
             $avis->created_at  =  $datetime;  
             $avis->updated_at  =  $datetime;
@@ -471,6 +471,12 @@ class AvistaController extends Controller
 
             $date           = date_create($req->fecha_ing_ver);
             $fecha_ingr_ver = date_format($date, "Y/m/d H:i:s");
+
+        }
+
+        if ($req->hora_av_ver != null) {
+
+            $avis->horaAvistamiento = $req->hora_av_ver;
 
         }
 
@@ -604,6 +610,13 @@ class AvistaController extends Controller
             $fecha_ingr_ver = date_format($date, "Y/m/d H:i:s");
 
         }
+
+        if ($req->hora_av_ver != null) {
+
+            $avis->horaAvistamiento = $req->hora_av_ver;
+
+        }
+        
 
         $avis->codigoDepartamento           = $req->depar_avis_ver;
         $avis->codigoMunicipio              = $req->mun_avis_ver;
@@ -758,6 +771,7 @@ class AvistaController extends Controller
 
             $fecha_avi  = "";
             $fecha_ingr = "";
+            $hora 		= "";
 
             $avis = new Avistamiento;
 
@@ -812,6 +826,12 @@ class AvistaController extends Controller
 
             }
 
+            if ( $req->hora_av != null) {
+
+                $hora = $req->hora_av;
+
+            }  
+
             $avis->idEspecie                 = $req->id_esp;
             $avis->idSubespecie                 = $req->id_sub;
             
@@ -834,7 +854,7 @@ class AvistaController extends Controller
             $avis->geologiaAvistamiento         = $req->geo_avis;
             $avis->hidrografiaAvistamiento      = $req->hidro_avis;
             $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis;
-            $avis->horaAvistamiento             = $req->hora_av;
+            $avis->horaAvistamiento             = $hora;
             $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
             $avis->created_at  =  $datetime;  
             $avis->updated_at  =  $datetime;
