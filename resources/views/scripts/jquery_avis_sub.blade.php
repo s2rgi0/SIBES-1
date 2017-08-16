@@ -19,7 +19,6 @@
 
         });
 
-
         function getPosts( esp , page ){
 
             $.ajax({
@@ -27,19 +26,13 @@
                 type : 'get',
                 url  : '{!! URL::to('Avistamiento_sub_pag') !!}'+'?page=' + page,
                 data : { 'id_especie': esp  }
-
-
             }).done(function(data){
                 console.log(data)
                 //$("body").html(data);
                 //document.write(data);
                 $('.avistamiento').html(data);
                     //location.hash = page;
-
             })
-
-
-
         }       
 
 
@@ -362,7 +355,7 @@
         });
 
 
-        //+---------//////////BOTON QUE GUARDA EN FORMULARIO Y MUESTRA//EN GRID RESULTADOS///////////---------+
+        //+---////////BOTON QUE GUARDA EN FORMULARIO Y MUESTRA//EN GRID RESULTADOS///---+
 
 
         $('#frm-avista button').click(function(e){
@@ -459,8 +452,7 @@
 
 
                             if(data.success == false ){
-
-
+                                swal("Verifique todos los campos!", "", "warning")
                                 if(data.errors == 'no es una imagen'){
                                     //alert('no es una imagen')
                                    sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");   
@@ -646,7 +638,10 @@
 
                     var col = "";
 
-                    $.ajax({
+                
+
+
+                $.ajax({
                         type : 'get',
                         url  : '{!! URL::to('get_Colector_id') !!}',
                         data :  { 'id':id },
@@ -879,6 +874,11 @@
 
 
                     $('#VER_Avista_Modal').modal('show');
+    
+
+                
+
+
 
 
                 },
@@ -886,7 +886,18 @@
                     console.log('no funciono el get avis ')
                 }
             })
+
+
         })
+
+///////////////////////////  funciones para llenar campos de edtiar  ///////////////////////////
+
+function llena_colectores(  ){
+
+
+
+
+}      
 
 
 
@@ -952,8 +963,7 @@
                     console.log(data.errors)
 
                      if(data.success == false ){
-
-
+                        swal("Verifique todos los campos!", "", "warning")
                         $('#_foto-graf_ver,#_lati_avis_ver,#_long_avis_ver,#_col_avis_ver,#_depar_avis_ver,#_mun_avis_ver,#_canton_avis_ver,#_alt_avis_ver,#_clima_avis_ver,#_eco_avis_ver,#_geo_avis_ver,#_clima_avis_ver,#_hidro_avis_ver,#_fisio_Avis_ver').text('');
                                 //$('#avis-error').fadeIn();
                         $.each(data.errors , function(index,value){
@@ -988,7 +998,15 @@
                     })
                     $("#frm-editar-sub").get(0).reset();
                     $('#VER_Avista_Modal').modal('hide');
-                    }                   
+
+
+
+
+
+                    }
+
+
+                    
             },
             error:function(data){
                 $('#VER_Avista_Modal').modal('hide');
@@ -1097,20 +1115,35 @@
         });
 
         $('#id_agregar_usr').click(function(){
+
             //alert('iremos agregar usuario')
             $('#frm-agregar-usr').submit();
+
         });
 
         $('#id_estado_usr').click(function(){
 
             //alert('iremos estado usuario')
             $('#frm-estado-usr').submit();
-        });        
+
+        });
+
+        
         $('#btn_guardo_avis').click(function(){
 
             //alert('iremos estado usuario')
             $('#MSG_exito_save').modal('hide');
 
         });
+
+
+
+
+
+
     });
+
+
+
+
 </script>
