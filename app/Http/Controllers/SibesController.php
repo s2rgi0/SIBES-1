@@ -753,7 +753,7 @@ class SibesController extends Controller
 
             }else{
 
-            $msg = 'verifique su nombre y contraseña';
+            $msg = 'Verifique su nombre y contraseña';
 
             return view('login', compact('msg'));
             }
@@ -761,7 +761,7 @@ class SibesController extends Controller
 
         }else{
             
-            $msg = 'verifique su nombre y contraseña';
+            $msg = 'Verifique su nombre y contraseña';
 
             return view('login', compact('msg'));
 
