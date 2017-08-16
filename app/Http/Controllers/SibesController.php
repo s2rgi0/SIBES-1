@@ -121,8 +121,8 @@ class SibesController extends Controller
             'cat_marn.required'      => 'Elija una Categoria MARN',
             'cat_uicn.required'      => 'Elija una Categoria UICN',
             'proce_especie.required' => 'Elija una Procedencia de Especie',
-            'nom_ingles.alpha'       => 'El campo solo permite caracteres alfabeticos',
-            'file.max'          => 'demasiado grande',
+            'nom_ingles.regex'       => 'El campo solo permite caracteres alfabeticos',
+            'file.max' => 'demasiado grande',
 
         ]);
 
@@ -622,13 +622,14 @@ class SibesController extends Controller
 
             'textTipoU'  => 'required',
             'textCodU'   => 'required|regex:/^[\pL\s\-]+$/u',
-            'textNomdU'  => 'required',
+            'textNomdU'  => 'required|unique:Usuario,nombreUsuario',
             'texContraU' => 'required',
 
         ], [
             'textTipoU.required'  => 'El campo tipo de usuario es requerido',
             'textCodU.required'   => 'Ingrese el nombre del usuario',
             'textCodU.regex'      => 'Solo se permiten caracteres alfabeticos',
+            'textNomdU.unique'    => 'El nombre de usuario ya existe',
 
             'textCodU.min'        => 'El campo requiere al menos 6 digitos',
             'textCodU.size'        => 'El campo requiere al menos 6 digitos',
