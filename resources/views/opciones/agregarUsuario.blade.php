@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Agregar Usuario</title>
+        <title>MARN | SIBES</title>
         <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
@@ -75,6 +75,7 @@
       <input type="text" class="form-control " id="textCodU" name="textCodU"  placeholder="Nombre Usuario">
     </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_textCodU" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('textCodU') }} </strong></span></div>
   </div>
+
   <div class="form-group">
 
     <label for="textNomdU" class=" col-sm-6 col-lg-3 control-label hidden-xs" >Usuario:</label>
