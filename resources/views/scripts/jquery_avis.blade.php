@@ -160,8 +160,8 @@
 
         }
 
+        ////////HACER SELECCION DE DEPARTAMENTOS////////////////////////---------------------+
 
-        ///////////////////HACER SELECCION DE DEPARTAMENTOS////////////////////////---------------------+
 
         $(document).on('change','#id_zona',function(){
 
@@ -210,7 +210,7 @@
             })
         });
 
-        ///////////////////HACER SELECCION DE MUNICIPIOS////////////////////////---------------------------------+
+        ///////////////////HACER SELECCION DE MUNICIPIOS///////////////////////---------------------------------+
 
         $(document).on('change','#id_departamento',function(){
 
@@ -327,8 +327,9 @@
             })
         });
 
-
-        //+------//////////BOTON QUE GUARDA EN FORMULARIO Y MUESTRA//EN GRID RESULTADOS///////////-------+
+        /////////------------------------------------------------------------///////////
+        /////////BOTON QUE GUARDA EN FORMULARIO Y MUESTRA//EN GRID RESULTADOS///////////
+        /////////------------------------------------------------------------///////////
 
 
         $('#frm-avista button').click(function(e){
@@ -418,6 +419,7 @@
                             console.log(data.errors)
 
                             if(data.success == false ){
+                                swal("Verifique todos los campos!", "", "warning")
 
 
                                 if(data.errors == 'no es una imagen'){
@@ -430,16 +432,11 @@
                                 $.each(data.errors , function(index,value){
                                 $('#_'+index).fadeIn();
                                 $('#_'+index).text(value);
-
-
                                 });
-
 
                             }else{
 
                                 swal("Avistamiento ingresado!", "", "success")
-
-
 
                                 $.ajax({
                                 type : 'get',
@@ -475,8 +472,6 @@
                     })
 
                 }
-
-
         })
 
 
@@ -547,6 +542,7 @@
             var id = $(this).val();
             var id_dep;
             var id_mun;
+            var id_reg;
             $('#pub_PDF_edit').empty();
             $('#publish_edit').empty();
 
@@ -817,7 +813,6 @@
                         error:function(){
                             console.log('error con Tierra')
                         }
-
                     })
 
 
@@ -906,6 +901,8 @@ $('#frm-editar button').click(function(e){
 
                 if(data.success == false ){
 
+                swal("Verifique todos los campos!", "", "warning")
+
 
                     $('#_foto-graf_ver,#_lati_avis_ver,#_long_avis_ver,#_col_avis_ver,#_depar_avis_ver,#_mun_avis_ver,#_canton_avis_ver,#_alt_avis_ver,#_clima_avis_ver,#_eco_avis_ver,#_geo_avis_ver,#_clima_avis_ver,#_hidro_avis_ver,#_fisio_Avis_ver').text('');
                                 //$('#avis-error').fadeIn();
@@ -938,12 +935,7 @@ $('#frm-editar button').click(function(e){
                             console.log('no vamos a poder extraerlos  despues de modificar')
                         }
                     })
-
-
-                }
-
-
-                
+                }          
                    
             },
             error:function(data){
@@ -952,18 +944,7 @@ $('#frm-editar button').click(function(e){
                 $('#frm-avista-refresh').submit();
             }
         })
-
-
-
-    }   
-
-
-
-
-
-
-
-
+    }
 });
 
 
