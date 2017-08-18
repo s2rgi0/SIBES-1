@@ -18,6 +18,8 @@ use App\Reino;
 use App\Subespecie;
 use App\Usuario;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class ModalesController extends Controller
 {
@@ -631,7 +633,7 @@ class ModalesController extends Controller
     {
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $d = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Subespecies.fotografiaEspecie' ,'Subespecies.idSubespecie' ,'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar')->where('Subespecies.idSubespecie', $req->sub_id)->get();
+        $d = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie','Subespecies.idSubespecie' ,'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar')->where('Subespecies.idSubespecie', $req->sub_id)->get();
 
         $elementCount = 1;
 
@@ -693,9 +695,11 @@ class ModalesController extends Controller
 
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie','Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar', 'Subespecies.fotografiaEspecie')->where('Subespecies.idSubespecie', $req->id_sub)->get();
+        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie','Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar', 'Subespecies.fotografiaEspecie2')->where('Subespecies.idSubespecie', $req->id_sub)->get();
 
-        $elementCount = count($esp11);
+        //dd($esp11);
+
+        //$elementCount = count($esp11);
         $esp1_array   = json_decode($esp11);
 
         $append = ApendiceCites::all();
@@ -712,7 +716,7 @@ class ModalesController extends Controller
         $u_sub  = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $req->id_sub)->get();
 
         
-        return view('ingreso.reporte_sub', compact('esp1_array','usuario' ,'tipo','t_sub','elementCount','append','proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
+        return view('ingreso.reporte_sub', compact('esp11','usuario' ,'tipo','t_sub','elementCount','append','proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
 
     }
 
@@ -825,7 +829,7 @@ class ModalesController extends Controller
         //dd($)
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie','Subespecies.idSubespecie')->where('Subespecies.idSubespecie', $id_sub)->get();
+        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie2','Subespecies.idSubespecie')->where('Subespecies.idSubespecie', $id_sub)->get();
 
         $elementCount = count($esp11);
         $esp1_array   = json_decode($esp11);
@@ -846,7 +850,7 @@ class ModalesController extends Controller
         $c_sub  = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $id_sub)->get();
         $u_sub  = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $id_sub)->get();
 
-        return view('ingreso.reporte_sub', compact('esp1_array', 'usuario' ,'tipo','t_sub','elementCount','append','proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
+        return view('ingreso.reporte_sub', compact('esp11', 'usuario' ,'tipo','t_sub','elementCount','append','proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
 
     }
 
