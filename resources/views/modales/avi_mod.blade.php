@@ -1,3 +1,6 @@
+<!-- Este MODAL o ventana emergente se ultiliza para modificar los 
+Avistamientos de ESPECIE -->
+
 <div class="modal fade " id="VER_Avista_Modal"   role="dialog">
 
       <div class="modal-dialog modal-lg ">
@@ -34,7 +37,7 @@
                      <label for="id_fecha_ing">
                         Fecha Ingreso:
                     </label>
-                    <input class="form-control" id="id_fecha_ing2" readonly="" type="text" name="fecha_ing_ver" >
+                    <input class="form-control" id="id_fecha_ing2" readonly="" type="date" name="fecha_ing_ver" >
 
                 </div>
                 <div class="col-xs-12 col-md-4 ">
@@ -42,7 +45,7 @@
                     <label for="id_fecha_avis">
                       Fecha Avistamiento:
                     </label>
-                    <input class="form-control" id="fecha_avis2" readonly="" type="text" name="fecha_av_ver" >
+                    <input class="form-control" id="fecha_avis2" type="date" name="fecha_av_ver" >
 
                 </div>
                 <div class="col-xs-12 col-md-4 ">
@@ -50,7 +53,7 @@
                     <label for="id_hora_avis">
                       Hora Avistamiento:
                     </label>
-                    <input class="form-control" id="hora_avis" readonly="" type="text" name="hora_av_ver" >
+                    <input class="form-control" id="hora_avis"  type="time" name="hora_av_ver" >
 
                 </div>
 
@@ -329,7 +332,7 @@
                     <label id="guardar_editar" class="btn btn-success" >Guardar</label>
                     -->
 
-                    <button class="btn btn-success" type="submit" id="guardar_editar" >
+                    <button class="btn btn-success" type="submit" id="guardar_editar" style="background-color: #b0a54f;border-color: #8e7200 ;width: 200px;">
                         Guardar
                     </button>
 
