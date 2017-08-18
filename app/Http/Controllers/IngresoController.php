@@ -83,9 +83,7 @@ class IngresoController extends Controller
                 $div = new Division;
                 $div->idReino = Input::get('rei_mod'); //$req->idReino;
                 $div->nombreDivision = Input::get('rei_input_mod'); //$req->nombreDivision;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $div->created_at  =  $datetime;  
-                $div->updated_at  =  $datetime;
+                
 
                 $div->save();
 
@@ -147,9 +145,7 @@ class IngresoController extends Controller
                 $cla->idDivision = Input::get('div_mod'); //$req->idDivision;
 
                 $cla->nombreClase = Input::get('cla_input_mod'); //$req->nombreClase;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $cla->created_at  =  $datetime;  
-                $cla->updated_at  =  $datetime;
+                
                 $cla->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -227,9 +223,7 @@ class IngresoController extends Controller
                 $ord->idClase = Input::get('cla_ord'); //$req->idClase;
 
                 $ord->nombreOrden = Input::get('ord_input_mod'); //$req->nombreOrden;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $ord->created_at  =  $datetime;  
-                $ord->updated_at  =  $datetime;
+                
                 $ord->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -282,9 +276,7 @@ class IngresoController extends Controller
                 $fam->idOrden = Input::get('ord_fam'); //$req->idOrden;
 
                 $fam->nombreFamilia = Input::get('fam_input'); //$req->nombreFamilia;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $fam->created_at  =  $datetime;  
-                $fam->updated_at  =  $datetime;
+                
                 $fam->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -337,9 +329,7 @@ class IngresoController extends Controller
                 $gen->idFamilia = Input::get('fam_gen'); //$req->idFamilia;
 
                 $gen->nombreGenero = Input::get('gen_input'); //$req->nombreGenero;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $gen->created_at  =  $datetime;  
-                $gen->updated_at  =  $datetime;
+                
                 $gen->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -392,9 +382,7 @@ class IngresoController extends Controller
                 $esp->idGenero = Input::get('gen_esp'); //$req->idGenero;
 
                 $esp->nombreEspecie = Input::get('esp_input'); //$req->nombreEspecie;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $esp->created_at  =  $datetime;  
-                $esp->updated_at  =  $datetime;
+                
                 $esp->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -446,9 +434,7 @@ class IngresoController extends Controller
                 $sub->idEspecie = Input::get('esp_sub'); //$req->idEspecie;
 
                 $sub->nombreSubespecie = Input::get('sub_input'); //$req->nombreSubespecie;
-                $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-                $sub->created_at  =  $datetime;  
-                $sub->updated_at  =  $datetime;
+                
                 $sub->save();
 
                 return response(['msg' => 'por fin ingresamos']);
