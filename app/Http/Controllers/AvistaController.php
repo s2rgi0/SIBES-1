@@ -254,6 +254,10 @@ class AvistaController extends Controller
     {
             Cache::flush();
 
+            //dd($req->all());
+            //dd($req->hora_av);
+
+
             $validator = Validator::make(Input::all(), [
 
             'zona_avis'   => 'required',
@@ -304,7 +308,7 @@ class AvistaController extends Controller
         if ($validator->passes()) {
 
             $fecha_avi  = "";
-            $fecha_ingr = "";
+            //$fecha_ingr = "";
             $hora 		= "";
 
             $avis = new Avistamiento;
@@ -349,7 +353,9 @@ class AvistaController extends Controller
 
             if ( $req->hora_av != null) {
 
-                $hora = $req->hora_av;
+                //$horita = Carbon::createFromFormat('H:i:s', $req->hora_av );
+                $horita = date( 'g:ia', strtotime( $req->hora_av ) );
+                $hora = $horita;
 
             }            
 
@@ -366,7 +372,7 @@ class AvistaController extends Controller
             $avis->alturaAvistamiento           = $req->alt_avis;
             $avis->fechaHoraAvistamiento        = $fecha_avi; //feacha de avis
             $avis->ejemplarDepositado           = $req->ejem_avis;
-            $avis->fechaIngresodeInformacionBD  = $fecha_ingr; //fecha de ingr
+            $avis->fechaIngresodeInformacionBD  = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
             $avis->ecosistemaAvistamiento       = $req->eco_avis;
             $avis->descripcionClimaAvistamiento = $req->clima_avis;
             $avis->fisiografiaAvistamiento      = $req->fisio_Avis;
@@ -374,10 +380,8 @@ class AvistaController extends Controller
             $avis->hidrografiaAvistamiento      = $req->hidro_avis;
             $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis;
             $avis->publicacionPdf               = $req->publish;
-            $avis->horaAvistamiento = $hora;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $avis->created_at  =  $datetime;  
-            $avis->updated_at  =  $datetime;
+            $avis->horaAvistamiento = $req->hora_av;
+            
             $avis->save();
 
         } else {
@@ -500,9 +504,7 @@ class AvistaController extends Controller
         $avis->geologiaAvistamiento         = $req->geo_avis_ver;
         $avis->hidrografiaAvistamiento      = $req->hidro_avis_ver;
         $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis_ver;
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-        $avis->created_at  =  $datetime;  
-        $avis->updated_at  =  $datetime;
+        
 
         if( $req->publish_edit != null ){
 
@@ -638,9 +640,7 @@ class AvistaController extends Controller
         $avis->geologiaAvistamiento         = $req->geo_avis_ver;
         $avis->hidrografiaAvistamiento      = $req->hidro_avis_ver;
         $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis_ver;
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-        $avis->created_at  =  $datetime;  
-        $avis->updated_at  =  $datetime;
+        
 
         if( $req->publish_edit_sub != null ){
 
@@ -855,11 +855,7 @@ class AvistaController extends Controller
             $avis->hidrografiaAvistamiento      = $req->hidro_avis;
             $avis->usosDeLaEspecieAvistamiento  = $req->usos_avis;
             $avis->horaAvistamiento             = $hora;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $avis->created_at  =  $datetime;  
-            $avis->updated_at  =  $datetime;
-
-
+            
 
             if( $req->publish_sub != null ){
 
@@ -887,8 +883,8 @@ class AvistaController extends Controller
     public function Avista_sub_pub( Request $req ){
 
         //dd($req->all());
-        Cache::flush();
-        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie' , '=' , 'Especies.idEspecie' )->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Subespecies.nombreSubespecie','Subespecies.nombreEnIngles','Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie','ClasesdeTipo.nombreClaseDeTipo','procedencia_especies.nombreProcedenciaDeLaEspecie','categoria_marns.nombreCategoriaMARN','categoria_u_i_c_ns.nombreCategoriaUICN','apendice_cites.nombreApendiceCITES','Subespecies.fotografiaEspecie')->where('Subespecies.idSubespecie', $req->id_sub)->get();
+        //Cache::flush();
+        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie' , '=' , 'Especies.idEspecie' )->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Subespecies.nombreSubespecie','Subespecies.nombreEnIngles','Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie2','ClasesdeTipo.nombreClaseDeTipo','procedencia_especies.nombreProcedenciaDeLaEspecie','categoria_marns.nombreCategoriaMARN','categoria_u_i_c_ns.nombreCategoriaUICN','apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->id_sub)->get();
 
 
         $nc_sub = Nombrecomun::where('idSubespecie', $req->id_sub)->get();
@@ -1605,7 +1601,7 @@ class AvistaController extends Controller
         //dd($req->all());
 
 
-        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Reinos.nombreReino', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Divisions.nombreDivision', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.nombreDivision', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Clases.nombreClase', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.nombreClase', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Ordens.nombreOrden', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere( [['Ordens.nombreOrden', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Familias.nombreFamilia', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.nombreFamilia', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Generos.nombreGenero', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.nombreGenero', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Especies.nombreEspecie', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.nombreEspecie', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Subespecies.nombreSubespecie', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->paginate(30);
+        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Especies.fotografiaEspecie','Subespecies.fotografiaEspecie2')->where([['Reinos.nombreReino', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Divisions.nombreDivision', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.nombreDivision', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Clases.nombreClase', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.nombreClase', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Ordens.nombreOrden', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere( [['Ordens.nombreOrden', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Familias.nombreFamilia', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.nombreFamilia', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Generos.nombreGenero', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.nombreGenero', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Especies.nombreEspecie', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.nombreEspecie', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Subespecies.nombreSubespecie', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->paginate(30);
 
 
         $reino_ani = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->where([['Reinos.nombreReino', '=', 'Animalia'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Animalia'], ['Subespecies.estadoMarn', '=', 1]])->get();
