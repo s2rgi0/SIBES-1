@@ -173,9 +173,7 @@ class SibesController extends Controller
             $especie->idCategoriaMARN          = $req->cat_marn;
             $especie->idCategoriaUICN          = $req->cat_uicn;
             $especie->idApendiceCITES          = $req->append_cites;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $especie->created_at  =  $datetime;  
-            $especie->updated_at  =  $datetime;
+            
             $especie->save();
 
         } else {
@@ -244,7 +242,7 @@ class SibesController extends Controller
                     $cad_imagen     = $id_especie . '_' . $nombre_subesp . '.' . $extension;
                     $filename       = $file->getClientOriginalName();
                     $file->move('imagen_especie/' . $nombre_especie . '/' . $nombre_subesp, $cad_imagen);
-                    $especie->fotografiaEspecie = $cad_imagen;
+                    $especie->fotografiaEspecie2 = $cad_imagen;
 
                 }else{
 
@@ -263,9 +261,7 @@ class SibesController extends Controller
             $especie->idCategoriaMARN          = $req->cat_marn;
             $especie->idCategoriaUICN          = $req->cat_uicn;
             $especie->idApendiceCITES          = $req->append_cites;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $especie->created_at  =  $datetime;  
-            $especie->updated_at  =  $datetime;
+            
             $especie->save();
 
         } else {
@@ -292,9 +288,7 @@ class SibesController extends Controller
 
             $n->idEspecie   = $req->id;
             $n->nombreComun = $req->nombre;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $n->created_at  =  $datetime;  
-            $n->updated_at  =  $datetime;
+            
             $n->save();
 
             return response(['msg' => 'por fin ingresamos']);
@@ -313,9 +307,7 @@ class SibesController extends Controller
 
             $n->idSubespecie = $req->id;
             $n->nombreComun  = $req->nombre;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $n->created_at  =  $datetime;  
-            $n->updated_at  =  $datetime;
+            
             $n->save();
 
             return response(['msg' => 'por fin ingresamos']);
@@ -513,7 +505,7 @@ class SibesController extends Controller
     public function Consulta_x_Subespecie(Request $req)
     {
 
-        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Subespecies.idSubespecie')->where([['Subespecies.idSubespecie', $req->id],[ 'Subespecies.estadoMarn', '=', 1 ]])->get();
+        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2')->where([['Subespecies.idSubespecie', $req->id],[ 'Subespecies.estadoMarn', '=', 1 ]])->get();
 
         return response()->json($especie);
 
@@ -526,7 +518,10 @@ class SibesController extends Controller
     public function Consulta_x_reino_ESP(Request $req)
     {
 
-        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Reinos.idReino', '=', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.idReino', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Especies.fotografiaEspecie','Subespecies.fotografiaEspecie2')->where([['Reinos.idReino', '=', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.idReino', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+
+
+        //dd()
 
         return response()->json($especie);
 
@@ -537,7 +532,7 @@ class SibesController extends Controller
     public function Consulta_x_Division_ESP(Request $req)
     {
 
-        $especie = Division::join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Divisions.idDivision', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.idDivision', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Division::join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Divisions.idDivision', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.idDivision', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -549,7 +544,7 @@ class SibesController extends Controller
     {
 
         $especie = Clase::join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie'
-        )->where([['Clases.idClase', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.idClase', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        ,'Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Clases.idClase', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.idClase', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -560,7 +555,7 @@ class SibesController extends Controller
     public function Consulta_x_Orden_ESP(Request $req)
     {
 
-        $especie = Orden::join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Ordens.idOrden', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Ordens.idOrden','=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Orden::join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Ordens.idOrden', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Ordens.idOrden','=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -569,7 +564,7 @@ class SibesController extends Controller
     public function Consulta_x_Familia_ESP(Request $req)
     {
 
-        $especie = Familia::join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Familias.idFamilia', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.idFamilia', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Familia::join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Familias.idFamilia', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.idFamilia', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -580,7 +575,7 @@ class SibesController extends Controller
     public function Consulta_x_Genero_ESP(Request $req)
     {
 
-        $especie = Genero::join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Generos.idGenero', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.idGenero', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Genero::join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Generos.idGenero', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.idGenero', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
         //dd($req->id);
@@ -589,7 +584,7 @@ class SibesController extends Controller
 
     public function Consulta_x_Especie_ESP(Request $req)
     {
-        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie')->where([['Especies.idEspecie', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.idEspecie', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Especies.idEspecie', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.idEspecie', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -690,12 +685,13 @@ class SibesController extends Controller
             $usr->nombreUsuario     = $req->textNomdU;
             $usr->contrasenaUsuario =  Hash::make($req->texContraU);
             $usr->estadoUsuario     = 1;
-            $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+            //$datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
             
-            $usr->created_at  =  $datetime;  
-            $usr->updated_at  =  $datetime;  
+            
 
             $usr->save();
+
+            dd($usr);
 
         //dd($usr);
             $tipo = Tipo::all();
@@ -797,8 +793,7 @@ class SibesController extends Controller
         $usar = Usuario::find($req->id);
 
         $usar->estadoUsuario = 0;
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-        $usar->updated_at  =  $datetime;  
+          
         $usar->save();
 
     }
@@ -809,11 +804,7 @@ class SibesController extends Controller
         $usar = Usuario::find($req->id);
 
         $usar->idTipo = $req->rol;
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-        $usar->updated_at  =  $datetime;  
-
-        // $usr->created_at  =  $datetime;  
-      
+             
         $usar->save();
         //dd($usar);
 
