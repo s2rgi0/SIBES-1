@@ -1,3 +1,6 @@
+<!-- Este MODAL o ventana emergente se ultiliza para modificar los 
+Avistamientos de SUBESPECIE -->
+
 <div class="modal fade " id="VER_Avista_Modal"   role="dialog">
 
       <div class="modal-dialog modal-lg ">
@@ -31,7 +34,7 @@
                      <label for="id_fecha_ing">
                         Fecha de Ingreso:
                     </label>
-                    <input class="form-control" id="id_fecha_ing2" readonly="" type="text" name="fecha_ing_ver" >
+                    <input class="form-control" id="id_fecha_ing2" readonly="" type="date" name="fecha_ing_ver" >
 
                 </div>
 
@@ -41,7 +44,7 @@
                     <label for="id_fecha_avis">
                       Fecha de Avistamiento:
                     </label>
-                    <input class="form-control" id="fecha_avis2" type="text" readonly="" name="fecha_av_ver" >
+                    <input class="form-control" id="fecha_avis2" type="date" name="fecha_av_ver" >
 
                 </div>
 
@@ -50,10 +53,8 @@
                     <label for="id_hora_avis2">
                       Hora Avistamiento:
                     </label>
-                    <input class="form-control" id="hora_avis22" type="text" readonly="" name="hora_av_ver" >
-
+                    <input class="form-control" id="hora_avis22" type="time" name="hora_av_ver" >
                 </div>
-
 
               </div>
 
@@ -336,7 +337,7 @@
                     <label id="guardar_editar" class="btn btn-success" >Guardar</label>
                     -->
 
-                    <button class="btn btn-success" type="submit" id="guardar_editar" >
+                    <button class="btn btn-success" type="submit" id="guardar_editar" style="background-color: #b0a54f;border-color: #8e7200 ;width: 200px;">
                         Guardar
                     </button>
 
