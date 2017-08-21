@@ -98,7 +98,7 @@
 
 
 <div class="container-fluid" >
-	<h3 class="titulo">&nbsp; {{ $msg }} de información &nbsp; <label class="btn btn-default btn-group " id="Agregar_link"  style="float: right ;" >
+	<h3 class="titulo">&nbsp; {{ $msg }} de información &nbsp; <label class="btn btn-default btn-group " id="Agregar_link"  style="float: right ;background-color: " >
 			Agregar  <span class="glyphicon glyphicon-search" aria-hidden="true"></span></h3>
 
 	<div  class="panel" >
@@ -166,7 +166,7 @@
 		<div class="col-xs-12 col-md-12"><!--col1.1-->
 			<label>Nombre Común</label>
 			<input  id="nc_input" name="nc_input" class="caja input_nc " >
-			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" style="background-color: #b9c14d ; border-color: #b9c14d ;" >
+			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" style="background-color: #b0a54f ; border-color: #8e7200 ;" >
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span>
 			</button>
 		</div><!--col1.2-->
@@ -248,7 +248,7 @@
 			@foreach( $a_sub as $a )
 				<option value="{{ $a->idApendiceCITES }}" selected="selected" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
-
+			
 			@foreach( $append as $a )
 				<option value="{{ $a->idApendiceCITES }}" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
@@ -283,10 +283,11 @@
 			@foreach( $c_sub as $c )
 			<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
+			
 			@foreach( $cat as $c )
 				<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
-				<option value="0" disabled="true" >   -- Categoria MARN -- </option>
+				
 		</select>
 
 	@else
@@ -316,8 +317,6 @@
 				@foreach( $u_sub as $a )
 					<option value="{{ $a->idCategoriaUICN }}" selected="selected" >{{ $a->nombreCategoriaUICN }}</option>
 				@endforeach
-
-
 
 				@foreach( $uicn as $a )
 					<option value="{{ $a->idCategoriaUICN }}" >{{ $a->nombreCategoriaUICN }}</option>
@@ -353,10 +352,11 @@
 				@foreach( $p_sub as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" selected="selected" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
+				
 				@foreach( $proc as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
-				<option value="0" disabled="true" >  -- Procedencia Especie --</option>
+				
 			</select>
 
 		@else
@@ -403,9 +403,9 @@
     <br>
     <br>
     <center>
-    	<button type="submit" class="btn btn-success" style="background-color: #b9c14d ; border-color: #b9c14d ;" value="guardado_especie">Guardar</button>
+    	<button type="submit" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie">Guardar</button>
     </form>
-		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b9c14d ; border-color: #b9c14d ;" value="guardado_especie" >Cancelar</a>
+		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie" >Cancelar</a>
     	
     </center>
 			 
