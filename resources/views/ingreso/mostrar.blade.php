@@ -100,19 +100,11 @@
 
 
 	<nav>
-
   		<ul class="nav nav-tabs">
-
 	  	  	<li role="presentation" class="active" id="" ><a>Especie</a></li>
-
 	  		<!--<li role="presentation"  id="Avista_link" ><a>Avistamientos</a></li>
-
 			<li role="presentation"  id="Mapa_link" ><a>Mapa</a></li>-->
-
 		</ul>
-
-
-
 	</nav>
 
 	<input type="hidden" id="id_esp_avis" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
@@ -187,7 +179,7 @@
 		<div class="col-xs-12 col-md-12"><!--col1.1-->
 			<label> Nombre Común</label>
 			<input type="text" style="width:175px;height: 22px;" id="nc_input" name="nc_input" class="input_nc" >
-			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" style="background-color: #b9c14d ; border-color: #b9c14d ;" >
+			<button type="submit" class="btn btn-success btn-xs" id="g_nc" value="nombre_comun" style="background-color: #b0a54f ; border-color: #8e7200; ;" >
 				<span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span>
 			</button>
 
@@ -222,6 +214,7 @@
 				@foreach( $t_esp  as $a )
 				<option value="{{ $a->idClaseDeTipo }}" selected="selected" >{{ $a->nombreClaseDeTipo }}</option>
 				@endforeach
+				
 				@foreach( $tipo as $a )
 				<option value="{{ $a->idClaseDeTipo }}" >{{ $a->nombreClaseDeTipo }}</option>
 				@endforeach
@@ -248,6 +241,7 @@
 			@foreach( $a_esp as $a )
 				<option value="{{ $a->idApendiceCITES }}" selected="selected" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
+			
 			@foreach( $append as $a )
 				<option value="{{ $a->idApendiceCITES }}" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
@@ -277,10 +271,11 @@
 			@foreach( $c_esp as $c )
 			<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
+			
 			@foreach( $cat as $c )
 				<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
-				<option value="0" disabled="true" >   -- Categoria MARN -- </option>
+				
 		</select>
 
 	@else
@@ -312,8 +307,6 @@
 				@foreach( $u_esp as $a )
 					<option value="{{ $a->idCategoriaUICN }}" selected="selected" >{{ $a->nombreCategoriaUICN }}</option>
 				@endforeach
-
-
 
 				@foreach( $uicn as $a )
 					<option value="{{ $a->idCategoriaUICN }}" >{{ $a->nombreCategoriaUICN }}</option>
@@ -350,10 +343,11 @@
 				@foreach( $p_esp as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" selected="selected" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
+				
 				@foreach( $proc as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
-				<option value="0" disabled="true" >  -- Procedencia Especie --</option>
+				
 			</select>
 
 		@else
@@ -400,9 +394,9 @@
     <br>
     <br>
     <center>
-    	<button type="submit"  style="background-color: #b9c14d ; border-color: #b9c14d ;" class="btn btn-success" value="guardado_especie">Guardar</button>
+    	<button type="submit"  style="background-color: #b0a54f ; border-color: #8e7200 ;" class="btn btn-success" value="guardado_especie">Guardar</button>
     </form>
-		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b9c14d ; border-color: #b9c14d ;" value="guardado_especie" >Cancelar</a>    	
+		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie" >Cancelar</a>    	
     </center>
 			
 	</div>
@@ -563,6 +557,7 @@
                                 });
 	       					}else{
 	       						$("#Exito_Modal").modal('show')
+	       						$("#frm-especie").get(0).reset();
 	       					}
 
 	       				},error:function(){
@@ -570,18 +565,10 @@
 	       					sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");   
 	       					//$("#Error_Modal").modal('show')
 	       					$('#frm-Info').submit();
-
 	       				}
-	       			})
-	       			$("#frm-especie").get(0).reset();
+	       			})	       			
 	       		}
-
-
 			});
-
-
-
-
 
         /////////////////////////////////////////////////////
 
