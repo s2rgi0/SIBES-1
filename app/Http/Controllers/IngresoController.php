@@ -125,12 +125,12 @@ class IngresoController extends Controller
 
         $validator = Validator::make(Input::all(), [
 
-            'rei_mod'       => 'required',
+            //'rei_mod'       => 'required',
             'div_mod'       => 'required',
             'cla_input_mod' => 'required|unique:Clases,nombreClase',
 
         ], [
-            'rei_mod.required'       => 'seleccione un reino',
+            //'rei_mod.required'       => 'seleccione un reino',
             'div_mod.required'       => 'seleccione una división',
             'cla_input_mod.required' => 'Ingrese una clase ',
             'cla_input_mod.unique'   => 'La clase existe',
@@ -201,14 +201,14 @@ class IngresoController extends Controller
 
         $validator = Validator::make(Input::all(), [
 
-            'rei_mod'       => 'required',
-            'div_ord'       => 'required',
+            //'rei_mod'       => 'required',
+            //'div_ord'       => 'required',
             'cla_ord'       => 'required',
             'ord_input_mod' => 'required|unique:Ordens,nombreOrden',
 
         ], [
-            'rei_mod.required'       => 'Seleccione un reino',
-            'div_ord.required'       => 'Seleccione una división',
+            //'rei_mod.required'       => 'Seleccione un reino',
+            //'div_ord.required'       => 'Seleccione una división',
             'cla_ord.required'       => 'Seleccione una clase',
             'ord_input_mod.unique'   => 'El orden existe',
             'ord_input_mod.required' => 'Ingrese el orden',
@@ -252,17 +252,17 @@ class IngresoController extends Controller
 
         $validator = Validator::make($req->all(), [
 
-            'rei_mod'   => 'required',
-            'div_fam'   => 'required',
-            'cla_fam'   => 'required',
-            'ord_fam'   => 'required',
+            //'rei_mod'   => 'required',
+            //'div_fam'   => 'required',
+            //'cla_fam'   => 'required',
+            //'ord_fam'   => 'required',
             'fam_input' => 'required|unique:Familias,nombreFamilia',
 
         ], [
-            'rei_mod.required'   => 'Seleccione un reino',
-            'div_fam.required'   => 'Seleccione una división',
-            'cla_fam.required'   => 'Seleccione una clase',
-            'ord_fam.required'   => 'Seleccione una orden',
+            //'rei_mod.required'   => 'Seleccione un reino',
+            //'div_fam.required'   => 'Seleccione una división',
+            //'cla_fam.required'   => 'Seleccione una clase',
+            //'ord_fam.required'   => 'Seleccione una orden',
             'fam_input.required' => 'Ingrese una familia',
             'fam_input.unique'   => 'La familia existe',
         ]);
@@ -307,14 +307,14 @@ class IngresoController extends Controller
 
         $validator = Validator::make($req->all(), [
 
-            'ord_gen'   => 'required',
-            'fam_gen'   => 'required',
+            //'ord_gen'   => 'required',
+            //'fam_gen'   => 'required',
             'gen_input' => 'required|unique:Generos,nombreGenero',
 
         ], [
 
-            'ord_gen.required'   => 'Seleccione una orden',
-            'fam_gen.required'   => 'Seleccione una familia',
+            //'ord_gen.required'   => 'Seleccione una orden',
+            //'fam_gen.required'   => 'Seleccione una familia',
             'gen_input.required' => 'Ingrese un género',
             'gen_input.unique'   => 'El género existe',
 
@@ -358,9 +358,9 @@ class IngresoController extends Controller
 
         $validator = Validator::make($req->all(), [
 
-            'ord_esp'   => 'required',
-            'fam_esp'   => 'required',
-            'gen_esp'   => 'required',
+            //'ord_esp'   => 'required',
+            //'fam_esp'   => 'required',
+            //'gen_esp'   => 'required',
             'esp_input' => 'required|unique:Especies,nombreEspecie',
 
         ], [
@@ -411,9 +411,9 @@ class IngresoController extends Controller
 
         $validator = Validator::make($req->all(), [
 
-            'fam_sub'   => 'required',
-            'gen_sub'   => 'required',
-            'esp_sub'   => 'required',
+            //'fam_sub'   => 'required',
+            //'gen_sub'   => 'required',
+            //'esp_sub'   => 'required',
             'sub_input' => 'required|unique:Subespecies,nombreSubespecie',
 
         ], [
