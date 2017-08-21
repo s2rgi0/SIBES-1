@@ -34,47 +34,7 @@
 //
 		//$(':input','#busqueda-frm').not(':button, :submit, :hidden').val('--Seleccionar--').prop('selected',false);
 
-		@if(count($errors->fdivision->all()))
-
-			 $('#DIV_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fclase->all()))
-
-			 $('#CLA_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->forden->all()))
-
-			 $('#ORD_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->ffamilia->all()))
-
-			 $('#FAM_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fgenero->all()))
-
-			 $('#GEN_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fespecie->all()))
-
-			 $('#ESP_Modal').modal('show');
-
-		@endif
-
-		@if(count($errors->fsubespecie->all()))
-
-			 $('#SUB_Modal').modal('show');
-
-		@endif
+		
 
 //REINO
 
@@ -114,49 +74,33 @@
 				data : {'id':rein_id},
 				success:function(data){
 					console.log('success');
-
 					console.log(data);
 					console.log(data.length);
-
 					op+='<option value="0" disabled="true" selected="true">--Division--</option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					op+='<option value="'+data[i].idDivision+'">'+data[i].nombreDivision+'</option>';
-
 					}
-
 					cla+='<option value="0" disabled="true" selected="true">--Clase--</option>';
 					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
 					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
 					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
 					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
 					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-
-
-
 					div.find('.division').html(" ");
 					div.find('.division').append(op);
-
 					div.find('.clase').html(" ");
 					div.find('.clase').append(cla);
-
 					div.find('.orden').html(" ");
 					div.find('.orden').append(ord);
-
 					div.find('.familia').html(" ");
 					div.find('.familia').append(fam);
-
-
 					div.find('.genero').html(" ");
 					div.find('.genero').append(gen);
-
 					div.find('.especie').html(" ");
 					div.find('.especie').append(esp);
-
 					div.find('.subespecie').html(" ");
 					div.find('.subespecie').append(sub);
 					$.ajax({
-
 					type: 'get',
 					url:'{!!  URL::to('pop_rei_div') !!}',
 					data: {'id':rein_id},
@@ -164,12 +108,10 @@
 						console.log('success le dimos')
 						console.log(data);
 						console.log(data.length);
-
 						for(var i = 0 ; i < data.length ; i++ )
 						{
 						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
 						}
-
 						par_d.find('.reino_modal').html(" ");
 						par_d.find('.reino_modal').append(r_s);
 						par_c.find('.reinoc_modal').html(" ");
@@ -184,9 +126,6 @@
 						par_e.find('.reinoe').append(r_s);
 						par_s.find('.reinosu').html(" ");
 						par_s.find('.reinosu').append(r_s);
-
-
-
 						$.ajax({
 							type:'get',
 							url: '{!! URL::to('ingr_div') !!}',
@@ -198,7 +137,6 @@
 								{
 									r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
 								}
-
 								pam_rei.find('.reino_modal').append(r_s);
 								par_c.find('.reinoc_modal').append(r_s);
 								par_o.find('.reinoo').append(r_s);
@@ -206,30 +144,21 @@
 								par_g.find('.reinog').append(r_s);
 								par_e.find('.reinoe').append(r_s);
 								par_s.find('.reinosu').append(r_s);
-
 							},
 							error:function(){
 								console.log('no se pudo agregar los reinos')
 							}
 						})
-
-
-
 					},
 					error:function(){
 						console.log('sigue el error')
 				}
-
 				});
-
-
-
 				},
 				error:function(){
 					console.log('error');
 				}
 			});
-
 		});
 
 //DIVISION
@@ -257,38 +186,27 @@
 				data : {'id':division_id},
 				success:function(data){
 					console.log('success');
-
 					console.log(data);
 					console.log(data.length);
-
 					cla+='<option value="0" disabled="true" selected="true">--Clase--</option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					cla+='<option value="'+data[i].idClase+'">'+data[i].nombreClase+'</option>';
-
 					}
-
 					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
 					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
 					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
 					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
 					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-
 					divis.find('.clase').html(" ");
 					divis.find('.clase').append(cla);
-
 					divis.find('.orden').html(" ");
 					divis.find('.orden').append(ord);
-
 					divis.find('.familia').html(" ");
 					divis.find('.familia').append(fam);
-
 					divis.find('.genero').html(" ");
 					divis.find('.genero').append(gen);
-
 					divis.find('.especie').html(" ");
 					divis.find('.especie').append(esp);
-
 					divis.find('.subespecie').html(" ");
 					divis.find('.subespecie').append(sub);
 				},
@@ -324,36 +242,26 @@
 				data : {'id':clase_id},
 				success:function(data){
 					console.log('success');
-
 					console.log(data);
 					console.log(data.length);
-
 					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					ord+='<option value="'+data[i].idOrden+'">'+data[i].nombreOrden+'</option>';
-
 					}
-
 					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
 					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
 					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
 					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
 					clase_div.find('.orden').html(" ");
 					clase_div.find('.orden').append(ord);
-
 					clase_div.find('.familia').html(" ");
 					clase_div.find('.familia').append(fam);
-
 					clase_div.find('.genero').html(" ");
 					clase_div.find('.genero').append(gen);
-
 					clase_div.find('.especie').html(" ");
 					clase_div.find('.especie').append(esp);
-
 					clase_div.find('.subespecie').html(" ");
 					clase_div.find('.subespecie').append(sub);
-
 				},
 				error:function(){
 					console.log('error');
@@ -383,29 +291,21 @@
 				data : {'id':orden_id},
 				success:function(data){
 					console.log('success');
-
 					console.log(data);
 					console.log(data.length);
-
 					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					fam+='<option value="'+data[i].idFamilia+'">'+data[i].nombreFamilia+'</option>';
-
 					}
-
 					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
 					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
 					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
 					orden_div.find('.familia').html(" ");
 					orden_div.find('.familia').append(fam);
-
 					orden_div.find('.genero').html(" ");
 					orden_div.find('.genero').append(gen);
-
 					orden_div.find('.especie').html(" ");
 					orden_div.find('.especie').append(esp);
-
 					orden_div.find('.subespecie').html(" ");
 					orden_div.find('.subespecie').append(sub);
 				},
@@ -436,28 +336,20 @@
 				data : {'id':fam_id},
 				success:function(data){
 					console.log('success');
-
 					console.log(data);
 					console.log(data.length);
-
 					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					gen+='<option value="'+data[i].idGenero+'">'+data[i].nombreGenero+'</option>';
-
 					}
-
 					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
 					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
 					fam_div.find('.genero').html(" ");
 					fam_div.find('.genero').append(gen);
-
 					fam_div.find('.especie').html(" ");
 					fam_div.find('.especie').append(esp);
-
 					fam_div.find('.subespecie').html(" ");
 					fam_div.find('.subespecie').append(sub);
-
 				},
 				error:function(){
 					console.log('error');
@@ -485,32 +377,23 @@
 				data : {'id':gen_id},
 				success:function(data){
 					console.log('success');
-
 					console.log(data);
 					console.log(data.length);
-
 					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					esp+='<option value="'+data[i].idEspecie+'">'+data[i].nombreEspecie+'</option>';
-
 					}
-
 					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
 					gen_div.find('.especie').html(" ");
 					gen_div.find('.especie').append(esp);
-
 					gen_div.find('.subespecie').html(" ");
 					gen_div.find('.subespecie').append(sub);
-
 				},
 				error:function(){
 					console.log('error');
 					console.log(gen_id);
-
 				}
 			});
-
 		});
 
 //ESPECIE
@@ -555,22 +438,16 @@
 		//boton para agregar division
 
 		$('#agr_div').click(function(){
-
 			var pa_rei = $(this).parent().parent().parent();
 			var pam_rei = $('#rm_id').parent().parent();
 			var r_s = " ";
-
 			console.log(pa_rei);
 			console.log(pam_rei);
-
 			var reino = $('#reino_id').val();
 			console.log(reino);
-
 			if(reino != null){
 				//alert('ya no estamos nulos');
-
 				$.ajax({
-
 					type: 'get',
 					url:'{!!  URL::to('pop_rei_div') !!}',
 					data: {'id':reino},
@@ -583,10 +460,8 @@
 						{
 						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
 						}
-
 						pam_rei.find('.reino_modal').html(" ");
 						pam_rei.find('.reino_modal').append(r_s);
-
 						$.ajax({
 							type:'get',
 							url: '{!! URL::to('ingr_div') !!}',
@@ -604,22 +479,14 @@
 								console.log('no se pudo agregar los reinos')
 							}
 						})
-
 						$("#DIV_Modal").modal('show');
-
 					},
 					error:function(){
 						console.log('sigue el error')
 				}
-
 				});
-
-
 			}else{
-
-
 				$.ajax({
-
 				type : 'get',
 				url : '{!! URL::to('ingr_div') !!}',
 				data : {},
@@ -627,7 +494,6 @@
 					console.log('lo hicimos bien')
 					console.log(data)
 					console.log(data.length)
-
 					r_s += '<option value="0" disabled="true" selected="true"> -- Reino -- </option>';
 					for(var i = 0 ; i < data.length ; i++ )
 					{
@@ -635,22 +501,15 @@
 					}
 					pam_rei.find('.reino_modal').html(" ");
 					pam_rei.find('.reino_modal').append(r_s);
-
-
 					$("#DIV_Modal").modal('show');
 					//$('#myModal').modal('hide')
-
 				},
 				error:function(){
 					console.log('sigue el error')
 				}
 
 				});
-
-
 			} // fin de else
-
-
 		});
 
 
@@ -659,7 +518,6 @@
 
 
 		$('#g_div').click(function(e){
-
 			e.preventDefault();
 			var divis = $('.division').parent().parent().parent();
 			var frm_bus = $('#busqueda-frm');
@@ -667,85 +525,35 @@
 			var id_rei = $('#rm_id').val();
 			var p_r = $('.reino_modal').parent().parent().parent();
 			console.log(id_rei)
-
 			var input = $('#rei_input_mod').val();
 			console.log(input);
 			var d_s = " ";
 			var r_d = " ";
-			var htr	= " ";
-			var cla = "";
-			var ord = "";
-			var fam = "";
-			var gen = "";
-			var esp = "";
-			var sub = "";
-			//var data = $(this).serialize();
-
+			var r_s = " ";
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_div_modal') !!}',
 				datatype: 'json',
 				data : $('#div_modal').serialize(),
-				/*{'idReino':id_rei,
-						'nombreDivision':input,
-						 "_token": "{{ csrf_token() }}",
-
-				},*/
 				success:function(data){
 					console.log('success')
-					//$("#DIV_Modal").modal('hide');
 					console.log(data.errors)
-
-
 					if(data.success == false){
 						$('#_rei_input_mod,#_rei_mod').text('');
 						$('#msg-error').fadeIn();
-
-
 						$.each(data.errors , function(index,value){
 							$('#_'+index).text(value);
 						});
-
 					}else{
 
-
-
-
-					cla+='<option value="0" disabled="true" selected="true">--Clase--</option>';
-					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
-					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
-					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
-					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
-					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-					divis.find('.clase').html(" ");
-					divis.find('.clase').append(cla);
-
-					divis.find('.orden').html(" ");
-					divis.find('.orden').append(ord);
-
-					divis.find('.familia').html(" ");
-					divis.find('.familia').append(fam);
-
-
-					divis.find('.genero').html(" ");
-					divis.find('.genero').append(gen);
-
-					divis.find('.especie').html(" ");
-					divis.find('.especie').append(esp);
-
-					divis.find('.subespecie').html(" ");
-					divis.find('.subespecie').append(sub);
-
-					
+				swal("Division ingresada", "", "success");
+						
 						$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('nueva_div') !!}',
 						data : {'id': id_rei},
-
 						success:function(data){
-							console.log('si funciono el get')
+							console.log('si funciono el get nueva division')
 							console.log(data)
 							console.log(data.length)
 							console.log(data)
@@ -755,188 +563,212 @@
 							}
 							divis.find('.division').html(" ");
 							divis.find('.division').append(d_s);
-							$("#DIV_Modal").modal('hide');
 							r_d = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							p_r.find('.reino_modal').html(" ");
 							p_r.find('.reino_modal').append(r_d);
-							p_r.find('#rei_input_mod').val(" ");
+							p_r.find('#rei_input_mod').val(" ");	
+							$("#DIV_Modal").modal('hide');
 							$('#DIV_Modal').trigger("reset");
-					
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-					});
-					$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
-						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
-							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
-							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-					});
-						$('#msg-error').fadeOut();
-						swal("Division ingresada", "", "success")
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaDivision') !!}',
+				data : {'id':id_rei},
+				success:function(data){
+					console.log('success buscamos la division');
+					console.log(data);
+					console.log(data.length);
+					d_s = "";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_s+='<option value="'+data[i].idDivision+'">'+data[i].nombreDivision+'</option>';
 					}
+					//divis.find('.division').html(" ");
+					divis.find('.division').append(d_s);
+				},
+				error:function(){
+							console.log('NO FUNCIONO EL GET')
+				}
+			});
+						},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+						});
+				//////////////////////AQUI VA REINO///////////////////////
+				$.ajax({
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
+						$.ajax({
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
+						success:function(data){
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
+							{
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').append(r_s);
+						},
+						error:function(){
+							console.log('no se pudo agregar los reinos')
+						}
+					})			
+					},
+					error:function(){
+						console.log('sigue el error')
+				}
+
+				});
+			$('#msg-error').fadeOut();
+			}
 			},
-				error:function(data){
-					console.log('no functiono el post')
-					console.log(data)
+			error:function(data){
+				console.log('no functiono el post')
+				console.log(data)
 			}
 			});
-
 			if(input != null ){
-
 				//alert('')
 			}else{
 				$("#DIV_Modal").modal('hide');
 			}
-
-
 		});
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//boton para GUARDAR CLASE
 
-
 		$('#g_cla').click(function(e){
 
 			e.preventDefault();
 			var frm_bus = $('#busqueda-frm');
-
 			var divis = $('.division').parent().parent().parent();
 			var input = $('#cla_input_mod').val();
 			var id_rei = $('#rcm_id').val();
 			var id_div = $('#dm_id').val();
-
 			var par_c = $('.reinoc_modal').parent().parent().parent();
-
 			console.log(id_rei);
 			console.log(id_div);
 			console.log(id_div);
-			var htr = "";
 			var d_c = "";
 			var c_d = "";
 			var r_c = "";
 			var di_c = "";
-			var ord = "";
-			var fam = "";
-			var gen = "";
-			var esp = "";
-			var sub = "";
-
-
-
+			var r_s = "";
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_cla_modal') !!}',
 				datatype: 'json',
 				data : $('#cla_modal').serialize(),
-				/*
-				data : {'idDivision':id_div,
-						'nombreClase':input,
-						 "_token": "{{ csrf_token() }}",
-				*/
 				success:function(data){
 					console.log('success')
 					//$("#DIV_Modal").modal('hide');
 					console.log(data)
-
 					if(data.success == false){
-
-
 						$('#_cla_input_mod,#_div_mod').text('');
-
 						$('#msg-error-clase').fadeIn();
-
 						$.each(data.errors , function(index,value){
 							$('#_'+index).text(value);
 						});
-
-
 					}else{
 
-					ord+='<option value="0" disabled="true" selected="true">--Orden--</option>';
-					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
-					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
-					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
-					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-					divis.find('.orden').html(" ");
-					divis.find('.orden').append(ord);
-
-					divis.find('.familia').html(" ");
-					divis.find('.familia').append(fam);
+				swal("Clase ingresada", "", "success");
 
 
-					divis.find('.genero').html(" ");
-					divis.find('.genero').append(gen);
-
-					divis.find('.especie').html(" ");
-					divis.find('.especie').append(esp);
-
-					divis.find('.subespecie').html(" ");
-					divis.find('.subespecie').append(sub);
+					//////////////////////AQUI VA REINO///////////////////////
 
 
+				$.ajax({
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
 						$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
 						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
 							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
 							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
+							divis.find('.reino').append(r_s);
 						},
 						error:function(){
-							console.log('NO FUNCIONO EL GET')
+							console.log('no se pudo agregar los reinos')
 						}
-						});
+				})				
+
+					},
+					error:function(){
+						console.log('sigue el error')
+				}
+				});
+
+///////////////////////////////////////////////////////////////
 
 
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('nueva_cla') !!}',
 						data : {'id': id_div},
-
-
 						success:function(data){
 							console.log('si funciono el get')
 							console.log(data)
 							//console.log(data.length)
 							console.log(id_div)
-
 							for(var i = 0 ; i < 1 ; i++ )
 							{
 							d_c+='<option value="'+data[i].idClase+'">'+data[i].nombreClase+'</option>';
 							}
-
 							divis.find('.clase').html(" ");
 							divis.find('.clase').append(d_c);
-							
+							frm_bus.find('.reino').val(id_rei);
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaClase') !!}',
+				data : {'id':id_div},
+				success:function(data){
+					console.log('success');
+
+					console.log(data);
+					console.log(data.length);
+					d_c = "";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idClase+'">'+data[i].nombreClase+'</option>';
+					}
+					divis.find('.clase').append(d_c);
+				},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
+			});
 						},
 						error:function(){
 							console.log('NO FUNCIONO EL GET')
 						}
-
 					});
 
 
@@ -981,11 +813,10 @@
 
 					$("#CLA_Modal").modal('hide');
 					$('#msg-error-clase').fadeOut();
-					swal("Clase ingresada!", "", "success")
 
 				}
 
-					//BORRAMOS LOS CAMPOS DEL MODAL
+
 					r_c = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 					di_c = '<option value="0" disabled="true" selected="true">--Division--</option>';
 
@@ -997,16 +828,10 @@
 
 					par_c.find('#cla_input_mod').val(" ");
 
-
-
-
-
 			},
 				error:function(){
 					console.log('sigue el error')
 				}
-
-
 			});
 
 			if(input != null){
@@ -1019,9 +844,10 @@
 		});
 
 
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//boton para GUARDAR ORDEN
-
 
 		$('#g_ord').click(function(e){
 
@@ -1038,28 +864,15 @@
 			var d_c = "";
 			var c_d = "";
 			var c_o = "";
-			var htr = "";
-
+			var r_s = "";
 			var r_ord = "";
 			var d_ord = "";
 			var c_ord = "";
-			var fam = "";
-			var gen = "";
-			var esp = "";
-			var sub = "";
-
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_ord_modal') !!}',
 				datatype: 'json',
 				data : $('#ord_modal').serialize(),
-
-				/*
-				data : {'idClase':id_cla,
-						'nombreOrden':input,
-						 "_token": "{{ csrf_token() }}",
-
-				},*/
 				success:function(data){
 					console.log('success')
 					//$("#DIV_Modal").modal('hide');
@@ -1077,45 +890,10 @@
 
 					}else{
 
-					fam+='<option value="0" disabled="true" selected="true">--Familia--</option>';
-					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
-					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
-					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
+					swal("Orden ingresado", "", "success");
 
-					divis.find('.familia').html(" ");
-					divis.find('.familia').append(fam);
-
-
-					divis.find('.genero').html(" ");
-					divis.find('.genero').append(gen);
-
-					divis.find('.especie').html(" ");
-					divis.find('.especie').append(esp);
-
-					divis.find('.subespecie').html(" ");
-					divis.find('.subespecie').append(sub);
-
-
-
-						$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
-						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
-							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
-							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-					});
+					///////////////////////SE BORRAN LOS CAMPOS/////////////////
+					///////////////////////DEL MODAL///////////////////////////
 
 					$.ajax({
 
@@ -1133,9 +911,7 @@
 							}
 							divis.find('.orden').html(" ");
 							divis.find('.orden').append(d_c);
-							
-
-							//SE BORRAN LOS CAMPOS
+							frm_bus.find('.reino').val(id_rei);
 							r_ord = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							d_ord = '<option value="0" disabled="true" selected="true">--Division--</option>';
 							c_ord = '<option value="0" disabled="true" selected="true">--Clase--</option>';
@@ -1147,12 +923,29 @@
 							par_o.find('.claseo').append(c_ord);
 							par_o.find('#ord_input_mod').val("");
 							$("#ORD_Modal").modal('hide');
-
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-					});
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaOrden') !!}',
+				data : {'id':id_cla},
+				success:function(data){
+					console.log('success');
+					console.log(data);
+					console.log(data.length);
+					d_c="";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idOrden+'">'+data[i].nombreOrden+'</option>';
+					}
+					divis.find('.orden').append(d_c);
+				},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
+			});
+			},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
+			});
 
 					$.ajax({
 
@@ -1167,7 +960,6 @@
 							}
 							divis.find('.division').html(" ");
 							divis.find('.division').append(c_d);
-
 							$.ajax({
 								type : 'get',
 								url : '{!! URL::to('Busca_div_clase') !!}',
@@ -1207,8 +999,6 @@
 							}
 							divis.find('.clase').html(" ");
 							divis.find('.clase').append(c_o);
-
-
 							$.ajax({
 								type : 'get',
 								url : '{!! URL::to('Busca_cla_esp') !!}',
@@ -1228,22 +1018,59 @@
 									console.log('sigue el error')
 									}
 							})
-
-
 						},
 						error:function(){
 						console.log('aqui hay un error')
 						}
 					});
 
-					$('#msg-error-orden').fadeOut();
-					swal("Orden ingresado!", "", "success")
+					//////////////////////AQUI VA REINO///////////////////////
 
 
+				$.ajax({
+
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
+						$.ajax({
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
+						success:function(data){
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
+							{
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').append(r_s);
+						},
+						error:function(){
+							console.log('no se pudo agregar los reinos')
+						}
+				})						
+
+					},
+					error:function(){
+						console.log('sigue el error')
 				}
 
-
-
+				});
+			
+					$('#msg-error-orden').fadeOut();
+				}
 			},
 				error:function(){
 					console.log('sigue el error')
@@ -1262,10 +1089,10 @@
 
 		});
 
+		
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//boton para GUARDAR FAMILIA
-
 
 
 		$('#g_fam').click(function(e){
@@ -1285,99 +1112,44 @@
 			var c_d = "";
 			var c_o = "";
 			var f_o = "";
-			var htr = "";
-
+			var r_s = "";
 			var r_fam = "";
 			var d_fam = "";
 			var c_fam = "";
 			var o_fam = "";
-			var gen = "";
-			var esp = "";
-			var sub = "";
-
-
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_fam_modal') !!}',
 				datatype: 'json',
 				data : $('#fam_modal').serialize(),
-				/*data : {'idOrden':id_ord,
-						'nombreFamilia':input,
-						 "_token": "{{ csrf_token() }}",
-
-				},*/
 				success:function(data){
 					console.log('success')
 					//$("#DIV_Modal").modal('hide');
 					console.log(data)
-
 					if(data.success == false){
-
 						$('#_fam_input,#_ord_fam').text('');
-
 						$('#msg-error-familia').fadeIn();
-
 						$.each(data.errors , function(index,value){
 							$('#_'+index).text(value);
 						});
 
-
 					}else{
-
-					gen+='<option value="0" disabled="true" selected="true">--Género--</option>';
-					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
-					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-					divis.find('.genero').html(" ");
-					divis.find('.genero').append(gen);
-
-					divis.find('.especie').html(" ");
-					divis.find('.especie').append(esp);
-
-					divis.find('.subespecie').html(" ");
-					divis.find('.subespecie').append(sub);
-
-						$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
+			swal("Familia ingresada", "", "success");
+			$.ajax({
+			type : 'get',
+			url  : '{!! URL::to('nueva_fam') !!}',
+			data : {'id': id_ord},
 						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
-							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
-							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-					});
-
-						$.ajax({
-
-						type : 'get',
-						url  : '{!! URL::to('nueva_fam') !!}',
-						data : {'id': id_ord},
-
-						success:function(data){
-							console.log('si funciono el get')
-							console.log(data)
-							console.log(data.length)
-
-
+						console.log('si funciono el get')
+						console.log(data)
+						console.log(data.length)
 							for(var i = 0 ; i < 1 ; i++ )
 							{
 							d_c+='<option value="'+data[i].idFamilia+'">'+data[i].nombreFamilia+'</option>';
 							}
-
 							divis.find('.familia').html(" ");
 							divis.find('.familia').append(d_c);
 							frm_bus.find('.reino').val(id_rei);
-
 							r_fam = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							d_fam = '<option value="0" disabled="true" selected="true">--Division--</option>';
 							c_fam = '<option value="0" disabled="true" selected="true">--Clase--</option>';
@@ -1391,18 +1163,32 @@
 							par_o.find('.ordenf').html("");
 							par_o.find('.ordenf').append(o_fam);
 							par_o.find('#fam_input').val("");
-
-
 							$("#FAM_Modal").modal('hide');
 							$('#FAM_Modal').trigger("reset");
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaFamilia') !!}',
+				data : {'id':id_ord},
+				success:function(data){
+					console.log('success');
+					console.log(data);
+					console.log(data.length);
+					d_c="";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idFamilia+'">'+data[i].nombreFamilia+'</option>';
+					}
+					divis.find('.familia').append(d_c);
+				},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
 
-
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-
-					});
+			});
+				},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
+			});
 					$.ajax({
 
 						type : 'get',
@@ -1519,28 +1305,56 @@
 
 					});
 
+					//////////////////////AQUI VA REINO///////////////////////
+
+
+				$.ajax({
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
+						$.ajax({
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
+						success:function(data){
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
+							{
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').append(r_s);
+						},
+						error:function(){
+							console.log('no se pudo agregar los reinos')
+						}
+				})			
+					},
+					error:function(){
+						console.log('sigue el error')
+				}
+
+				});
+
 					$('#msg-error-familia').fadeOut();
-					swal("Familia ingresada!", "", "success")
-
-
-
-
-
 
 					}
-
-
-
-
-
-
 			},
 				error:function(){
 					console.log('sigue el error')
 				}
 
 			});
-
 
 			if(input != null){
 
@@ -1549,26 +1363,20 @@
 				$("#FAM_Modal").modal('hide');
 			}
 
-			//$("#FAM_Modal").modal('hide');
-
 		});
 
+		
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//boton para GUARDAR GENERO
 
 
-
-
 		$('#g_gen').click(function(e){
-
 			var frm_bus = $('#busqueda-frm');
 			var par_o = $('.reinog').parent().parent().parent();
-
 			e.preventDefault();
 			var divis = $('.division').parent().parent().parent();
 			var input = $('#gen_input_mod').val();
-
 			var id_rei = $('#rgm_id').val();
 			var id_div = $('#dg_id').val();
 			var id_cla = $('.claseg').val();
@@ -1579,94 +1387,44 @@
 			var c_o = "";
 			var f_o = "";
 			var g_f = "";
-			var htr = "";
+			var r_s = "";
 			var r_gen = "";
 			var d_gen = "";
 			var c_gen = "";
 			var o_gen = "";
 			var f_gen = "";
-			var esp = "";
-			var sub = "";
-
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_gen_modal') !!}',
 				datatype: 'json',
 				data : $('#gen_modal').serialize(),
-				/*
-				data : {'idFamilia':if_fam,
-						'nombreGenero':input,
-						 "_token": "{{ csrf_token() }}",
-
-				},*/
 				success:function(data){
 					console.log('success')
 					//$("#DIV_Modal").modal('hide');
 					console.log(data)
-
 					if(data.success == false){
-
 						$('#_gen_input,#_fam_gen').text('');
-
 						$('#msg-error-genero').fadeIn();
-
 						$.each(data.errors , function(index,value){
 							$('#_'+index).text(value);
 						});
-
-
 					}else{
-
-					esp+='<option value="0" disabled="true" selected="true">--Especie--</option>';
-					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-					divis.find('.especie').html(" ");
-					divis.find('.especie').append(esp);
-
-					divis.find('.subespecie').html(" ");
-					divis.find('.subespecie').append(sub);
-
+						swal("Genero ingresado", "", "success");
 						$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
-						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
-							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
-							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-						});
-
-						$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('nueva_gen') !!}',
 						data : {'id': if_fam},
-
 						success:function(data){
 							console.log('si funciono el get')
 							console.log(data)
 							console.log(data.length)
-
-
 							for(var i = 0 ; i < 1 ; i++ )
 							{
 							d_c+='<option value="'+data[i].idGenero+'">'+data[i].nombreGenero+'</option>';
 							}
-
 							divis.find('.genero').html(" ");
 							divis.find('.genero').append(d_c);
 							frm_bus.find('.reino').val(id_rei);
-
 							r_gen = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							d_gen = '<option value="0" disabled="true" selected="true">--Division--</option>';
 							c_gen = '<option value="0" disabled="true" selected="true">--Clase--</option>';
@@ -1683,19 +1441,31 @@
 							par_o.find('.familiag').html("");
 							par_o.find('.familiag').append(f_gen);
 							par_o.find('#gen_input_mod').val("");
-
-
-
 							$("#GEN_Modal").modal('hide');
 							$('#GEN_Modal').trigger("reset");
-
-
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-
-					});
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaGenero') !!}',
+				data : {'id':if_fam},
+				success:function(data){
+					console.log('success');
+					console.log(data);
+					console.log(data.length);
+					d_c="";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idGenero+'">'+data[i].nombreGenero+'</option>';
+				}
+				divis.find('.genero').append(d_c);
+			},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
+			});
+				},
+				error:function(){
+					console.log('NO FUNCIONO EL GET')
+				}
+			});
 
 					$.ajax({
 
@@ -1857,14 +1627,48 @@
 
 					});
 
+						//////////////////////AQUI VA REINO///////////////////////
+
+
+				$.ajax({
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
+						$.ajax({
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
+						success:function(data){
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
+							{
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').append(r_s);
+						},
+						error:function(){
+							console.log('no se pudo agregar los reinos')
+						}
+				})			
+					},
+					error:function(){
+						console.log('sigue el error')
+				}
+
+				});
 					$('#msg-error-genero').fadeOut();
-					swal("Genero ingresado!", "", "success")
-
-
-
 					}
-
-
 			},
 				error:function(){
 					console.log('sigue el error')
@@ -1882,20 +1686,17 @@
 		});
 
 
+		
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//boton para GUARDAR ESPECIE
 
-
-
 		$('#g_esp').click(function(e){
-
 			var frm_bus = $('#busqueda-frm');
-
 			e.preventDefault();
 			var divis = $('.division').parent().parent().parent();
 			var par_o = $('.reinoe').parent().parent().parent();
 			var input = $('#esp_input').val();
-
 			var id_rei = $('#rem_id').val();
 			var id_div = $('.divisione').val();
 			var id_cla = $('.clasee').val();
@@ -1908,93 +1709,45 @@
 			var f_o = "";
 			var g_f = "";
 			var g_e = "";
-			var htr = "";
-
+			var r_s = "";
 			var r_esp = "";
 			var d_esp = "";
 			var c_esp = "";
 			var o_esp = "";
 			var f_esp = "";
 			var g_esp = "";
-			var sub = "";
-
-
-
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_esp_modal') !!}',
 				datatype: 'json',
 				data : $('#esp_modal').serialize(),
-				/*
-				data : {'idGenero':id_gen,
-						'nombreEspecie':input,
-						 "_token": "{{ csrf_token() }}",
-
-				},*/
 				success:function(data){
 					console.log('success')
 					//$("#DIV_Modal").modal('hide');
 					console.log(data)
-
 					if(data.success == false){
-
 						$('#_esp_input,#_gen_esp').text('');
-
 						$('#msg-error-especie').fadeIn();
-
 						$.each(data.errors , function(index,value){
-							$('#_'+index).text(value);
+						$('#_'+index).text(value);
 						});
-
-
 					}else{
-
-					sub+='<option value="0" disabled="true" selected="true">--Subespecie--</option>';
-
-					divis.find('.subespecie').html(" ");
-					divis.find('.subespecie').append(sub);
-
+						swal("Especie ingresada", "", "success");
 						$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
-						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
-							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
-							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-						});
-
-						$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('nueva_esp') !!}',
 						data : {'id': id_gen},
-
 						success:function(data){
 							console.log('si funciono el get')
 							console.log(data)
 							console.log(data.length)
-
-
 							for(var i = 0 ; i < 1 ; i++ )
 							{
 							d_c+='<option value="'+data[i].idEspecie+'">'+data[i].nombreEspecie+'</option>';
 							}
-
 							divis.find('.especie').html(" ");
 							divis.find('.especie').append(d_c);
 							frm_bus.find('.reino').val(id_rei);
-
 							r_esp = '<option value="0" disabled="true" selected="true">--Reino--</option>';
 							d_esp = '<option value="0" disabled="true" selected="true">--Division--</option>';
 							c_esp = '<option value="0" disabled="true" selected="true">--Clase--</option>';
@@ -2013,21 +1766,32 @@
 							par_o.find('.familiae').append(f_esp);
 							par_o.find('.generoe').html("");
 							par_o.find('.generoe').append(g_esp);
-
 							par_o.find('#esp_input').val("");
-
 							$("#ESP_Modal").modal('hide');
-
-
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaEspecie') !!}',
+				data : {'id':id_gen},
+				success:function(data){
+					console.log('success');
+					console.log(data);
+					console.log(data.length);
+					d_c="";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idEspecie+'">'+data[i].nombreEspecie+'</option>';
+					}
+					divis.find('.especie').append(d_c);
+					},
+						error:function(){
+							console.log('NO FUNCIONO EL GET')
+						}
+					});
 						},
 						error:function(){
 							console.log('NO FUNCIONO EL GET')
 						}
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_div_esp') !!}',
 						data : {'id':id_div},
@@ -2064,12 +1828,8 @@
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_cla_esp') !!}',
 						data : {'id':id_cla},
@@ -2104,12 +1864,9 @@
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
 
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_ord_esp') !!}',
 						data : {'id':id_ord},
@@ -2140,13 +1897,10 @@
 									console.log('sigue el error')
 									}
 							})
-
 						},
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
 
 					$.ajax({
@@ -2186,12 +1940,8 @@
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_gen_esp') !!}',
 						data : {'id':id_gen},
@@ -2223,62 +1973,76 @@
 									console.log('sigue el error')
 									}
 							})
-
-
 						},
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
+						//////////////////////AQUI VA REINO///////////////////////
 
 
-					$('#msg-error-especie').fadeOut();
-					swal("Especie ingresada!", "", "success")
-
-
-					}
-
-
-
-
-
-			},
-				error:function(){
-					console.log('sigue el error')
+				$.ajax({
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
+						$.ajax({
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
+						success:function(data){
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
+							{
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').append(r_s);
+						},
+						error:function(){
+							console.log('no se pudo agregar los reinos')
+						}
+				})			
+					},
+					error:function(){
+						console.log('sigue el error')
 				}
 
+				});
+				$('#msg-error-especie').fadeOut();
+				}
+			},
+			error:function(){
+				console.log('sigue el error')
+			}
 			});
-
-
-
-
 			if(input != null){
-
 			}else{
-
 				$("#ESP_Modal").modal('hide');
 			}
-
 		});
 
+		
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//boton para GUARDAR SUBESPECIE
 
 
-
 		$('#g_sub').click(function(e){
-
 			var frm_bus = $('#busqueda-frm');
-
 			e.preventDefault();
 			var divis = $('.division').parent().parent().parent();
 			var par_o = $('.reinosu').parent().parent().parent();
 			var input = $('#sub_input').val();
-
-
 			var id_rei = $('#rem_su').val();
 			var id_div = $('#d_su').val();
 			var id_cla = $('#c_su').val();
@@ -2294,7 +2058,7 @@
 			var g_f = "";
 			var g_e = "";
 			var g_s = "";
-			var htr = "";
+			var r_s = "";
 			var r_sub = "";
 			var d_sub = "";
 			var c_sub = "";
@@ -2302,7 +2066,6 @@
 			var f_sub = "";
 			var g_sub = "";
 			var e_sub = "";
-
 			$.ajax({
 				type : 'post',
 				url  : '{!! URL::to('ingr_sub_modal') !!}',
@@ -2320,52 +2083,21 @@
 
 
 					if(data.success == false){
-
 						$('#_sub_input,#_esp_sub').text('');
-
 						$('#msg-error-subespecie').fadeIn();
-
 						$.each(data.errors , function(index,value){
-							$('#_'+index).text(value);
+						$('#_'+index).text(value);
 						});
-
-
 					}else{
-
+						swal("Subespecie ingresada", "", "success");
 						$.ajax({
-						type: 'get',
-						url:'{!!  URL::to('pop_rei_div') !!}',
-						data: {'id':id_rei},
-						success:function(data){
-							console.log('success le dimos')
-							console.log(data);
-							console.log(data.length);
-							for(var i = 0 ; i < 1 ; i++ )
-							{
-							htr+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
-							}
-							divis.find('.reino').html(" ");
-							divis.find('.reino').append(htr);
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-					});
-
-
-
-
-						$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('nueva_sub') !!}',
 						data : {'id': id_esp},
-
 						success:function(data){
 							console.log('si funciono el get')
 							console.log(data)
 							console.log(data.length)
-
 
 							for(var i = 0 ; i < 1 ; i++ )
 							{
@@ -2397,25 +2129,33 @@
 							par_o.find('.generosu').append(g_sub);
 							par_o.find('.especiesu').html("");
 							par_o.find('.especiesu').append(e_sub);
-
 							par_o.find('#sub_input').val("");
-
-
 							$("#SUB_Modal").modal('hide');
 							$('#SUB_Modal').trigger("reset");
-
-
-
-
-						},
-						error:function(){
-							console.log('NO FUNCIONO EL GET')
-						}
-
-					});
-
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('buscaSubespecie') !!}',
+				data : {'id':id_esp},
+				success:function(data){
+					console.log('success');
+					console.log(data);
+					console.log(data.length);
+					d_c="";
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idSubespecie+'">'+data[i].nombreSubespecie+'</option>';
+					}
+					divis.find('.subespecie').append(d_c);
+					},
+					error:function(){
+						console.log('NO FUNCIONO EL GET')
+					}
+				});
+				},
+					error:function(){
+						console.log('NO FUNCIONO EL GET')
+					}
+				});
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_div_sub') !!}',
 						data : {'id':id_div},
@@ -2441,24 +2181,17 @@
 										c_d+='<option value="'+data[i].idDivision+'">'+data[i].nombreDivision+'</option>';
 									}
 									divis.find('.division').append(c_d);
-
 									},
 									error:function(){
 									console.log('sigue el error')
 									}
 							})
-
-
 						},
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_cla_sub') !!}',
 						data : {'id':id_cla},
@@ -2494,12 +2227,8 @@
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_ord_sub') !!}',
 						data : {'id':id_ord},
@@ -2530,18 +2259,12 @@
 									console.log('sigue el error')
 									}
 							})
-
-
 						},
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_fam_sub') !!}',
 						data : {'id':id_fam},
@@ -2573,18 +2296,12 @@
 									console.log('sigue el error')
 									}
 							})
-
-
 						},
 						error:function(){
 						console.log('aqui hay un error')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_gen_sub') !!}',
 						data : {'id':id_gen},
@@ -2621,12 +2338,8 @@
 						error:function(){
 						console.log('aqui hay un error con genero sub ')
 						}
-
-
 					});
-
 					$.ajax({
-
 						type : 'get',
 						url  : '{!! URL::to('get_esp_sub') !!}',
 						data : {'id':id_esp},
@@ -2658,18 +2371,52 @@
 									console.log('sigue el error')
 									}
 							})
-
-
 						},
 						error:function(){
 						console.log('aqui hay un error con especie sub')
 						}
-
-
 					});
+						//////////////////////AQUI VA REINO///////////////////////
 
+
+				$.ajax({
+					type: 'get',
+					url:'{!!  URL::to('pop_rei_div') !!}',
+					data: {'id':id_rei},
+					success:function(data){
+						console.log('success le dimos')
+						console.log(data);
+						console.log(data.length);
+						for(var i = 0 ; i < data.length ; i++ )
+						{
+						r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+						}
+						divis.find('.reino').html(" ");
+						divis.find('.reino').append(r_s);
+						$.ajax({
+						type:'get',
+						url: '{!! URL::to('ingr_div') !!}',
+						data:{},
+						success:function(data){
+							console.log('ah agregar los reinos')
+							r_s = "";
+							for(var i = 0 ; i < data.length ; i++ )
+							{
+								r_s+='<option value="'+data[i].idReino+'">'+data[i].nombreReino+'</option>';
+							}
+							divis.find('.reino').append(r_s);
+						},
+						error:function(){
+							console.log('no se pudo agregar los reinos')
+						}
+				})			
+					},
+					error:function(){
+						console.log('sigue el error')
+				}
+
+				});
 					$('#msg-error-subespecie').fadeOut();
-					swal("Subespecie ingresada!", "", "success")
 
 					}
 
@@ -2690,6 +2437,41 @@
 			}
 
 		});
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
+		//combo dinamico para division clase
+
+
+		$(document).on('change','.reinoc_modal',function(){
+			//alert('vamos con todo ');
+			var pam_reic = $('#rcm_id').parent().parent();
+			var par_div = $('.divisionc').parent().parent();
+			var rein_id = $('#rcm_id').val();
+			var d_c = " ";
+			console.log(rein_id);
+			$.ajax({
+				type : 'get',
+				url : '{!! URL::to('Busca_div_clase') !!}',
+				data : {'id':rein_id},
+				success:function(data){
+					console.log('success');
+					d_c+='<option value="0" disabled="true" selected="true"> -- Division --  </option>';
+					for(var i = 0 ; i < data.length ; i++ ){
+					d_c+='<option value="'+data[i].idDivision+'">'+data[i].nombreDivision+'</option>';
+					}
+					par_div.find('.divisionc').html(" ");
+					par_div.find('.divisionc').append(d_c);
+				},
+				error:function(){
+					console.log('error');
+				}
+			});
+
+		});
+
+		
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -5479,20 +5261,14 @@
 					gen+='<option value="0" disabled="true" selected="true"> -- Especie -- </option>';
 					for(var i = 0 ; i < data.length ; i++ ){
 					gen+='<option value="'+data[i].idEspecie+'">'+data[i].nombreEspecie+'</option>';
-
 					}
-
 					fam_div.find('.especiesu').html(" ");
 					fam_div.find('.especiesu').append(gen);
-
-
 				},
 				error:function(){
 					console.log('error');
 				}
 			});
-
-
 		});
 
 		////////////////////////////////////////////////////////////////////////////
@@ -5508,16 +5284,11 @@
 		//alert('ah buscar algo ');
 		var par = $('.estadoMarn').parent().parent().parent().parent();
 		var form = this;
-
 		console.log(par);
-
 		var esp = $('.especie').val();
 		var sub = $('.subespecie').val();
-
 		if(sub != null){
-
 			$.ajax({
-
 				type:'get',
 				url :'{!! URL::to('estadoMarn_sub') !!}',
 				data:{'id':sub},
@@ -5529,17 +5300,12 @@
 					frm.find('.estadoMarn').val(data[0].estadoMarn);
 					estado = $('.estadoMarn').val();
 					if(estado == 1){
-					
-
 					var frm = $('#busqueda3-frm')
 					frm.find('#subespecie_id2').val(sub);
-					frm.find('#especie_id2').val(esp);
-					
+					frm.find('#especie_id2').val(esp);					
 					//$('#especie_id2').val(esp);
 					$('#MSG_continuar_sub').modal('show');
 					//form.submit();
-
-
 					}else{
 					//alert('no esta subespecie');
 						var n_s = $('#N_SUB_modal');
@@ -5547,21 +5313,16 @@
 						//$("#busqueda-frm").get(0).reset();
 						$("#N_SUB_Modal").modal('show');
 					}
-
 				},
 				error:function(){
 					console.log('error no se pudo')
 					//console.log(data)
 				}
-
 			});
-
 
 		}else if(esp !=null ){
 
-
 			$.ajax({
-
 			type:'get',
 			url :'{!! URL::to('estadoMarn_esp') !!}',
 			data:{'id':esp},
@@ -5571,16 +5332,12 @@
 				var frm = $('#busqueda-frm');
 				//par.find('.estadoMarn').val(data.nombreEspecie);
 				frm.find('.estadoMarn').val(data[0].estadoMarn);
-
 				estado = $('.estadoMarn').val();
-
 				if(estado == 1){
 					//alert('sii esta');
-					
 					$('#especie_id23').val(esp);
 					$('#MSG_continuar_esp').modal('show');
 					//form.submit();
-
 				}else{
 					//alert('no esta');
 					var n_e = $('#N_ESP_modal');
@@ -6095,14 +5852,24 @@
         $('#frm-agregar-usr').submit();
 
     });
-
     $('#id_estado_usr').click(function(){
 
         //alert('iremos estado usuario')
         $('#frm-estado-usr').submit();
 
     });
+    $('#refresh-btn').click(function(){
 
+        //$('#frm-agregar-esp').submit();
+        $("#reino_id").select2("val", '0'); //set the value
+		$("#division_id").select2("val", '0'); //set the value
+		$("#clase_id").select2("val", '0'); //set the value
+		$("#orden_id").select2("val", '0'); //set the value
+		$("#familia_id").select2("val", '0'); //set the value
+		$("#genero_id").select2("val", '0'); //set the value
+		$("#especie_id").select2("val", '0'); //set the value
+
+    });
 
 
 
