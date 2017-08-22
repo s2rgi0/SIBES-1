@@ -15,8 +15,6 @@
 
         function agr_avista(){
 
-
-
             //alert('agrregamos avistamiento')
             var r_z = "";
             var zona = $('#id_zona').parent().parent();
@@ -543,26 +541,36 @@
             var id_dep;
             var id_mun;
             var id_reg;
+            var m_avis = $('#modal-body-ver')
+            var header = $('#modal-h')
             $('#pub_PDF_edit').empty();
             $('#publish_edit').empty();
-
-            //alert(id)
             console.log(id)
             $('#id_PubPDF_edit').val('');
+            datos_avis( m_avis , id );
+            colector_avis( m_avis , id );
+            dep_avis( m_avis , id );
+            mun_avis( m_avis , id );
+            canton_avis( m_avis , id );
+            suelo_avis( m_avis , id );
+            tierra_avis( m_avis , id )
+            $('#VER_Avista_Modal').modal('show');
 
+        })
 
-            $.ajax({
+////////////////////////// FUNCIONES PARA MODIFICAR DATOS DE AVISTAMIENTO /////////////////////
+
+function datos_avis( m_avis , id ){
+
+    $.ajax({
                 type : 'get',
                 url  : '{!! URL::to('get_Avista_BY_ID') !!}',
                 data :  { 'id':id },
                 success:function(data){
-                    console.log('funciono el get avis')
+                    console.log('funciono el get datos de avis')
                     console.log(data)
                     var m_avis = $('#modal-body-ver')
                     var header = $('#modal-h')
-
-                    //header.find('#label_especie').val(data[0].nombreEspecie);
-
                     m_avis.find('#id_esp_ver').val(data[0].idEspecie);
                     m_avis.find('#id_avis_ver').val(data[0].idAvistamiento);
                     m_avis.find('#nom_esp').val(data[0].nombreEspecie);
@@ -580,14 +588,19 @@
                     m_avis.find('#fecha_avis2').val(data[0].fechaHoraAvistamiento);
                     m_avis.find('#hora_avis').val(data[0].horaAvistamiento);
                     m_avis.find('#id_fecha_ing2').val(data[0].fechaIngresodeInformacionBD);
-                    //m_avis.find('#pub_PDF_edit').val(data[0].publicacionPdf);
-                    //m_avis.find('#publish_edit').val(data[0].publicacionPdf);
-    
-                    publish_edit
-                    //m_avis.find('#id_colector-VER').val(data[0].idColector);
-                    var col = "";
+                },
+                error:function(){
+                    console.log('no funciono el get avis ')
+                    datos_avis( m_avis,id )
+                }
+            })
+}
 
-                    $.ajax({
+function colector_avis( m_avis , id ){
+
+    var col = "";            
+
+            $.ajax({
                         type : 'get',
                         url  : '{!! URL::to('get_Colector_id') !!}',
                         data :  { 'id':id },
@@ -598,8 +611,6 @@
 
                             m_avis.find('#id_colector2').html(" ");
                             m_avis.find('#id_colector2').append(col);
-
-
                             //--------------------------------------ADENTRO DE AJAX-----------COLECTOR------------------------
 
                             $.ajax({
@@ -608,30 +619,27 @@
                                 success:function(data){
                                     console.log('si se pudo conseguir colectores')
                                     col = "";
-
                                      for(var i = 0 ; i < data.length ; i++ )
                                     {
                                     col+='<option value="'+data[i].idColector+'">'+data[i].nombreColector+'</option>';
                                     }
                                     m_avis.find('#id_colector2').append(col);
-
-
                                 },error:function(){
                                     console.log('no ce pudo colectores')
+                                    colector_avis( m_avis ,id )
                                 }
                             })
-
-
                         },
                         error:function(){
                             console.log('error con Colector')
+                            colector_avis( m_avis ,id )
                         }
-
                     })
+}
 
-                    //DEAPARTAMENTO-------------------------------------------------------------------------------------
+function dep_avis( m_avis , id ){
 
-                    var dep = "";
+    var dep = "";
 
                     $.ajax({
                         type : 'get',
@@ -644,17 +652,12 @@
 
                             m_avis.find('#id_departamento2').html(" ");
                             m_avis.find('#id_departamento2').append(dep);
-
-                            //------------------------------------DENTRO------------------------------
-
                             $.ajax({
                                 type:'get',
                                 url :'{!! URL::to('Departamentos') !!}',
                                 success:function(data){
                                     console.log('si se pudo conseguir departamentos')
-
                                     dep = "";
-
                                      for(var i = 0 ; i < data.length ; i++ )
                                     {
                                     dep+='<option value="'+data[i].codigoDepartamento+'">'+data[i].nombreDepartamento+'</option>';
@@ -662,26 +665,22 @@
                                     m_avis.find('#id_departamento2').append(dep);
                                     id_dep = $('#id_departamento2').val();
                                     console.log(id_dep)
-
-
                                 },error:function(){
                                     console.log('no ce pudo departamentos')
+                                    dep_avis( m_avis ,id )
                                 }
                             })
-
-
                         },
                         error:function(){
                             console.log('error con Departamento')
+                            dep_avis( m_avis ,id )
                         }
-
                     })
+}
 
+function mun_avis( m_avis , id ){
 
-
-                    //MUNICIPIO -----------------------unico sin lista----------------------------------
-
-                    var municipio = "";
+    var municipio = "";
 
                     $.ajax({
                         type : 'get',
@@ -690,23 +689,21 @@
                         success:function(data){
                             console.log('success Municipio')
                             console.log(data)
-
                             municipio = '<option value="'+data[0].codigoMunicipio+'">'+data[0].nombreMunicipio+'</option>';
-
                             m_avis.find('#id_municipio2').html(" ");
                             m_avis.find('#id_municipio2').append(municipio);
-
-                            //_-------------_-----____--_-adentro ajax
-
                         },
                         error:function(){
                             console.log('error con Municipio')
+                            mun_avis( m_avis , id )
                         }
-
                     })
 
-                    var canton = "";
+}
 
+function canton_avis( m_avis , id ){
+
+    var canton = "";
                     $.ajax({
                         type : 'get',
                         url  : '{!! URL::to('get_Canton_id') !!}',
@@ -715,20 +712,19 @@
                             console.log('success Canton')
                             console.log(data)
                             canton = '<option value="'+data[0].codigoCanton+'">'+data[0].nombreCanton+'</option>';
-
                             m_avis.find('#id_canton2').html(" ");
                             m_avis.find('#id_canton2').append(canton);
-
                         },
                         error:function(){
                             console.log('error con Canton')
+                            canton_avis( m_avis ,id )
                         }
-
                     })
+}
 
-                    ////SUELOS ---------------------------------------------------------------------------------
+function suelo_avis( m_avis , id ){
 
-                    var suelo = "";
+    var suelo = "";
 
                     $.ajax({
                         type : 'get',
@@ -738,12 +734,9 @@
                             console.log('success Suelo')
                             console.log(data)
                             suelo = '<option value="'+data[0].idSuelo+'">'+data[0].nombreSuelo+'</option>';
-
                             m_avis.find('#id_suelo2').html(" ");
                             m_avis.find('#id_suelo2').append(suelo);
-
                             //--------------------------------------------------adentro Suelo ........
-
                             $.ajax({
                                 type:'get',
                                 url :'{!! URL::to('Suelos') !!}',
@@ -758,25 +751,22 @@
                                     }
                                     m_avis.find('#id_suelo2').append(suelo);
 
-
-
-
                                 },error:function(){
                                     console.log('no ce pudo suelos')
+                                    suelo_avis( m_avis,id )
                                 }
                             })
-
-
                         },
                         error:function(){
                             console.log('error con Suelo')
+                            suelo_avis( m_avis,id )
                         }
-
                     })
+}
 
-                    // tierra ________________________--------------------------------------------------------
+function tierra_avis( m_avis , id ){
 
-                    var tierra = "";
+    var tierra = "";
 
                     $.ajax({
                         type : 'get',
@@ -789,9 +779,6 @@
 
                             m_avis.find('#id_tierra2').html(" ");
                             m_avis.find('#id_tierra2').append(tierra);
-
-                            //-----------------------------------------------adentro tierra ....+++++++***(- _ -)+@
-
                             $.ajax({
                                 type:'get',
                                 url :'{!! URL::to('ClasedeTierra') !!}',
@@ -807,32 +794,17 @@
 
                                 },error:function(){
                                     console.log('no ce pudo Clase de tierra')
+                                    tierra_avis( m_avis,id )
                                 }
                             })
                         },
                         error:function(){
                             console.log('error con Tierra')
+                            tierra_avis( m_avis,id )
                         }
                     })
 
-
-
-
-                    $('#VER_Avista_Modal').modal('show');
-
-
-                },
-                error:function(){
-                    console.log('no funciono el get avis ')
-                }
-            })
-
-
-            //$('#VER_Avista_Modal').modal('show');
-            //VER_Avista_Modal
-
-
-        })
+}
 
 
 
@@ -902,6 +874,10 @@ $('#frm-editar button').click(function(e){
                 if(data.success == false ){
 
                 swal("Verifique todos los campos!", "", "warning")
+
+                if(data.errors == 'no es una imagen'){
+                    sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");   
+                }
 
 
                     $('#_foto-graf_ver,#_lati_avis_ver,#_long_avis_ver,#_col_avis_ver,#_depar_avis_ver,#_mun_avis_ver,#_canton_avis_ver,#_alt_avis_ver,#_clima_avis_ver,#_eco_avis_ver,#_geo_avis_ver,#_clima_avis_ver,#_hidro_avis_ver,#_fisio_Avis_ver').text('');
