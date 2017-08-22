@@ -384,6 +384,11 @@
 		<div class="col-xs-12 col-md-12">
 			<label> Fotografía de Especie</label>
 			<input type="file" name="file" id="file"  >
+			<br>
+			<center>
+                <div class="" style="display: none;color:#ff3700;font-size:small;" id="_file" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('file') }}</strong></span></div>
+            </center>
+
 		</div>
 	</div>
 
@@ -566,7 +571,7 @@
                                    sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");   
                                 }
 
-	       						$('#_clase_tipo,#_append_cites,#_cat_marn,#_cat_uicn,#_proce_especie,#_nom_ingles').text('');
+	       						$('#_file,#_clase_tipo,#_append_cites,#_cat_marn,#_cat_uicn,#_proce_especie,#_nom_ingles').text('');
 
                                 $.each(data.errors , function(index,value){
                                 $('#_'+index).fadeIn();
