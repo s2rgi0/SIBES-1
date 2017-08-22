@@ -186,7 +186,7 @@
 
 @include('modales.avi_mod')
 
-<!--  Modal para agregar avistamiento  -->
+<!-- ESTA ES LA ventana emergente O Modal para agregar  LOS avistamientoS  -->
 
 <div class="modal fade " id="Avista_Modal"   role="dialog">
 
@@ -409,13 +409,10 @@
                                     Fotografia de Avistamiento:
                                 </label>
                                 <br>
-                                    <input aria-describedby="fileHelp" class="form-control-file" id="idFoAvis" type="file" name="foto_graf" >
-
-                                <!--
-                                <div class="alert alert-danger" style="display: none;" id="_foto-graf" > {{ $errors->first('foto-graf') }} </div>-->
-                        <center>
-                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_foto-graf" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" ><label id="_foto-grafy" ></label>{{ $errors->first('foto-graf') }}</strong></span>  </div>
-                        </center>
+                                    <input aria-describedby="fileHelp" class="form-control-file" id="idFoAvis" type="file" name="foto_graf" ><br>
+                            <center>
+                                <div class="" style="display: none;color:#ff3700;font-size:small;" id="_foto_graf" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('foto_graf') }}</strong></span></div>
+                            </center>
 
                             </div>
                     
@@ -565,16 +562,8 @@
                             </div>
                         </div>
 
-
-
-                     
-
-
-
-
-
                         <center>
-                            <button class="btn btn-success" type="submit" id="guardar_avista" >Guardar</button>
+                            <button class="btn btn-success" type="submit" id="guardar_avista" style="background-color: #b0a54f;border-color: #8e7200 ;width: 200px;">Guardar</button>
                         </center>
                     </form>
             </div>
