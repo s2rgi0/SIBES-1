@@ -10,9 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 Route::get('/', function () {
 return view('busqueda');
-});|
-
+});
  */
+
 
 Route::get('/Busqueda', 'SibesController@Busqueda');
 
@@ -108,11 +108,8 @@ Route::get('Busca_esp_sub', 'IngresoController@Busca_esp_sub');
 //ruta guardar nombre comun
 
 Route::post('ingr_nc', 'SibesController@ingr_nc');
-
 Route::post('ingr_nc_sub', 'SibesController@ingr_nc_sub');
-
 Route::get('buscaNombreComun', 'SibesController@buscaNombreComun');
-
 Route::get('buscaNombreComun_sub', 'SibesController@buscaNombreComun_sub');
 
 //Actualizar Especie y Sub Especie
@@ -243,6 +240,7 @@ Route::get('Avistamiento_sub', 'AvistaController@Avistamiento_sub');
 
 Route::get('Avistamiento_sub_pag', 'AvistaController@Avistamiento_sub_pag');
 
+Route::get('FuenteInfo', 'AvistaController@FuenteInfo');
 
 Route::get('Regiones', 'AvistaController@Regiones');
 
@@ -274,7 +272,16 @@ Route::get('get_Avista_BY_ID', 'AvistaController@get_Avista_BY_ID');
 
 Route::get('get_Avista_BY_ID_sub', 'AvistaController@get_Avista_BY_ID_sub');
 
+Route::get('Publi_PDF_AVIS', 'AvistaController@Publi_PDF_AVIS');
+
+Route::post('Guardar_PDF','AvistaController@Guardar_PDF');
+
+Route::post('Guardar_PDF_edit','AvistaController@Guardar_PDF_edit');
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Route::get('get_Fuente_id', 'AvistaController@get_Fuente_id');
 
 Route::get('get_Colector_id', 'AvistaController@get_Colector_id');
 
@@ -363,6 +370,16 @@ Route::get('busca_enlace_esp', 'SibesController@busca_enlace_esp');
 
 Route::get('Agregar_usuarios', 'SibesController@Agregar_usuarios');
 
+Route::get('Agregar_Colector', 'SibesController@Agregar_Colector');
+
+Route::post('Guardar_Colector', 'SibesController@Guardar_Colector');
+
+Route::post('Guardar_Colector_dos', 'SibesController@Guardar_Colector_dos');
+
+Route::get('Tabla_Colectores', 'SibesController@Tabla_Colectores');
+
+Route::get('desc_Colector', 'SibesController@desc_Colector');
+
 Route::post('agregar_usr', 'SibesController@agregar_usr');
 
 Route::post('agregar_usr_dos', 'SibesController@agregar_usr_dos');
@@ -418,6 +435,8 @@ Route::get('Excel_especies_sub', 'AvistaController@Excel_especies_sub');
 Route::get('Excel_avistamientos', 'AvistaController@Excel_avistamientos');
 
 Route::get('Consulta_Publica','AvistaController@Consulta_Publica');
+
+Route::get('Consulta_Publica_dos','AvistaController@Consulta_Publica_dos');
 
 Route::get('avista_esp_publico','PublicoController@avista_esp_publico');
 
