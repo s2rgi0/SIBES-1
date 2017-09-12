@@ -26,14 +26,14 @@
 <center>
  <form class="form-horizontal"   style="width: 500px;" action="auth_usuario" method="get" >
   <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label"  >Usuario</label>
+    <label for="nombre_usr" class="col-sm-2 control-label"  >Usuario</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" name="nombre_usr" placeholder="nombre usuario">
     </div>
   </div>
 
   <div class="form-group">
-    <label for="inputPassword3" class="col-sm-2 control-label"  >Contraseña</label>
+    <label for="ntento_usr" class="col-sm-2 control-label"  >Contraseña</label>
     <div class="col-sm-10">
       <input type="password" class="form-control" name="intento_usr" placeholder="contraseña">
     </div>
