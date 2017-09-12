@@ -2,25 +2,21 @@
 <html>
 <head>
 	<title>MARN | SIBES</title>
-
-	<!-- Fonts -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	
-    <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+	<link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
 	<script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-
-<script language="JavaScript">
+	<script language="JavaScript">
 	function nobackbutton(){
-   window.location.hash="no-back-button";
-   window.location.hash="Again-No-back-button" //chrome
-   window.onhashchange=function(){window.location.hash="no-back-button";}
-}
-</script>
+	   window.location.hash="no-back-button";
+	   window.location.hash="Again-No-back-button" //chrome
+	   window.onhashchange=function(){window.location.hash="no-back-button";}
+	}
+	</script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
