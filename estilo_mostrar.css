@@ -1,0 +1,113 @@
+body {
+    background: white;
+    color: #8e7200;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: medium;
+    font-weight: normal;
+}
+
+#Exito_Modal {
+    position: fixed;
+    top: 30%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+}
+
+.modal-content {
+    background: #f7f6ed;
+}
+
+.modal-header {
+    border-color: #8e7200;
+}
+
+p .modal-footer {
+    border-color: #8e7200;
+}
+
+h3.titulo {
+    color: #8e7200;
+    font-weight: bold;
+}
+
+.panel {
+    background: #efeddc;
+    border-width: 1px;
+    border-color: #8e7200;
+    font-weight: normal;
+    margin-top: 4px;
+}
+
+.taxo {
+    color: #8e7200;
+    font-weight: bold;
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 6px;
+}
+
+.espec {
+    color: #122D85;
+    font-weight: bold;
+}
+
+.show1 {
+    color: #122D85;
+    font-weight: normal;
+    text-align: justify;
+}
+
+.caja {
+    width: 175px;
+    height: 20px;
+}
+
+.especie {
+    width: 200px;
+}
+
+.ul {
+    float: left;
+    list-style-type: none;
+}
+
+.show {
+    text-align: center;
+}
+
+.img {
+    position: relative;
+    width: 400px;
+    height: auto;
+    overflow: hidden;
+}
+
+@media (min-width: 1200px) {
+    .col-lg-2 {
+        width: 16%;
+        float: left;
+    }
+}
+
+hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+.nomespecie {
+    color: #122D85;
+    margin-top: 0px;
+    margin-bottom: 6px;
+}
+
+.panel-body {
+    padding: 13px;
+}
