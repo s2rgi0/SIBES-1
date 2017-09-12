@@ -8,6 +8,8 @@ use App\ClasesDeTierra;
 use App\Colectore;
 use App\Departamento;
 use App\Especie;
+use App\FuenteInformacion;
+use App\publicacionPDF;
 use App\Clase;
 use App\Municipio;
 use App\Region;
@@ -23,6 +25,8 @@ use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 use Response;
 use Validator;
 use Cache;
@@ -41,7 +45,7 @@ class AvistaController extends Controller
         //dd($req->id_especie);
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino')->where('Especies.idEspecie', $req->id_especie)->get();
+        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Especies.fotografiaEspecie')->where('Especies.idEspecie', $req->id_especie)->get();
 
         $avista = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->select('Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento','Avistamientos.fechaHoraAvistamiento','Avistamientos.fechaIngresodeInformacionBD')->where('idEspecie', $req->id_especie)->get();
 
@@ -56,7 +60,7 @@ class AvistaController extends Controller
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
         //dd($req->id_especie);
 
-        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie' , '=' , 'Especies.idEspecie' )->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Subespecies.nombreSubespecie' )->where('Subespecies.idSubespecie', $req->id_especie)->get();
+        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie' , '=' , 'Especies.idEspecie' )->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Subespecies.nombreSubespecie', 'Subespecies.fotografiaEspecie2' )->where('Subespecies.idSubespecie', $req->id_especie)->get();
 
         $avista = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->select('Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento','Avistamientos.fechaHoraAvistamiento','Avistamientos.fechaIngresodeInformacionBD')->where('idSubespecie', $req->id_especie)->get();
 
@@ -110,7 +114,7 @@ class AvistaController extends Controller
     public function get_Avista_BY_ID(Request $req)
     {
         Cache::flush();
-        $av_id = Avistamiento::join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Municipio', 'Avistamientos.codigoMunicipio', '=', 'Municipio.codigoMunicipio')->join('Canton', 'Avistamientos.codigoCanton', '=', 'Canton.codigoCanton')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento', 'Municipio.nombreMunicipio', 'Canton.nombreCanton', 'Avistamientos.fuenteDeInformacion', 'Avistamientos.alturaAvistamiento', 'Avistamientos.longitudAvistamiento', 'Avistamientos.latitudAvistamiento', 'Avistamientos.fechaHoraAvistamiento', 'Avistamientos.ejemplarDepositado', 'Avistamientos.fechaIngresodeInformacionBD', 'Avistamientos.fotografiaAvistamiento', 'Avistamientos.ecosistemaAvistamiento', 'Avistamientos.descripcionClimaAvistamiento', 'Avistamientos.fisiografiaAvistamiento', 'Avistamientos.geologiaAvistamiento', 'Avistamientos.hidrografiaAvistamiento', 'Avistamientos.usosDeLaEspecieAvistamiento', 'Colectores.idColector', 'Departamento.codigoDepartamento', 'Municipio.codigoMunicipio', 'Canton.codigoCanton', 'Suelo.idSuelo', 'ClasesDeTierra.idClaseDeTierra','Avistamientos.publicacionPdf','Avistamientos.horaAvistamiento')->where('idAvistamiento', $req->id)->get();
+        $av_id = Avistamiento::join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Municipio', 'Avistamientos.codigoMunicipio', '=', 'Municipio.codigoMunicipio')->join('Canton', 'Avistamientos.codigoCanton', '=', 'Canton.codigoCanton')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('FuenteInformacion','Avistamientos.idFuente','=','FuenteInformacion.idFuente')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento', 'Municipio.nombreMunicipio', 'Canton.nombreCanton', 'FuenteInformacion.nombreFuente' , 'Avistamientos.alturaAvistamiento', 'Avistamientos.longitudAvistamiento', 'Avistamientos.latitudAvistamiento', 'Avistamientos.fechaHoraAvistamiento', 'Avistamientos.ejemplarDepositado', 'Avistamientos.fechaIngresodeInformacionBD', 'Avistamientos.fotografiaAvistamiento', 'Avistamientos.ecosistemaAvistamiento', 'Avistamientos.descripcionClimaAvistamiento', 'Avistamientos.fisiografiaAvistamiento', 'Avistamientos.geologiaAvistamiento', 'Avistamientos.hidrografiaAvistamiento', 'Avistamientos.usosDeLaEspecieAvistamiento', 'Colectores.idColector','FuenteInformacion.idFuente', 'Departamento.codigoDepartamento', 'Municipio.codigoMunicipio', 'Canton.codigoCanton', 'Suelo.idSuelo', 'ClasesDeTierra.idClaseDeTierra','Avistamientos.publicacionPdf','Avistamientos.horaAvistamiento','Avistamientos.numeroEspecies','Avistamientos.mostrar_lati','Avistamientos.mostrar_long','Avistamientos.deg_lati','Avistamientos.deg_long','Avistamientos.min_lati','Avistamientos.min_long','Avistamientos.sec_lati','Avistamientos.sec_long')->where('idAvistamiento', $req->id)->get();
 
         return response()->json($av_id);
 
@@ -119,7 +123,7 @@ class AvistaController extends Controller
     public function get_Avista_BY_ID_sub(Request $req)
     {
         Cache::flush();
-        $av_id = Avistamiento::join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Municipio', 'Avistamientos.codigoMunicipio', '=', 'Municipio.codigoMunicipio')->join('Canton', 'Avistamientos.codigoCanton', '=', 'Canton.codigoCanton')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->select('Subespecies.idSubespecie','Subespecies.nombreSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento', 'Municipio.nombreMunicipio', 'Canton.nombreCanton', 'Avistamientos.fuenteDeInformacion', 'Avistamientos.alturaAvistamiento', 'Avistamientos.longitudAvistamiento', 'Avistamientos.latitudAvistamiento', 'Avistamientos.fechaHoraAvistamiento', 'Avistamientos.ejemplarDepositado', 'Avistamientos.fechaIngresodeInformacionBD', 'Avistamientos.fotografiaAvistamiento', 'Avistamientos.ecosistemaAvistamiento', 'Avistamientos.descripcionClimaAvistamiento', 'Avistamientos.fisiografiaAvistamiento', 'Avistamientos.geologiaAvistamiento', 'Avistamientos.hidrografiaAvistamiento', 'Avistamientos.usosDeLaEspecieAvistamiento', 'Colectores.idColector', 'Departamento.codigoDepartamento', 'Municipio.codigoMunicipio', 'Canton.codigoCanton', 'Suelo.idSuelo', 'ClasesDeTierra.idClaseDeTierra','Avistamientos.publicacionPdf','Avistamientos.horaAvistamiento')->where('idAvistamiento', $req->id)->get();
+        $av_id = Avistamiento::join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Municipio', 'Avistamientos.codigoMunicipio', '=', 'Municipio.codigoMunicipio')->join('Canton', 'Avistamientos.codigoCanton', '=', 'Canton.codigoCanton')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('FuenteInformacion','Avistamientos.idFuente','=','FuenteInformacion.idFuente')->select('Subespecies.idSubespecie','Subespecies.nombreSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento', 'Municipio.nombreMunicipio', 'Canton.nombreCanton', 'FuenteInformacion.nombreFuente' , 'Avistamientos.alturaAvistamiento', 'Avistamientos.longitudAvistamiento', 'Avistamientos.latitudAvistamiento', 'Avistamientos.fechaHoraAvistamiento', 'Avistamientos.ejemplarDepositado', 'Avistamientos.fechaIngresodeInformacionBD', 'Avistamientos.fotografiaAvistamiento', 'Avistamientos.ecosistemaAvistamiento','FuenteInformacion.idFuente','Avistamientos.descripcionClimaAvistamiento', 'Avistamientos.fisiografiaAvistamiento', 'Avistamientos.geologiaAvistamiento', 'Avistamientos.hidrografiaAvistamiento', 'Avistamientos.usosDeLaEspecieAvistamiento', 'Colectores.idColector', 'Departamento.codigoDepartamento', 'Municipio.codigoMunicipio', 'Canton.codigoCanton', 'Suelo.idSuelo', 'ClasesDeTierra.idClaseDeTierra','Avistamientos.publicacionPdf','Avistamientos.horaAvistamiento','Avistamientos.numeroEspecies','Avistamientos.mostrar_lati','Avistamientos.mostrar_long','Avistamientos.deg_lati','Avistamientos.deg_long','Avistamientos.min_lati','Avistamientos.min_long','Avistamientos.sec_lati','Avistamientos.sec_long')->where('idAvistamiento', $req->id)->get();
 
         return response()->json($av_id);
 
@@ -130,6 +134,15 @@ class AvistaController extends Controller
     {
         Cache::flush();
         $d = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->select('Colectores.nombreColector', 'Colectores.idColector')->where('Avistamientos.idAvistamiento', $req->id)->get();
+
+        return response()->json($d);
+
+    }
+
+    public function get_Fuente_id(Request $req)
+    {
+        Cache::flush();
+        $d = Avistamiento::join('FuenteInformacion', 'Avistamientos.idFuente', '=', 'FuenteInformacion.idFuente')->select('FuenteInformacion.nombreFuente', 'FuenteInformacion.idFuente')->where('Avistamientos.idAvistamiento', $req->id)->get();
 
         return response()->json($d);
 
@@ -212,6 +225,19 @@ class AvistaController extends Controller
 
         $col = Colectore::all();
 
+        //select('idColector', 'nombreColector')->where('idColector', '>=', 1)->get();
+
+        return response()->json($col);
+
+    }
+
+    public function FuenteInfo()
+    {
+
+        $col = FuenteInformacion::all();
+
+        //select('idColector', 'nombreColector')->where('idColector', '>=', 1)->get();
+
         return response()->json($col);
 
     }
@@ -251,42 +277,75 @@ class AvistaController extends Controller
     }
 
     public function SAVE_avista(Request $req)
-    {
+    {  
+            
+
+            /*
+                
+                $claves_long = preg_split("/[O\s'°\"]+/", $req->long_avis );
+
+            $deg_long = $claves_long[1];
+            $min_long = $claves_long[2];
+            $sec_long  = $claves_long[3];
+
+            $long = $deg_long+((($min_long*60)+($sec_long))/3600);
+
+            $longitud = "-".$long;
+
+            $claves_lati = preg_split("/[N\s'°\"]+/", $req->lati_avis );
+            
+            $deg_lati = $claves_lati[1];
+            $min_lati = $claves_lati[2];
+            $sec_lati  = $claves_lati[3];
+            
+            $latitud = $deg_lati+((($min_lati*60)+($sec_lati))/3600);
+
+
+
+            */
+
+            
+            //dd($longitud);
+
+
             Cache::flush();
-
-            //dd($req->all());
-            //dd($req->hora_av);
-
 
             $validator = Validator::make(Input::all(), [
 
-            'zona_avis'   => 'required',
             'col_avis'    => 'required',
             'tierra_avis' => 'required',
             'suelo_avis'  => 'required',
             'depar_avis'  => 'required',
             'mun_avis'    => 'required',
             'canton_avis' => 'required',
-            'fecha_av'    => 'required',
-            'foto-graf'   => 'image|mimes:jpeg,jpg,png,bmp',
+            'fecha_av'    => 'required','fecha_av'    => 'required',
+            'fuente_avis'    => 'required',
+            'foto_graf'   => 'image|mimes:jpeg,jpg,png,bmp',
             'alt_avis'    => 'nullable|numeric',
-            'lati_avis'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
-            'long_avis'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
+            'lati_avis' => 'nullable|regex:/^[1][2-4]+$/u',
+            'lati_min' => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'lati_sec' => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            //'long_avis_ver'     => 'nullable|regex:/^[(O)]\s[8-9][0-9]\°\s([0-9]{1,3})\'\s[0-9]{1,2}.[0-9]{1,3}\"+$/u',
+            //'lati_avis_ver'       => 'nullable|regex:/^[1][2-4].[\d]+$/u',
+            'long_avis'     => 'nullable|regex:/^[8-9][0-9]+$/u',
+            'long_min'     => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'long_sec'     => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            //'lati_avis'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
+            //'long_avis'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
             'eco_avis'      => 'nullable|max:950',
             'clima_avis'    => 'nullable|max:950',
             'fisio_Avis'    => 'nullable|max:950',
             'geo_avis'      => 'nullable|max:950',
             'hidro_avis'    => 'nullable|max:950',
             'usos_avis'     => 'nullable|max:950',
+            'num_avis'      => 'nullable|numeric',
 
         ], [
-            'foto-graf.image'      => 'no es una imagen',
-            'foto-graf.mimes'      => 'no es una imagen',
-            'foto-graf.max'      => 'imagen demasiado grande',
-            'foto-graf.size'      => 'imagen demasiado grande',
+            'num_avis.numeric'     => 'Debe de Ingresar un dato numerico',
+            'foto_graf.image'      => 'no es una imagen',
+            //'foto-graf.mimes'      => 'no es una imagen'
             'zona_avis.required'   => 'Elija una zona',
-            //'lati_avis.regex'      => 'Verifique latitud',
-            //'long_avis.regex'      => 'Verifique longitud',
+            'fuente_avis.required'   => 'Elija una fuente de  información',
             'col_avis.required'    => 'Elija un colector',
             'tierra_avis.required' => 'Elija un tipo de tierra',
             'suelo_avis.required'  => 'Elija un tipo de suelo',
@@ -295,8 +354,14 @@ class AvistaController extends Controller
             'canton_avis.required' => 'Elija un canton',
             'fecha_av.required'    => 'Debe ingresar fecha',
             'alt_avis.numeric'     => 'ingrese un dato numerico',
-            'lati_avis.regex'   => 'verifique sus coordenadas',
-            'long_avis.regex'   => 'verifique sus coordenadas',
+            'lati_avis.regex'   => 'verifique los grados de latitud',
+            'lati_min.regex'   => 'verifique los minutos de latitud',
+            'lati_sec.regex'   => 'verifique los segundos de latitud',
+            'long_avis.regex'   => 'verifique los grados de longitud',
+            'long_min.regex'   => 'verifique los minutos de longitud',
+            'long_sec.regex'   => 'verifique los segundos de longitud',
+            //'lati_avis.regex'   => 'verifique sus coordenadas',
+            //'long_avis.regex'   => 'verifique sus coordenadas',
             'eco_avis.max'        => 'El campo permite 950 caracteres ',
             'clima_avis.max'    => 'El campo permite 950 caracteres ',
             'fisio_Avis.max'    => 'El campo permite 950 caracteres ',
@@ -318,18 +383,14 @@ class AvistaController extends Controller
                 //var_dump($msj1);
 
                 $foto           = Input::file('foto_graf');
-                $nombre_especie = $req->nom_esp_ver;
-                $id_especie     = $req->id_esp_ver;
+                $nombre_especie = $req->nom_esp;
+                $id_especie     = $req->id_esp;
                 $extension      = Input::file('foto_graf')->getClientOriginalExtension();
 
-                //dd($extension);
                 if( $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' ){
 
                     $cad_imagen     = 'avis_' . $id_especie . '_' . $nombre_especie . '.' . $extension;
-
-                //dd($cad_imagen);
                     $foto->move('imagen_especie/' . $nombre_especie, $cad_imagen);
-
                     $avis->fotografiaAvistamiento = $cad_imagen;
 
 
@@ -339,7 +400,6 @@ class AvistaController extends Controller
                 }              
 
             }
-
 
             if ($req->fecha_av != null) {
 
@@ -357,8 +417,35 @@ class AvistaController extends Controller
                 $horita = date( 'g:ia', strtotime( $req->hora_av ) );
                 $hora = $horita;
 
-            }            
+            }
 
+
+        if($req->lati_avis != null && $req->lati_min != null && $req->lati_sec && $req->long_avis != null && $req->long_min != null && $req->long_sec ){
+
+
+            $avis->deg_lati  = $req->lati_avis;
+            $avis->min_lati  = $req->lati_min;
+            $avis->sec_lati  = $req->lati_sec;
+
+
+            $avis->mostrar_lati  = "N ".$req->lati_avis."° ".$req->lati_min."' ".$req->lati_sec."\" ";
+
+            $avis->latitudAvistamiento  = $req->lati_avis+((($req->lati_min*60)+($req->lati_sec))/3600);
+
+            $avis->deg_long = $req->long_avis;
+            $avis->min_long = $req->long_min;
+            $avis->sec_long = $req->long_sec;
+
+            $avis->mostrar_long = "O ".$req->long_avis."° ".$req->long_min."'' ".$req->long_sec."\" ";
+
+            $longy = $req->long_avis+((($req->long_min*60)+($req->long_sec))/3600);
+
+            $avis->longitudAvistamiento = "-".$longy;
+
+        }
+
+        
+            $avis->numeroEspecies               = $req->num_avis;
             $avis->idEspecie                    = $req->id_esp;
             $avis->codigoDepartamento           = $req->depar_avis;
             $avis->codigoMunicipio              = $req->mun_avis;
@@ -366,9 +453,9 @@ class AvistaController extends Controller
             $avis->idColector                   = $req->col_avis;
             $avis->idClaseDeTierra              = $req->tierra_avis;
             $avis->idSuelo                      = $req->suelo_avis;
-            $avis->fuenteDeInformacion          = $req->fuente_avis;
-            $avis->latitudAvistamiento          = $req->lati_avis;
-            $avis->longitudAvistamiento         = $req->long_avis;
+            $avis->idFuente                     = $req->fuente_avis;
+            ////$avis->latitudAvistamiento          = $req->lati_avis;
+            ////$avis->longitudAvistamiento         = $req->long_avis;
             $avis->alturaAvistamiento           = $req->alt_avis;
             $avis->fechaHoraAvistamiento        = $fecha_avi; //feacha de avis
             $avis->ejemplarDepositado           = $req->ejem_avis;
@@ -414,25 +501,36 @@ class AvistaController extends Controller
             'canton_avis_ver' => 'required',
             'foto-graf_ver'   => 'image|mimes:jpeg,jpg,png,bmp',
             'alt_avis_ver'    => 'nullable|numeric',
-            'lati_avis_ver'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
-            'long_avis_ver'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
+            'lati_avis_ver' => 'nullable|regex:/^[1][2-4]+$/u',
+            'lati_min_ver' => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'lati_sec_ver' => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            //'long_avis_ver'     => 'nullable|regex:/^[(O)]\s[8-9][0-9]\°\s([0-9]{1,3})\'\s[0-9]{1,2}.[0-9]{1,3}\"+$/u',
+            //'lati_avis_ver'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
+            'long_avis_ver'   	=> 'nullable|regex:/^[8-9][0-9]+$/u',
+            'long_min_ver'     => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'long_sec_ver'     => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
             'eco_avis_ver'      => 'nullable|max:950',
             'clima_avis_ver'    => 'nullable|max:950',
             'fisio_Avis_ver'    => 'nullable|max:950',
             'geo_avis_ver'      => 'nullable|max:950',
             'hidro_avis_ver'    => 'nullable|max:950',
             'usos_avis_ver'     => 'nullable|max:950',
+            'num_avis_edit'      => 'nullable|numeric',
             
         ], [
-            
+            'num_avis_edit.numeric'     => 'Debe de Ingresar un dato numerico',            
             'col_avis_ver.required'    => 'Elija un Colector',
             'depar_avis_ver.required'  => 'Elija un departamento',
             'mun_avis_ver.required'    => 'Elija un municipio',
             'canton_avis_ver.required' => 'Elija un canton',
             'foto-graf_ver.image'   => 'ingrese una imagen',
             'alt_avis_ver.numeric'    => 'ingrese un dato numerico',
-            'lati_avis_ver.regex'   => 'verifique sus coordenadas',
-            'long_avis_ver.regex'   => 'verifique sus coordenadas',
+            'lati_avis_ver.regex'   => 'verifique los grados de latitud',
+            'lati_min_ver.regex'   => 'verifique los minutos de latitud',
+            'lati_sec_ver.regex'   => 'verifique los segundos de latitud',
+            'long_avis_ver.regex'   => 'verifique los grados de longitud',
+            'long_min_ver.regex'   => 'verifique los minutos de longitud',
+            'long_sec_ver.regex'   => 'verifique los segundos de longitud',
             'eco_avis_ver.max'        => 'El campo permite 950 caracteres ',
             'clima_avis_ver.max'    => 'El campo permite 950 caracteres ',
             'fisio_Avis_ver.max'    => 'El campo permite 950 caracteres ',
@@ -452,15 +550,20 @@ class AvistaController extends Controller
             $nombre_especie = $req->nom_esp_ver;
             $id_especie     = $req->id_avis_ver;
             $extension      = Input::file('foto-graf_ver')->getClientOriginalExtension();
-            $cad_imagen     = 'avis_' . $id_especie . '_' . $nombre_especie . '.' . $extension;
+            
+            
 
-            $foto->move('imagen_especie/' . $nombre_especie, $cad_imagen);
+            if( $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' ){
 
-            $avis->fotografiaAvistamiento = $cad_imagen;
+                   $cad_imagen     = 'avis_' . $id_especie . '_' . $nombre_especie . '.' . $extension;
+                   $foto->move('imagen_especie/' . $nombre_especie, $cad_imagen);
+                   $avis->fotografiaAvistamiento = $cad_imagen;
+                }else{
 
+                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
+                
+                }
         }
-
-
         if ($req->fecha_av_ver != null) {
 
             //$d = DateTime::createFromFormat("YmdHis", $req->fecha_av);
@@ -484,16 +587,40 @@ class AvistaController extends Controller
 
         }
 
+        if($req->lati_avis_ver != null && $req->lati_min_ver != null && $req->lati_sec_ver && $req->long_avis_ver != null && $req->long_min_ver != null && $req->long_sec_ver){
+
+
+            $avis->deg_lati  = $req->lati_avis_ver;
+            $avis->min_lati  = $req->lati_min_ver;
+            $avis->sec_lati  = $req->lati_sec_ver;
+
+
+            $avis->mostrar_lati  = "N ".$req->lati_avis_ver."° ".$req->lati_min_ver."' ".$req->lati_sec_ver."\" ";
+
+            $avis->latitudAvistamiento  = $req->lati_avis_ver+((($req->lati_min_ver*60)+($req->lati_sec_ver))/3600);
+
+            $avis->deg_long = $req->long_avis_ver;
+            $avis->min_long = $req->long_min_ver;
+            $avis->sec_long = $req->long_sec_ver;
+
+            $avis->mostrar_long = "O ".$req->long_avis_ver."° ".$req->long_min_ver."'' ".$req->long_sec_ver."\" ";
+
+            $longy = $req->long_avis_ver+((($req->long_min_ver*60)+($req->long_sec_ver))/3600);
+
+            $avis->longitudAvistamiento = "-".$longy;
+
+        }
+
         $avis->codigoDepartamento           = $req->depar_avis_ver;
         $avis->codigoMunicipio              = $req->mun_avis_ver;
         $avis->codigoCanton                 = $req->canton_avis_ver;
-        
+        $avis->numeroEspecies               = $req->num_avis_edit;
         $avis->idColector                   = $req->col_avis_ver;
         $avis->idClaseDeTierra              = $req->tierra_avis_ver;
-        $avis->idSuelo                      = $req->suelo_avis_ver;
+        $avis->idFuente                     = $req->suelo_avis_ver;
         $avis->fuenteDeInformacion          = $req->fuente_avis_ver;
-        $avis->latitudAvistamiento          = $req->lati_avis_ver;
-        $avis->longitudAvistamiento         = $req->long_avis_ver;
+        
+       
         $avis->alturaAvistamiento           = $req->alt_avis_ver;
         $avis->fechaHoraAvistamiento        = $fecha_avi_ver; //feacha de avis
         $avis->ejemplarDepositado           = $req->ejem_avis_ver;
@@ -529,9 +656,103 @@ class AvistaController extends Controller
     }
 
 
+    public function Guardar_PDF( Request $req ){
+
+        //dd($req->all());
+
+        $pub = new publicacionPDF; 
+
+        $validator = Validator::make(Input::all(), [
+            'pdf_avista_doc'    => 'required|mimes:pdf',              
+        ], [
+            'pdf_avista_doc.required'     => 'Elija un documento a ingresar',
+            'pdf_avista_doc.mimes'     => 'El archivo debe de ser del tipo pdf',                             
+        ]);
+
+        if ($validator->passes()) {
+
+            if (Input::hasfile('pdf_avista_doc')) {
+
+            $pdf            = Input::file('pdf_avista_doc');
+            $nombre_especie = $req->nom_esp_pdf;
+            $extension      = Input::file('pdf_avista_doc')->getClientOriginalExtension();
+            $cad_pdf        = Input::file('pdf_avista_doc')->getClientOriginalName();
+            //$path = Storage::putFile('publicacion_especie/'.$nombre_especie , $req->file('pdf_avista_doc'));
+            //dd($size);
+            
+
+            if( $extension == 'pdf' || $extension == 'PDF'  ){
+
+                    $pdf->move('publicacion_especie/'.$nombre_especie , $cad_pdf);
+                    $pub->nombrePublicacion = $cad_pdf; 
+
+                }else{
+                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
+                }
+            } 
+
+            $pub->idAvistamiento = $req->id_avis_pdf; 
+            $pub->save(); 
+        
+        }else{
+            return response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+        }
+    }
+
+    public function Guardar_PDF_edit( Request $req ){
+
+        //dd($req->all());
+
+        $pub = new publicacionPDF; 
+
+        $validator = Validator::make(Input::all(), [
+            'pdf_avista_doc_edit'    => 'required|mimes:pdf',              
+        ], [
+            'pdf_avista_doc_edit.required'     => 'Elija un documento a ingresar',
+            'pdf_avista_doc_edit.mimes'     => 'El archivo debe de ser del tipo pdf',                             
+        ]);
+
+        if ($validator->passes()) {
+
+            if (Input::hasfile('pdf_avista_doc_edit')) {
+
+            $pdf            = Input::file('pdf_avista_doc_edit');
+            $nombre_especie = $req->nom_esp_ver;
+            $extension      = Input::file('pdf_avista_doc_edit')->getClientOriginalExtension();
+            $cad_pdf        = Input::file('pdf_avista_doc_edit')->getClientOriginalName();
+            //$path = Storage::putFile('publicacion_especie/'.$nombre_especie , $req->file('pdf_avista_doc_edit'));
+            //dd($size);
+            
+
+            if( $extension == 'pdf' || $extension == 'PDF'  ){
+
+                    $pdf->move('publicacion_especie/'.$nombre_especie , $cad_pdf);
+                    $pub->nombrePublicacion = $cad_pdf; 
+
+                }else{
+                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
+                }
+            } 
+
+            $pub->idAvistamiento = $req->id_avis_ver; 
+            $pub->save(); 
+        
+        }else{
+            return response::json(['success' => false, 'errors' => $validator->getMessageBag()->toArray()]);
+        }
+    }
+
+    public function Publi_PDF_AVIS( Request $req ){
+
+        $d = publicacionPDF::join('Avistamientos','publicacionPDF.idAvistamiento','=','Avistamientos.idAvistamiento')->join('Especies','Avistamientos.idEspecie','=','Especies.idEspecie')->select('publicacionPdf.nombrePublicacion','Especies.nombreEspecie')->where('publicacionPDF.idAvistamiento', $req->id)->get();
+
+        return response()->json($d);
+
+    }
+
+
     public function SAVE_edit_sub(Request $req)
     {
-        //dd($req->all());
 
         $fecha_avi_ver  = "";
         $fecha_ingr_ver = "";
@@ -548,26 +769,39 @@ class AvistaController extends Controller
             'canton_avis_ver' => 'required',
             'foto-graf_ver'   => 'image|mimes:jpeg,jpg,png,bmp',
             'alt_avis_ver'    => 'nullable|numeric',
-            'lati_avis_ver'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
-            'long_avis_ver'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
-            'eco_avis_ver'        => 'nullable|max:950',
+            'lati_avis_ver' => 'nullable|regex:/^[1][2-4]+$/u',
+            'lati_min_ver' => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'lati_sec_ver' => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            //'lati_avis_ver'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
+            //'long_avis_ver'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
+            'long_avis_ver'     => 'nullable|regex:/^[8-9][0-9]+$/u',
+            'long_min_ver'     => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'long_sec_ver'     => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            'eco_avis_ver'      => 'nullable|max:950',
             'clima_avis_ver'    => 'nullable|max:950',
             'fisio_Avis_ver'    => 'nullable|max:950',
             'geo_avis_ver'      => 'nullable|max:950',
             'hidro_avis_ver'    => 'nullable|max:950',
             'usos_avis_ver'     => 'nullable|max:950',
+            'num_avis_edit'          => 'nullable|numeric',
 
             
         ], [
-            
+            'num_avis_edit.numeric'         => 'Debe de ingresar un dato numerico',
             'col_avis_ver.required'    => 'Elija un Colector',
             'depar_avis_ver.required'  => 'Elija un departamento',
             'mun_avis_ver.required'    => 'Elija un municipio',
             'canton_avis_ver.required' => 'Elija un canton',
             'foto-graf_ver.image'   => 'ingrese una imagen',
             'alt_avis_ver.numeric'    => 'ingrese un dato numerico',
-            'lati_avis_ver.regex'   => 'verifique sus coordenadas',
-            'long_avis_ver.regex'   => 'verifique sus coordenadas',
+            //'lati_avis_ver.regex'   => 'verifique sus coordenadas',
+            //'long_avis_ver.regex'   => 'verifique sus coordenadas',
+             'lati_avis_ver.regex'   => 'verifique los grados de latitud',
+            'lati_min_ver.regex'   => 'verifique los minutos de latitud',
+            'lati_sec_ver.regex'   => 'verifique los segundos de latitud',
+            'long_avis_ver.regex'   => 'verifique los grados de longitud',
+            'long_min_ver.regex'   => 'verifique los minutos de longitud',
+            'long_sec_ver.regex'   => 'verifique los segundos de longitud',
             'eco_avis_ver.max'        => 'El campo permite 950 caracteres ',
             'clima_avis_ver.max'    => 'El campo permite 950 caracteres ',
             'fisio_Avis_ver.max'    => 'El campo permite 950 caracteres ',
@@ -587,11 +821,17 @@ class AvistaController extends Controller
             $nombre_subespe = $req->nom_sub_ver;
             $id_especie     = $req->id_avis_ver;
             $extension      = Input::file('foto-graf_ver')->getClientOriginalExtension();
-            $cad_imagen     = 'avis_' . $id_especie . '_' . $nombre_subespe . '.' . $extension;
+            
+            if( $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' ){
 
-            $foto->move('imagen_especie/' . $nombre_especie .'/'. $nombre_subespe, $cad_imagen);
+                $cad_imagen     = 'avis_' . $id_especie . '_' . $nombre_subespe . '.' . $extension;
+                $foto->move('imagen_especie/' . $nombre_especie .'/'. $nombre_subespe, $cad_imagen);
+                $avis->fotografiaAvistamiento = $cad_imagen;
 
-            $avis->fotografiaAvistamiento = $cad_imagen;
+                }else{
+
+                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
+                }
 
         }
 
@@ -618,18 +858,41 @@ class AvistaController extends Controller
             $avis->horaAvistamiento = $req->hora_av_ver;
 
         }
-        
+
+        if($req->lati_avis_ver != null && $req->lati_min_ver != null && $req->lati_sec_ver && $req->long_avis_ver != null && $req->long_min_ver != null && $req->long_sec_ver){
+
+
+            $avis->deg_lati  = $req->lati_avis_ver;
+            $avis->min_lati  = $req->lati_min_ver;
+            $avis->sec_lati  = $req->lati_sec_ver;
+
+            $avis->mostrar_lati  = "N ".$req->lati_avis_ver."° ".$req->lati_min_ver."' ".$req->lati_sec_ver."\" ";
+
+            $avis->latitudAvistamiento  = $req->lati_avis_ver+((($req->lati_min_ver*60)+($req->lati_sec_ver))/3600);
+
+            $avis->deg_long = $req->long_avis_ver;
+            $avis->min_long = $req->long_min_ver;
+            $avis->sec_long = $req->long_sec_ver;
+
+            $avis->mostrar_long = "O ".$req->long_avis_ver."° ".$req->long_min_ver."'' ".$req->long_sec_ver."\" ";
+
+            $longy = $req->long_avis_ver+((($req->long_min_ver*60)+($req->long_sec_ver))/3600);
+
+            $avis->longitudAvistamiento = "-".$longy;
+
+        }
+
 
         $avis->codigoDepartamento           = $req->depar_avis_ver;
         $avis->codigoMunicipio              = $req->mun_avis_ver;
         $avis->codigoCanton                 = $req->canton_avis_ver;
-        
+        $avis->numeroEspecies               = $req->num_avis_edit;       
         $avis->idColector                   = $req->col_avis_ver;
         $avis->idClaseDeTierra              = $req->tierra_avis_ver;
         $avis->idSuelo                      = $req->suelo_avis_ver;
-        $avis->fuenteDeInformacion          = $req->fuente_avis_ver;
-        $avis->latitudAvistamiento          = $req->lati_avis_ver;
-        $avis->longitudAvistamiento         = $req->long_avis_ver;
+        $avis->idFuente                     = $req->fuente_avis_ver;
+        //$avis->latitudAvistamiento          = $req->lati_avis_ver;
+        //$avis->longitudAvistamiento         = $req->long_avis_ver;
         $avis->alturaAvistamiento           = $req->alt_avis_ver;
         $avis->fechaHoraAvistamiento        = $fecha_avi_ver; //feacha de avis
         $avis->ejemplarDepositado           = $req->ejem_avis_ver;
@@ -687,7 +950,7 @@ class AvistaController extends Controller
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
 
-        $espec = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino')->where('Especies.idEspecie', $req->id_especie)->get();
+        $espec = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino','Especies.fotografiaEspecie')->where('Especies.idEspecie', $req->id_especie)->get();
 
         $coord = Avistamiento::select('latitudAvistamiento' , 'longitudAvistamiento', 'idAvistamiento')->where('idEspecie', $req->id_especie)->get();
 
@@ -705,7 +968,7 @@ class AvistaController extends Controller
         $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
 
-        $espec = Subespecie::join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino')->where('Subespecies.idSubespecie', $req->id_especie)->get();
+        $espec = Subespecie::join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie','Subespecies.nombreSubespecie' ,'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino','Subespecies.fotografiaEspecie2')->where('Subespecies.idSubespecie', $req->id_especie)->get();
 
         //dd($espec);
 
@@ -724,7 +987,7 @@ class AvistaController extends Controller
             Cache::flush();
             $validator = Validator::make(Input::all(), [
 
-            'zona_avis'   => 'required',
+            //'zona_avis'   => 'required',
             'col_avis'    => 'required',
             'tierra_avis' => 'required',
             'suelo_avis'  => 'required',
@@ -732,24 +995,37 @@ class AvistaController extends Controller
             'mun_avis'    => 'required',
             'canton_avis' => 'required',
             'fecha_av'    => 'required',
-            'foto-graf'   => 'image',
+            'fuente_avis' => 'required',
+            'foto_graf'   => 'image|mimes:jpeg,jpg,png,bmp',
             'alt_avis'    => 'nullable|numeric',
-            'lati_avis'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
-            'long_avis'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
+            'lati_avis' => 'nullable|regex:/^[1][2-4]+$/u',
+            'lati_min' => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'lati_sec' => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            'long_avis'     => 'nullable|regex:/^[8-9][0-9]+$/u',
+            'long_min'     => 'nullable|regex:/^[0-9]{1,2}+$/u',
+            'long_sec'     => 'nullable|regex:/^[0-9]{1,3}\.[0-9]+$/u',
+            //'lati_avis'   	=> 'nullable|regex:/^[1][2-4].[\d]+$/u',
+            //'long_avis'   	=> 'nullable|regex:/^-[8-9][0-9].[\d]+$/u',
             'eco_avis'      => 'nullable|max:950',
             'clima_avis'    => 'nullable|max:950',
             'fisio_Avis'    => 'nullable|max:950',
             'geo_avis'      => 'nullable|max:950',
             'hidro_avis'    => 'nullable|max:950',
             'usos_avis'     => 'nullable|max:950',
-
-
+            'num_avis'      => 'nullable|numeric',
         ], [
-
-            'foto-graf.image'      => 'no es una imagen',
+            'num_avis.numeric'     => 'Debe ingresar un dato numerico',
+            'foto_graf.image'      => 'no es una imagen',
             'zona_avis.required'   => 'Elija una zona',
-            'lati_avis.regex'      => 'Verifique sus coordenadas',
-            'long_avis.regex'      => 'Verifique sus coordenadas',
+            'fuente_avis.required'   => 'Elija una fuente de  información',
+            //'lati_avis.regex'      => 'Verifique sus coordenadas',
+            //'long_avis.regex'      => 'Verifique sus coordenadas',
+            'lati_avis.regex'   => 'verifique los grados de latitud',
+            'lati_min.regex'   => 'verifique los minutos de latitud',
+            'lati_sec.regex'   => 'verifique los segundos de latitud',
+            'long_avis.regex'   => 'verifique los grados de longitud',
+            'long_min.regex'   => 'verifique los minutos de longitud',
+            'long_sec.regex'   => 'verifique los segundos de longitud',
             'col_avis.required'    => 'Elija un colector',
             'tierra_avis.required' => 'Elija un tipo de tierra',
             'suelo_avis.required'  => 'Elija un tipo de suelo',
@@ -830,7 +1106,32 @@ class AvistaController extends Controller
 
                 $hora = $req->hora_av;
 
-            }  
+            }
+
+            if($req->lati_avis != null && $req->lati_min != null && $req->lati_sec && $req->long_avis != null && $req->long_min != null && $req->long_sec ){
+
+
+            $avis->deg_lati  = $req->lati_avis;
+            $avis->min_lati  = $req->lati_min;
+            $avis->sec_lati  = $req->lati_sec;
+
+            $avis->mostrar_lati  = "N ".$req->lati_avis."° ".$req->lati_min."' ".$req->lati_sec."\" ";
+
+            $avis->latitudAvistamiento  = $req->lati_avis+((($req->lati_min*60)+($req->lati_sec))/3600);
+
+            $avis->deg_long = $req->long_avis;
+            $avis->min_long = $req->long_min;
+            $avis->sec_long = $req->long_sec;
+
+            $avis->mostrar_long = "O ".$req->long_avis."° ".$req->long_min."'' ".$req->long_sec."\" ";
+
+            $longy = $req->long_avis+((($req->long_min*60)+($req->long_sec))/3600);
+
+
+            $avis->longitudAvistamiento = "-".$longy;
+
+
+        }
 
             $avis->idEspecie                 = $req->id_esp;
             $avis->idSubespecie                 = $req->id_sub;
@@ -841,10 +1142,11 @@ class AvistaController extends Controller
             $avis->idColector                   = $req->col_avis;
             $avis->idClaseDeTierra              = $req->tierra_avis;
             $avis->idSuelo                      = $req->suelo_avis;
-            $avis->fuenteDeInformacion          = $req->fuente_avis;
-            $avis->latitudAvistamiento          = $req->lati_avis;
-            $avis->longitudAvistamiento         = $req->long_avis;
+            $avis->idFuente                     = $req->fuente_avis;
+            //$avis->latitudAvistamiento          = $req->lati_avis;
+            //$avis->longitudAvistamiento         = $req->long_avis;
             $avis->alturaAvistamiento           = $req->alt_avis;
+            $avis->numeroEspecies               = $req->num_avis;
             $avis->fechaHoraAvistamiento        = $fecha_avi; //feacha de avis
             $avis->ejemplarDepositado           = $req->ejem_avis;
             $avis->fechaIngresodeInformacionBD  = $fecha_ingr; //fecha de ingr
@@ -884,7 +1186,7 @@ class AvistaController extends Controller
 
         //dd($req->all());
         //Cache::flush();
-        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie' , '=' , 'Especies.idEspecie' )->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Subespecies.nombreSubespecie','Subespecies.nombreEnIngles','Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie2','ClasesdeTipo.nombreClaseDeTipo','procedencia_especies.nombreProcedenciaDeLaEspecie','categoria_marns.nombreCategoriaMARN','categoria_u_i_c_ns.nombreCategoriaUICN','apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->id_sub)->get();
+        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie' , '=' , 'Especies.idEspecie' )->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->select('Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino', 'Subespecies.nombreSubespecie','Subespecies.nombreEnIngles','Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie2','procedencia_especies.nombreProcedenciaDeLaEspecie','categoria_marns.nombreCategoriaMARN','categoria_u_i_c_ns.nombreCategoriaUICN','apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->id_sub)->get();
 
 
         $nc_sub = Nombrecomun::where('idSubespecie', $req->id_sub)->get();
@@ -972,7 +1274,7 @@ class AvistaController extends Controller
 
     public function Avista_esp_pub( Request $req ){
         Cache::flush();
-        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino','ClasesdeTipo.nombreClaseDeTipo','procedencia_especies.nombreProcedenciaDeLaEspecie','categoria_marns.nombreCategoriaMARN','categoria_u_i_c_ns.nombreCategoriaUICN','apendice_cites.nombreApendiceCITES','Especies.nombreEnIngles','Especies.descripcionDelEjemplar','Especies.fotografiaEspecie')->where('Especies.idEspecie', $req->id_esp)->get();
+        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('reinos', 'Divisions.idReino', '=', 'reinos.idReino')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'reinos.nombreReino','procedencia_especies.nombreProcedenciaDeLaEspecie','categoria_marns.nombreCategoriaMARN','categoria_u_i_c_ns.nombreCategoriaUICN','apendice_cites.nombreApendiceCITES','Especies.nombreEnIngles','Especies.descripcionDelEjemplar','Especies.fotografiaEspecie')->where('Especies.idEspecie', $req->id_esp)->get();
 
         $nc_esp = Nombrecomun::where('idEspecie', $req->id_esp)->get();
 
@@ -1148,7 +1450,7 @@ class AvistaController extends Controller
 
             
 
-            $avista = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Subespecies.idSubespecie', '=', $req->id_sub ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $avista = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Subespecies.idSubespecie', '=', $req->id_sub ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
            
 
@@ -1169,11 +1471,11 @@ class AvistaController extends Controller
 
         }else if( $req->id_esp !=null ){
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idSubespecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Especies.idEspecie', '=', $req->id_esp], ['Especies.estadoMarn', '=', 1]])->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Especies.idEspecie', '=', $req->id_esp], ['Especies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Especies.idEspecie', '=', $req->id_esp ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Especies.idEspecie', '=', $req->id_esp ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
             Excel::create($nombre_excel, function( $excel )use( $esp , $sub ){
                  
@@ -1201,11 +1503,11 @@ class AvistaController extends Controller
 
             //dd($req->all());
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Generos.idGenero', '=', $req->id_gen], ['Especies.estadoMarn', '=', 1]])->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Generos.idGenero', '=', $req->id_gen], ['Especies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Generos.idGenero', '=', $req->id_gen ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Generos.idGenero', '=', $req->id_gen ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
            
 
@@ -1230,11 +1532,11 @@ class AvistaController extends Controller
 
         }else if( $req->id_fam != null ){
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idSubespecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Familias.idFamilia', '=', $req->id_fam], ['Especies.estadoMarn', '=', 1]])->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Familias.idFamilia', '=', $req->id_fam], ['Especies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Familias.idFamilia', '=', $req->id_fam ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Familias.idFamilia', '=', $req->id_fam ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
 
             Excel::create($nombre_excel, function( $excel )use( $esp , $sub ){
@@ -1259,11 +1561,11 @@ class AvistaController extends Controller
 
         }else if( $req->id_ord != null ){
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idSubespecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Ordens.idOrden', '=', $req->id_ord], ['Especies.estadoMarn', '=', 1]])->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Ordens.idOrden', '=', $req->id_ord], ['Especies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Ordens.idOrden', '=', $req->id_ord ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Ordens.idOrden', '=', $req->id_ord ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
 
             Excel::create($nombre_excel, function( $excel )use( $esp , $sub ){
@@ -1289,11 +1591,11 @@ class AvistaController extends Controller
 
             //dd($req->all());
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idSubespecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Clases.idClase', '=',  $req->id_cla], ['Especies.estadoMarn', '=', 1]])->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Clases.idClase', '=',  $req->id_cla], ['Especies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Clases.idClase', '=',  $req->id_cla ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Clases.idClase', '=',  $req->id_cla ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
 
             //dd($avista);
@@ -1325,11 +1627,11 @@ class AvistaController extends Controller
 
             //dd($req->all());
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Divisions.idDivision', '=',  $req->id_div], ['Especies.estadoMarn', '=', 1]])->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Divisions.idDivision', '=',  $req->id_div], ['Especies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Divisions.idDivision', '=',  $req->id_div ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Divisions.idDivision', '=',  $req->id_div ], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
             //dd($avista);
 
@@ -1360,12 +1662,12 @@ class AvistaController extends Controller
 
             //dd($req->all());
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idEspecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Reinos.idReino', '=', $req->id_rei], ['Especies.estadoMarn', '=', 1]])->get();
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Reinos.idReino', '=', $req->id_rei], ['Especies.estadoMarn', '=', 1]])->get();
 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where([['Reinos.idReino', '=', $req->id_rei], ['Subespecies.estadoMarn', '=', 1]])->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where([['Reinos.idReino', '=', $req->id_rei], ['Subespecies.estadoMarn', '=', 1]])->get(); 
 
             Excel::create($nombre_excel, function( $excel )use( $esp , $sub ){
                  
@@ -1392,16 +1694,15 @@ class AvistaController extends Controller
         }else if( $req->id_rei == null ){
 
 
-            $nom_esp = Nombrecomun::join('Especies','nombrecomuns.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->select('nombreComun')->where('Reinos.idReino',$req->id_rei)->get();
 
             //dd($nom_esp);
 
 
-            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->leftjoin('nombrecomuns','Especies.idEspecie','=','nombrecomuns.idEspecie')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('ClasesdeTipo','Especies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where('Especies.estadoMarn',1)->get(); 
+            $esp = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->leftJoin('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('apendice_cites','Especies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Especies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Especies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Especies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Especies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where('Especies.estadoMarn',1)->get(); 
 
             //dd($avista);
 
-            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->leftjoin('nombrecomuns','subespecies.idSubespecie','=','nombrecomuns.idSubespecie')->join('ClasesdeTipo','Subespecies.idClaseDeTipo','=','ClasesdeTipo.idClaseDeTipo')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','nombrecomuns.nombreComun as Nombre Comun','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','ClasesdeTipo.nombreClaseDeTipo as Clase de Tipo','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia','Avistamientos.publicacionPdf as Publicaciones')->where( 'Subespecies.estadoMarn', 1)->get(); 
+            $sub = Avistamiento::join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Generos','Especies.idGenero','=','Generos.idGenero')->join('Familias','Generos.idFamilia','=','Familias.idFamilia')->join('Ordens','Familias.idOrden','=','Ordens.idOrden')->join('Clases','Ordens.idClase','=','Clases.idClase')->join('Divisions','Clases.idDivision','=','Divisions.idDivision')->join('Reinos','Divisions.idReino','=','Reinos.idReino')->join('apendice_cites','Subespecies.idApendiceCITES','=','apendice_cites.idApendiceCITES')->join('categoria_marns','Subespecies.idCategoriaMARN','=','categoria_marns.idCategoriaMARN')->join('categoria_u_i_c_ns','Subespecies.idCategoriaUICN','=','categoria_u_i_c_ns.idCategoriaUICN')->join('procedencia_especies','Subespecies.idProcedenciaDeLaEspecie','=','procedencia_especies.idProcedenciaDeLaEspecie')->select('Reinos.nombreReino as Reino', 'Divisions.nombreDivision as Division', 'Clases.nombreClase as Clase', 'Ordens.nombreOrden as Orden', 'Familias.nombreFamilia as Familia', 'Generos.nombreGenero as Genero','Especies.nombreEspecie as Especie','Subespecies.nombreSubespecie as Subespecie','Subespecies.nombreEnIngles as nombre Ingles','Suelo.nombreSuelo as Suelo', 'ClasesDeTierra.nombreClaseDeTierra as Clase Tierra', 'Departamento.nombreDepartamento as Departamento','apendice_cites.nombreApendiceCITES as Apendice CITES','categoria_marns.nombreCategoriaMARN as Categoria MARN','categoria_u_i_c_ns.nombreCategoriaUICN as Categoria UICN','procedencia_especies.nombreProcedenciaDeLaEspecie as Procedencia','Avistamientos.ecosistemaAvistamiento as Ecosistema', 'Avistamientos.descripcionClimaAvistamiento as Clima', 'Avistamientos.fisiografiaAvistamiento as Fisiogrfia', 'Avistamientos.geologiaAvistamiento as Geologia', 'Avistamientos.hidrografiaAvistamiento as Hidrografia')->where( 'Subespecies.estadoMarn', 1)->get(); 
 
 
 
@@ -1589,6 +1890,19 @@ class AvistaController extends Controller
 
         }
 
+
+
+    }
+
+    public function Consulta_Publica_dos( Request $req ){
+
+        //dd($req->all());
+
+
+        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Especies.fotografiaEspecie','Subespecies.fotografiaEspecie2')->where([['Reinos.nombreReino', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Divisions.nombreDivision', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.nombreDivision', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Clases.nombreClase', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.nombreClase', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Ordens.nombreOrden', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere( [['Ordens.nombreOrden', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Familias.nombreFamilia', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.nombreFamilia', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Generos.nombreGenero', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.nombreGenero', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Especies.nombreEspecie', 'LIKE', "%$req->consulta%"], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.nombreEspecie', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->orWhere([['Subespecies.nombreSubespecie', 'LIKE', "%$req->consulta%"], ['Subespecies.estadoMarn', '=', 1]])->get();
+
+
+        return response()->json( $especie );
 
 
     }
