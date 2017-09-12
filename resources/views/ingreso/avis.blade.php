@@ -3,7 +3,7 @@
 <head>
     <title>MARN | SIBES</title>
      <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
         <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -34,9 +34,21 @@
 
         })
 
+        $('#id_colector').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector').submit();
+
+      });
+
     })
 
 </script>
+<style type="text/css">
+    .navbar{
+            box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+        }
+</style>
 
 
 
@@ -94,6 +106,13 @@
         <input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
     </form>
 
+    <form id="frm-colector" method="get" action="Agregar_Colector" >
+        <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+    </form>
+    <form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
+        <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+    </form> 
+
 
 <nav>
     <ul class="nav nav-tabs">
@@ -107,50 +126,67 @@
     </ul>
 </nav>
         <input type="hidden" name="id_esp" value="{{ $esp->idEspecie }}" >
-        <div  class="row" style="padding-right: 30px;padding-left: 30px;" ><H3>  <label style="padding-left: 20px;" >Avistamiento de: </label> {{ $esp->nombreEspecie }} <label class="btn btn-default" id="agr_avista" style="float: right;" >  Agregar <span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span> </label> </H3> </div>
-        
-        
-        <br><br>
+        <div  class="row" style="padding-right: 30px;padding-left: 30px;" ><H4>  <label style="padding-left: 20px;" >Avistamientos de la especie: </label> {{ $esp->nombreEspecie }} <label class="btn btn-default" id="agr_avista" style="float: right;" >  Agregar Avistamiento <span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span> </label> </H4> </div>       
+    
+        <hr>
 
+<div class="row" >
+<div class="col-lg-2" >
 
-    <div class="row" style="padding-left: 40px;" >
+     <div class="col-xs-12">
+            <!--<label> Fotografía de Especie</label><br>-->
 
-        <div class="col-xs-12 col-lg-2">
+            @if(count($esp->fotografiaEspecie)==1)
+            <center>
+                <img src="/imagen_especie/{{ $esp->nombreEspecie }}/{{ $esp->fotografiaEspecie }}" class="img-rounded" width="150" height="140">
+            </center>
+            @else
+            <center>
+                <img src="/imagen/placeholder.png" class="img-rounded" width="150" height="140">
+            </center>
+            @endif
+           <br><br>
+        </div>
+
+   
+        <div style="padding-left: 20px;" >
+
+        <div class="col-xs-12 ">
             <label>Reino </label><br>
             <label class="show1">{{ $esp->nombreReino }} </label>
-        </div>
-        <div class="col-xs-12 col-lg-2 ">
+        </div><br>
+        <div class="col-xs-12  ">
             <label > División </label><br>
             <label class="show1"   >{{ $esp->nombreDivision }}</label>
-        </div>
-        <div class="col-xs-12 col-lg-2 ">
+        </div><br>
+        <div class="col-xs-12  ">
             <label> Clase</label><br>
             <label  class="show1" " >{{ $esp->nombreClase }} </label>
-        </div>
-        <div class="col-xs-12 col-lg-2">
+        </div><br>
+        <div class="col-xs-12 ">
             <label> Orden</label><br>
             <label class="show1"  >{{ $esp->nombreOrden }}   </label>
-        </div>
-        <div class="col-xs-12 col-lg-2">
+        </div><br>
+        <div class="col-xs-12 ">
             <label> Familia</label><br>
             <label class="show1" "  >{{ $esp->nombreFamilia }}</label>
-        </div>
-        <div class="col-xs-12 col-lg-2">
+        </div><br>
+        <div class="col-xs-12 ">
             <label> Género</label><br>
             <label  class="show1" >{{ $esp->nombreGenero }} </label>
         </div>
+            
+        </div>
+        
 
-    </div>
 
 
 
-    @endforeach
-    <hr>
 
+</div>
+<div class="col-lg-10" >
 
     <div class="container-fluid">
-
-
 
         <table class="table table-striped table-bordered" width="100%" cellspacing="0" style="background-color: white;">
         <thead>
@@ -183,6 +219,21 @@
     </table>
 
     </div>
+    
+
+</div>
+</div>
+
+
+
+    
+
+
+    @endforeach
+
+
+
+    
 
 @include('modales.avi_mod')
 
@@ -244,30 +295,39 @@
 
                 </div>
                         <div class="form-group row ">
-                            <div class="col-xs-12 col-md-4">
+                        <div class="col-xs-12 col-md-4">
                                 <label>
                                     Colector:
                                 </label>
-                                <select class="form-control" id="id_colector" name="col_avis" >
+                                <select class="form-control" id="id_colectore" name="col_avis" >
                                     <option disabled="true" selected="true" value="0">
                                         --- Colector ---
                                     </option>
                                 </select>
-                                <!--
-                                <div class="alert alert-danger" style="display: none;" id="_col_avis" > {{ $errors->first('col_avis') }} </div>
-                                -->
+
                         <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_col_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('col_avis') }}</strong></span>  </div>
                         </center>
+                        </div>
 
-                            </div>
-                            <div class="col-xs-12 col-md-4">
-                                <label>
-                                    Fuente de Informacion:
-                                </label>
+                        <div class="col-xs-12 col-md-4">
+                            <label>
+                                Fuente de Informacion:
+                            </label>
+                                <!-- 
                                 <input class="form-control" id="idFInfo" name="fuente_avis" >
+                                -->
+                                <select class="form-control" id="idFInfo" name="fuente_avis" >
+                                    <option disabled="true" selected="true" value="0">
+                                        --- Fuente de Información ---
+                                    </option>
+                                </select>
 
-                            </div>
+                        <center>
+                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_fuente_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('fuente_avis') }}</strong></span>  </div>
+                        </center>
+
+                        </div>
                             <div class="col-xs-12 col-md-4">
                                 <label>
                                     Ejemplar Depositado:
@@ -284,26 +344,8 @@
                             </div>
                         </div>
                         <div  class="form-group row ">
-                          <div class="col-xs-12 col-md-3 ">
-                                <label>
-                                    Zona:
-                                </label>
-                                <select class="form-control" id="id_zona" name="zona_avis" >
-                                    <option disabled="true" selected="true" value="0">
-                                        ---Zona---
-                                    </option>
-                                </select>
-
-                            <!--
-                                <div class="alert alert-danger" style="display: none;" id="_zona_avis" > {{ $errors->  first('zona_avis') }} </div>
-                            -->
-                        <center>
-                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_zona_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('zona_avis') }}</strong></span>  </div>
-                        </center>
-
-
-                            </div>
-                            <div class="col-xs-12 col-md-3">
+            
+                            <div class="col-xs-12 col-md-4">
                                 <label>
                                     Departamento:
                                 </label>
@@ -319,7 +361,7 @@
                         </center>
                             </div>
 
-                            <div class="col-xs-12 col-md-3">
+                        <div class="col-xs-12 col-md-4">
                                 <label>
                                     Municipio:
                                 </label>
@@ -333,27 +375,25 @@
                         <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_mun_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('mun_avis') }}</strong></span>  </div>
                         </center>
-
-                            </div>
-                            <div class="col-xs-12 col-md-3">
-                                <label>
-                                    Canton:
-                                </label>
-                                <select class="form-control" id="id_canton" name="canton_avis" >
-                                    <option disabled="true" selected="true" value="0">
-                                        ---Canton---
-                                    </option>
-                                </select>
+                        </div>
+                    <div class="col-xs-12 col-md-4">
+                        <label>
+                            Canton:
+                        </label>
+                        <select class="form-control" id="id_canton" name="canton_avis" >
+                            <option disabled="true" selected="true" value="0">
+                                ---Canton---
+                            </option>
+                        </select>
                                 <!--
                                 <div class="alert alert-danger" style="display: none;" id="_canton_avis" > {{ $errors->first('canton_avis') }} </div>
                                 -->
                     <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_canton_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('canton_avis') }}</strong></span>  </div>
                     </center>
+                    </div>
+                    </div>
 
-
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-12">
                                 <h4>
@@ -362,34 +402,74 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="col-xs-12 col-md-4">
-                                <label>
-                                    Latitud:
-                                </label>
-                                <input class="form-control" id="lati_avis"  name="lati_avis">
+                        <div class="col-xs-12 col-md-4">
+                            <label>
+                                Latitud:
+                            </label>
+<div class="row" style="padding-left: 20px;border-radius: 4px;border: 1px solid  #bfbfbf ;padding: 7px;" >
+<div style="padding-left: 20px;" >
+ <label > N </label>
+ <input id="lati_avis"  name="lati_avis" style="width: 50px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;" >
+ <label>°</label>
+ <input name="lati_min" style="width: 50px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
+ <label> '</label>
+ <input name="lati_sec" style="width: 60px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
+ <label> "</label>    
+</div>
+
+</div>                              
+                                
                                 <!--
+                                <input id="lati_avis"  name="lati_avis" style="width: 50px;" > 
                                  <div class="alert alert-danger" style="display: none;" id="_lati_avis" > {{ $errors->first('lati_avis') }} </div>
                                 -->
-                        <center>
-                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_avis') }}</strong></span>  </div>
-                        </center>
-                        
-
-
-
-                        </div>
+<center>
+    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_avis') }}</strong></span>  
+    </div>
+</center>
+<center>
+    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_min" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_min') }}</strong></span>  
+    </div>
+</center>
+<center>
+    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_sec" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_sec') }}</strong></span>  
+    </div>
+</center>
+</div>
 
                         <div class="col-xs-12 col-md-4">
                                 <label>
                                     Longitud:
                                 </label>
-                                <input class="form-control" id="long_avis"  name="long_avis">
-                                <!--
+<div class="row" style="padding-left: 20px;border-radius: 4px;border: 1px solid  #bfbfbf ;padding: 7px;" >
+<div style="padding-left: 20px;" >
+
+ <label > O </label>
+ <input id="lati_avis"  name="long_avis" style="width: 50px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;" >
+ <label>°</label>
+ <input name="long_min" style="width: 50px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
+ <label> '</label>
+ <input name="long_sec" style="width: 60px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
+ <label> "</label>    
+</div>
+
+</div>                                
+<!--
+ <input class="form-control" id="long_avis"  name="long_avis" placeholder="O 89° 6' 26.499'' " >
                                  <div class="alert alert-danger" style="display: none;" id="_long_avis" > {{ $errors->first('long_avis') }} </div>
                                 -->
-                        <center>
-                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_long_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('long_avis') }}</strong></span>  </div>
-                        </center>
+    <center>
+        <div class="" style="display: none;color:#ff3700;font-size:small;" id="_long_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('long_avis') }}</strong></span>
+        </div>
+     </center>
+    <center>
+        <div class="" style="display: none;color:#ff3700;font-size:small;" id="_long_min" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('long_min') }}</strong></span>
+        </div>
+    </center>
+    <center>
+        <div class="" style="display: none;color:#ff3700;font-size:small;" id="_long_sec" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('long_sec') }}</strong></span>
+        </div>
+    </center>
                         
                         </div>
 
@@ -403,48 +483,31 @@
                         </center>
                         </div>
                         </div>
-                        <div class="form-group row">
-                            <div class="col-xs-12 col-md-6">
-                                <label>
-                                    Fotografia de Avistamiento:
-                                </label>
-                                <br>
-                                    <input aria-describedby="fileHelp" class="form-control-file" id="idFoAvis" type="file" name="foto_graf" ><br>
-                            <center>
-                                <div class="" style="display: none;color:#ff3700;font-size:small;" id="_foto_graf" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('foto_graf') }}</strong></span></div>
-                            </center>
 
-                            </div>
-                    
-                    </div>
-                       <div class="form-group row">
 
+                    <div class="form-group row">
                         <div class="col-xs-12 col-md-6">
-                                <label>
-                                    Publicacion en PDF:
-                                </label>
-                                <br>
-
-                    <div class="row">
-                        <input class="form-control frm-input" id="id_PubPDF"  name="PDF_file" type="text" >
-
-                        <button class="btn btn-default" type="submit" id="guardar_link" style="width: 100%;">Agregar enlace  <span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span> </button>
-                        <div id="link_esp" >                          
-                            <textarea class="form-control" id="pub_PDF" rows="3" name="pub_PDF" disabled="false"></textarea>
+                            <label>
+                                    Fotografia de Avistamiento:
+                            </label>
+                            <br>
+                                <input aria-describedby="fileHelp" class="form-control-file" id="idFoAvis" type="file" name="foto_graf" ><br>
+                        <center>
+                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_foto_graf" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('foto_graf') }}</strong></span></div>
+                        </center>
                         </div>
-                        <div id="escondido" style="display: none;" >
-                            <textarea id="publish" name="publish"></textarea>
-                        </div>
+                        <div class="col-xs-12 col-md-6" >
+                            <label>
+                                    Numero de Especies Observadas:
+                            </label>
+                             <input class="form-control" id="num_avis"  name="num_avis">
+                        <center>
+                            <div class="" style="display: none;color:#ff3700;font-size:small;" id="_num_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->first('num_avis') }}</strong></span>  </div>
+                        </center>
 
-                        <br>
-                    <!--<div class="alert alert-danger" style="display: none;" id="_PDF-file" > {{ $errors->first('PDF-file') }} </div>-->
-
-
+                        </div>                    
                     </div>
-
-                    </div>
-
-                    </div>
+                    
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-6">
                                 <label>
