@@ -1,13 +1,26 @@
               body {
-                  background: #E9FADA;
+                  background: #ffffff;
                   color: #8e7200;
                   /*
                   font-family: Verdana, Arial, Helvetica, sans-serif;
                   font-size: medium;*/
               }
               
+              .modal {
+                  position: fixed;
+                  top: 22%;
+                  right: -7%;
+                  bottom: 0;
+                  left: 0;
+                  z-index: 1050;
+                  display: none;
+                  overflow: hidden;
+                  -webkit-overflow-scrolling: touch;
+                  outline: 0;
+              }
+              
               .modal-content {
-                  background: #f2ffe6;
+                  background: #f7f6ed;
               }
               
               .modal-header {
@@ -22,7 +35,7 @@
                   body {}
                   .panel {
                       width: 90%;
-                      background: #E9FADA;
+                      background: #efeddc;
                   }
               }
               
@@ -30,7 +43,7 @@
                   body {}
                   .panel {
                       width: 70%;
-                      background: #E9FADA;
+                      background: #efeddc;
                   }
               }
               
@@ -42,7 +55,7 @@
                   .panel {
                       border-width: 1px;
                       border-color: #8e7200;
-                      background: #e6ffe6;
+                      background: #efeddc;
                   }
               }
               
