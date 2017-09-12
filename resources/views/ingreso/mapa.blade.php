@@ -5,12 +5,11 @@
 
 	 <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
-	 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	 	<link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
         <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="/js/plugins/sortable.js" type="text/javascript"></script>
-       
+        <script src="/js/plugins/sortable.js" type="text/javascript"></script>       
         <script src="/themes/explorer/theme.js" type="text/javascript"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
         <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
@@ -44,17 +43,113 @@
         
         var marker_{{$cord->idAvistamiento}} = new google.maps.Marker({
           position: uluru,
-          map: map
+          map: map,
+          id:{{$cord->idAvistamiento}}
         });
         
+        
+
+        marker_{{$cord->idAvistamiento}}.addListener('click',function(){
+            console.log(this.id)
+            var id = this.id
+            var div = $('#modal-body-view')
+
+            llenar_campos_avis( id, div );
+            publi_pdf_avis( id, div);
+
+            $('#VER_Avist').modal('show');
+
+
+        })
+
         @endforeach
 
-
       }
+
+
+    function llenar_campos_avis( id, div ){
+
+            $.ajax({
+                 type : 'get',
+                url  : '{!! URL::to('get_Avista_BY_ID') !!}',
+                data :  { 'id':id },
+                success:function(data){
+                    console.log(data)
+                    console.log('si se pudo get la info')
+                    div.find('#id_view').val(data[0].idAvistamiento);
+                    div.find('#label_esp_v').text(data[0].idAvistamiento);
+                    div.find('#fecha-view').text(data[0].fechaHoraAvistamiento);
+                    div.find('#hora-view').text(data[0].horaAvistamiento);
+                    div.find('#fecha-ing-view').text(data[0].fechaIngresodeInformacionBD);
+                    div.find('#col-view').text(data[0].nombreColector);
+                    div.find('#dep-view').text(data[0].nombreDepartamento);
+                    div.find('#mun-view').text(data[0].nombreMunicipio);
+                    div.find('#can-view').text(data[0].nombreCanton);
+                    div.find('#fuente-view').text(data[0].nombreFuente);
+                    div.find('#ejem-view').text(data[0].ejemplarDepositado);
+                    div.find('#num_avis_ver').text(data[0].numeroEspecies);
+                    div.find('#lati-vista').text(data[0].mostrar_lati);
+                    div.find('#long-vista').text(data[0].mostrar_long);
+                    div.find('#altu-vista').text(data[0].alturaAvistamiento);
+                    div.find('#suelo-vista').text(data[0].nombreSuelo);
+                    div.find('#tierra-vista').text(data[0].nombreClaseDeTierra);
+                    div.find('#publicacion_PDF').text(data[0].publicacionPdf);
+                    div.find('#clima-avista').text(data[0].descripcionClimaAvistamiento);
+                    div.find('#eco-avista').text(data[0].ecosistemaAvistamiento);
+                    div.find('#fisio-avista').text(data[0].fisiografiaAvistamiento);
+                    div.find('#geo-avista').text(data[0].geologiaAvistamiento);
+                    div.find('#hidro-avista').text(data[0].hidrografiaAvistamiento);
+                    div.find('#usos-avista').text(data[0].usosDeLaEspecieAvistamiento);
+
+                    if(data[0].fotografiaAvistamiento){
+
+                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].fotografiaAvistamiento).fadeIn();    
+                    }
+
+                },error:function(){
+                    console.log('no se pudo get la info')
+                    llenar_campos_avis( id, div );
+                }
+            })            
+        }
+
+        function publi_pdf_avis( id, div){
+
+
+            var fue = "";            
+            $.ajax({
+                        type : 'get',
+                        url  : '{!! URL::to('Publi_PDF_AVIS') !!}',
+                        data :  { 'id':id },
+                        success:function(data){
+                            console.log('success pdf info')
+                            console.log(data)                            
+                            fue = "";
+                            for(var i = 0 ; i < data.length ; i++ )
+                            {
+                            fue+='<tr><td>'+data[i].nombrePublicacion+'<a href="/publicacion_especie/'+data[i].nombreEspecie+'/'+data[i].nombrePublicacion+'" target="_blank" class="btn btn-default btn-sm" style="float:right;">documento PDF</a></td></tr>';
+                            }
+                            div.find('.row_pdf').html(" ");
+                            div.find('.row_pdf').append(fue);
+
+                        },
+                        error:function(){
+                            console.log('error con fuente info ')
+                            publi_pdf_avis( id, div);
+                        }
+                    })
+        }      
+
+
+
 </script>
 
 
-
+<style type="text/css">
+    .navbar{
+            box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+        }
+</style>
 
 
 <style>
@@ -118,6 +213,20 @@
 
         });
 
+        $('#id_colector').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector').submit();
+
+      });
+
+        $('#id_colectoX').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector-tabla').submit();
+
+      });
+
 
 
         
@@ -170,6 +279,12 @@
     <form id="frm-estado-usr" method="get" action="estado_usuario" >
         <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
     </form>
+    <form id="frm-colector" method="get" action="Agregar_Colector" >
+        <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+    </form>
+    <form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
+        <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+    </form>
 <nav>
   	<ul class="nav nav-tabs">
 
@@ -181,12 +296,68 @@
 		
 	</ul>
 </nav>
+<div class="row" >
+    <div  class="col-lg-2">
+        <br>
+        <div class="col-xs-12">
+            <!--<label> Fotografía de Especie</label><br>-->
 
-<center>
+            @if(count($esp->fotografiaEspecie)==1)
+            <center>
+                <img src="/imagen_especie/{{ $esp->nombreEspecie }}/{{ $esp->fotografiaEspecie }}" class="img-rounded" width="150" height="140">
+            </center>
+            @else
+            <center>
+                <img src="/imagen/placeholder.png" class="img-rounded" width="150" height="140">
+            </center>
+            @endif
+           <br><br>
+        </div>
 
-	<div id="map"></div>
+   
+        <div style="padding-left: 20px;" >
 
-</center>
+        <div class="col-xs-12 ">
+            <label>Reino </label><br>
+            <label class="show1">{{ $esp->nombreReino }} </label>
+        </div><br>
+        <div class="col-xs-12  ">
+            <label > División </label><br>
+            <label class="show1"   >{{ $esp->nombreDivision }}</label>
+        </div><br>
+        <div class="col-xs-12  ">
+            <label> Clase</label><br>
+            <label  class="show1" " >{{ $esp->nombreClase }} </label>
+        </div><br>
+        <div class="col-xs-12 ">
+            <label> Orden</label><br>
+            <label class="show1"  >{{ $esp->nombreOrden }}   </label>
+        </div><br>
+        <div class="col-xs-12 ">
+            <label> Familia</label><br>
+            <label class="show1" "  >{{ $esp->nombreFamilia }}</label>
+        </div><br>
+        <div class="col-xs-12 ">
+            <label> Género</label><br>
+            <label  class="show1" >{{ $esp->nombreGenero }} </label>
+        </div>
+            
+        </div>
+    </div>
+    <div  class="col-lg-10">
+
+        <center>
+
+            <div id="map"></div>
+
+        </center>
+        
+    </div>
+</div>
+
+
+
+@include('modales.avi_mod')
 
 
 </body>
