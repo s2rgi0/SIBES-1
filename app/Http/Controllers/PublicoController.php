@@ -8,6 +8,7 @@ use App\ClasesDeTierra;
 use App\Colectore;
 use App\Departamento;
 use App\Especie;
+use App\publicacionPDF;
 use App\Clase;
 use App\Municipio;
 use App\Region;
@@ -1667,6 +1668,8 @@ class PublicoController extends Controller
 
 		$avista = Avistamiento::join('Especies', 'Avistamientos.idEspecie', '=', 'Especies.idEspecie')->join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Municipio', 'Avistamientos.codigoMunicipio', '=', 'Municipio.codigoMunicipio')->join('Canton', 'Avistamientos.codigoCanton', '=', 'Canton.codigoCanton')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->select('Especies.idEspecie', 'Especies.nombreEspecie', 'Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento', 'Municipio.nombreMunicipio', 'Canton.nombreCanton', 'Avistamientos.fuenteDeInformacion', 'Avistamientos.alturaAvistamiento', 'Avistamientos.longitudAvistamiento', 'Avistamientos.latitudAvistamiento', 'Avistamientos.fechaHoraAvistamiento', 'Avistamientos.ejemplarDepositado', 'Avistamientos.fechaIngresodeInformacionBD', 'Avistamientos.fotografiaAvistamiento', 'Avistamientos.ecosistemaAvistamiento', 'Avistamientos.descripcionClimaAvistamiento', 'Avistamientos.fisiografiaAvistamiento', 'Avistamientos.geologiaAvistamiento', 'Avistamientos.hidrografiaAvistamiento', 'Avistamientos.usosDeLaEspecieAvistamiento', 'Colectores.idColector', 'Departamento.codigoDepartamento', 'Municipio.codigoMunicipio', 'Canton.codigoCanton', 'Suelo.idSuelo', 'ClasesDeTierra.idClaseDeTierra','ClasesDeTierra.nombreClaseDeTierra','Avistamientos.publicacionPdf','Avistamientos.horaAvistamiento','Suelo.nombreSuelo')->where('idAvistamiento', $req->id_avista)->get();
 
+        $pdf = publicacionPDF::join('Avistamientos','publicacionPDF.idAvistamiento','=','Avistamientos.idAvistamiento')->join('Especies','Avistamientos.idEspecie','=','Especies.idEspecie')->select('publicacionPdf.nombrePublicacion','Especies.nombreEspecie')->where('publicacionPDF.idAvistamiento', $req->id_avista)->get();
+
 		//dd($avista);
 
 		$reino_ani = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Animalia'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Animalia'], ['Subespecies.estadoMarn', '=', 1]])->get();
@@ -1735,7 +1738,7 @@ class PublicoController extends Controller
         $d_mora = count($depar_mor);
         $d_laun = count($depar_launi);
 
-		return view('publico.publico_vista_esp', compact('avista','r_ani','r_bac','r_fun','r_pro','r_pla','r_chro','d_ahua','d_sant','d_sons','d_chal','d_lali','d_ssal','d_cusc','d_caba','d_lapa','d_sanv','d_usul','d_sanm','d_mora','d_laun'));
+		return view('publico.publico_vista_esp', compact('avista','pdf','r_ani','r_bac','r_fun','r_pro','r_pla','r_chro','d_ahua','d_sant','d_sons','d_chal','d_lali','d_ssal','d_cusc','d_caba','d_lapa','d_sanv','d_usul','d_sanm','d_mora','d_laun'));
 
 	}
 
@@ -1747,6 +1750,8 @@ class PublicoController extends Controller
 
 		$avista = Avistamiento::join('Subespecies', 'Avistamientos.idSubespecie', '=', 'Subespecies.idSubespecie')->join('Especies','Subespecies.idEspecie','=','Especies.idEspecie')->join('Colectores', 'Avistamientos.idColector', '=', 'Colectores.idColector')->join('Municipio', 'Avistamientos.codigoMunicipio', '=', 'Municipio.codigoMunicipio')->join('Canton', 'Avistamientos.codigoCanton', '=', 'Canton.codigoCanton')->join('Suelo', 'Avistamientos.idSuelo', '=', 'Suelo.idSuelo')->join('ClasesDeTierra', 'Avistamientos.idClaseDeTierra', '=', 'ClasesDeTierra.idClaseDeTierra')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->select('Subespecies.idSubespecie','Subespecies.nombreSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Avistamientos.idAvistamiento', 'Colectores.nombreColector', 'Suelo.nombreSuelo', 'ClasesDeTierra.nombreClaseDeTierra', 'Departamento.nombreDepartamento', 'Municipio.nombreMunicipio', 'Canton.nombreCanton', 'Avistamientos.fuenteDeInformacion', 'Avistamientos.alturaAvistamiento', 'Avistamientos.longitudAvistamiento', 'Avistamientos.latitudAvistamiento', 'Avistamientos.fechaHoraAvistamiento', 'Avistamientos.ejemplarDepositado', 'Avistamientos.fechaIngresodeInformacionBD', 'Avistamientos.fotografiaAvistamiento', 'Avistamientos.ecosistemaAvistamiento', 'Avistamientos.descripcionClimaAvistamiento', 'Avistamientos.fisiografiaAvistamiento', 'Avistamientos.geologiaAvistamiento', 'Avistamientos.hidrografiaAvistamiento', 'Avistamientos.usosDeLaEspecieAvistamiento', 'Colectores.idColector', 'Departamento.codigoDepartamento', 'Municipio.codigoMunicipio', 'Canton.codigoCanton', 'Suelo.idSuelo', 'ClasesDeTierra.idClaseDeTierra','ClasesDeTierra.nombreClaseDeTierra','Avistamientos.publicacionPdf','Avistamientos.horaAvistamiento','Suelo.nombreSuelo')->where('idAvistamiento', $req->id_avista)->get();
 
+        $pdf = publicacionPDF::join('Avistamientos','publicacionPDF.idAvistamiento','=','Avistamientos.idAvistamiento')->join('Especies','Avistamientos.idEspecie','=','Especies.idEspecie')->select('publicacionPdf.nombrePublicacion','Especies.nombreEspecie')->where('publicacionPDF.idAvistamiento', $req->id_avista)->get();
+
 
 		//dd($avista);
 
@@ -1817,7 +1822,7 @@ class PublicoController extends Controller
         $d_laun = count($depar_launi);
 
 
-		return view('publico.publico_vista_sub', compact('avista','r_ani','r_bac','r_fun','r_pro','r_pla','r_chro','d_ahua','d_sant','d_sons','d_chal','d_lali','d_ssal','d_cusc','d_caba','d_lapa','d_sanv','d_usul','d_sanm','d_mora','d_laun'));
+		return view('publico.publico_vista_sub', compact('avista','pdf','r_ani','r_bac','r_fun','r_pro','r_pla','r_chro','d_ahua','d_sant','d_sons','d_chal','d_lali','d_ssal','d_cusc','d_caba','d_lapa','d_sanv','d_usul','d_sanm','d_mora','d_laun'));
 
 	}
 
