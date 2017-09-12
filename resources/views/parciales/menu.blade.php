@@ -30,9 +30,17 @@
           <ul class="dropdown-menu">
             <li id="id_agregar_usr" ><a >Agregar</a></li>
             <li id="id_estado_usr" ><a >Estado</a></li>
+
           </ul>
         </li>
-        <li ><a href="pdf/Quinto informe Nacional para el CDB.pdf" target="_blank">Ayuda</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Colector <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+             <li id="id_colector" ><a >Agregar</a></li>
+             <li id="id_colectoX" ><a >Colectores</a></li>
+          </ul>
+        </li>
+        <li ><a href="pdf/MANUAL-DE-USUARIO.pdf" target="_blank">Ayuda</a></li>
 
 
       </ul>

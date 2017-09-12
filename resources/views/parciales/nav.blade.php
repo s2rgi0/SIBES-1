@@ -6,22 +6,32 @@
   <!-- Imagenes para los slides -->
               <div class="carousel-inner" role="listbox">
                   <div class="item active">
-                  <a><img src="imagen/perico2_1.jpg" alt="SIBES"></a>
+                  <a><img src="imagen/perico__.jpg" alt="SIBES"></a>
                   <div class="carousel-caption"></div>               
                   </div>
                   <div class="item">
                   
-                  <a><img src="imagen/flor_2.jpg" alt="SIBES"></a>
+                  <a><img src="imagen/flor__.jpg" alt="SIBES"></a>
                   <div class="carousel-caption"> </div>
                   </div>
                   <div class="item">
                   
-                  <a><img src="imagen/Tortuga_1.jpg" alt="SIBES"></a>
+                  <a><img src="imagen/Tortuga__.jpg" alt="SIBES"></a>
                   <div class="carousel-caption"></div>
                   </div>    
                   <div class="item">
                  
-                  <a> <img src="imagen/cafe_1.jpg" alt="SIBES"></a>
+                  <a> <img src="imagen/cafe__.jpg" alt="SIBES"></a>
+                  <div class="carousel-caption">  </div>
+                  </div>
+                  <div class="item">
+                 
+                  <a> <img src="imagen/tucan__.jpg" alt="SIBES"></a>
+                  <div class="carousel-caption">  </div>
+                  </div>
+                  <div class="item">
+                 
+                  <a> <img src="imagen/torogoz__.jpg" alt="SIBES"></a>
                   <div class="carousel-caption">  </div>
                   </div>
               </div>
