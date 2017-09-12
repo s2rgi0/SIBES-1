@@ -12,10 +12,31 @@
 
     <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a  style="font-family: 'Raleway', sans-serif; color: #fff;" href="SistemadeBiodiversidadsv" > SIBES <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+        <li class="active"><a  style="font-family: 'Raleway', sans-serif; color: #fff;" href="SistemadeBiodiversidadsv" >Inicio <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
 
         <li class="dropdown">
-          <a class="dropdown-toggle" style="color: white;" data-toggle="dropdown"><i class="glyphicon glyphicon-map-marker"></i> <i class="fi-crown"></i> Departamentos  <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity white"></span></a>
+          <a class="dropdown-toggle" style="color: white;" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i>  Busqueda  <span class="caret" ></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity white"></span></a>
+          <ul class="dropdown-menu forAnimate" role="menu">
+                <li id="Busc_reg" ><a href="/Consulta_General" >Basica</a></li>
+                <li id="Busc_ava" ><a href="/Busqueda_Avanzada" >Avanzada</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" style="color: white;" data-toggle="dropdown"><i class="glyphicon glyphicon-grain"></i> Especies <span class="caret " ></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity white"></span></a>
+          <ul class="dropdown-menu forAnimate" role="menu">
+                <li id="reino_Ani" ><a>Animalia ({{ $r_ani }})  </a></li>
+                <li id="reino_Bac" ><a>Bacteria ({{ $r_bac }})  </a></li>
+                <li id="reino_Chr" ><a>Chromista ({{ $r_chro }}) </a></li>
+                <li id="reino_Fun" ><a>Fungi ({{ $r_fun }})  </a></li>
+                <li id="reino_Pla" ><a>Plantae ({{ $r_pla }})  </a></li>
+                <li id="reino_Pro" ><a>Protozoa ({{ $r_pro }})  </a></li>
+          </ul>
+        </li>
+
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" style="color: white;" data-toggle="dropdown"><i class="glyphicon glyphicon-map-marker"></i> <i class="fi-crown"></i> Avistamientos  <span class="caret"></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity white"></span></a>
           <ul class="dropdown-menu forAnimate" role="menu">
 
             <li id="id_ahu" ><a>Ahuachapan ({{ $d_ahua }})  </a></li>
@@ -35,25 +56,9 @@
           </ul>
         </li>
 
-        <li class="dropdown">
-          <a class="dropdown-toggle" style="color: white;" data-toggle="dropdown"><i class="glyphicon glyphicon-grain"></i> Reino  <span class="caret " ></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity white"></span></a>
-          <ul class="dropdown-menu forAnimate" role="menu">
-                <li id="reino_Ani" ><a>Animalia ({{ $r_ani }})  </a></li>
-                <li id="reino_Bac" ><a>Bacteria ({{ $r_bac }})  </a></li>
-                <li id="reino_Chr" ><a>Chromista ({{ $r_chro }}) </a></li>
-                <li id="reino_Fun" ><a>Fungi ({{ $r_fun }})  </a></li>
-                <li id="reino_Pla" ><a>Plantae ({{ $r_pla }})  </a></li>
-                <li id="reino_Pro" ><a>Protozoa ({{ $r_pro }})  </a></li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a class="dropdown-toggle" style="color: white;" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i>  Consulta  <span class="caret" ></span><span style="font-size:16px;" class="pull-right hidden-xs showopacity white"></span></a>
-          <ul class="dropdown-menu forAnimate" role="menu">
-                <li id="Busc_reg" ><a href="/Consulta_General" >Busqueda</a></li>
-                <li id="Busc_ava" ><a href="/Busqueda_Avanzada" >Consulta Avanzada</a></li>
-          </ul>
-        </li>
+        
+        
+        <li ><a href="BUSC_DESC" style="color: #fff;" href=""><span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> Descargas</a></li>
 
 
 
@@ -64,5 +69,5 @@
     </div>
 
     </div>
-    <div class="cuerpo" ></div>
+    <div class="cuerpo"></div>
     </nav>

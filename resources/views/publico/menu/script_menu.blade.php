@@ -3,6 +3,7 @@
 
         $(document).ready(function(){
 
+
             $('#desc_avista').click(function(){
 
                 $('#frm-desc-avista').submit();
@@ -23,17 +24,17 @@
             $('#depto_tax').click(function(){
                 $('#frm-depto').submit();
             })
-
-            $('#btn_consulta').click(function(){
-
-                //alert('aqui vamos')
-                $('#frm-consulta').submit();
-            })
-
+            /*
             $('#btn_consulta').click(function(){
                 //alert('aqui vamos')
                 $('#frm-consulta').submit();
             })
+
+            $('#btn_consulta').click(function(){
+                //alert('aqui vamos')
+                $('#frm-consulta').submit();
+            })
+            */
             $('#id_sta').click(function(){
                 //alert('aqui vamos')
                 $('#frm-santa').submit();
