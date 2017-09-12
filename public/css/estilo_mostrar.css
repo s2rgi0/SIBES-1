@@ -6,7 +6,7 @@ body {
     font-weight: normal;
 }
 
-#Exito_Modal {
+#Exito_Modal, #Exito_Sub_Modal {
     position: fixed;
     top: 30%;
     right: 0;
@@ -34,6 +34,8 @@ p .modal-footer {
 h3.titulo {
     color: #8e7200;
     font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 12px;
 }
 
 .panel {
@@ -110,4 +112,9 @@ hr {
 
 .panel-body {
     padding: 13px;
+}
+
+h4.nombreh4, h4.taxo {
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
