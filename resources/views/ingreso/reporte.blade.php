@@ -6,7 +6,8 @@
 	<!-- Fonts -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	
     <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -95,12 +96,28 @@
 
   		});
 
+  		$('#id_colector').click(function(){
 
+        //alert('iremos al comienzo')
+        $('#frm-colector').submit();
 
+      });
+
+  		$('#id_colectoX').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector-tabla').submit();
+
+      });
 
 	})
 
 </script>
+<style type="text/css">
+	.navbar{
+    box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+</style>
 
 
 
@@ -126,33 +143,18 @@
 
     @endif
 
-
-
-
-
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-
-
-
-
-
-
-
 
 @for ($i = 0; $i < 1 ; $i++)
 
 <form method="get" action="Avistamiento" id="frm-avista" >
 	<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
-
 </form>
-
-
 <form method="get" action="GET_especie" id="frm-Info" >
 	<input type="hidden" id="id_especie" name="esp_id" value="{{ $esp1_array[ $i ]->idEspecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
-
 </form>
 <form id="frm-inicio-esp" method="get" action="incio_sibes" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
@@ -161,11 +163,9 @@
 	<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 </form>
-
 <form id="frm-inicio-esp" method="get" action="incio_sibes" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
-
 <form id="frm-agregar-esp" method="get" action="agregar_especie" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
@@ -177,6 +177,12 @@
 </form>
 <form id="frm-estado-usr" method="get" action="estado_usuario" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
+<form id="frm-colector" method="get" action="Agregar_Colector" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
+<form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
 
 
@@ -217,8 +223,6 @@
 </div>
 
 
-
-
 	<!--                    AQUI ESTA LA INFORMACION DE ESPECIE                    -->
 
 	<div  class="panel">
@@ -231,8 +235,8 @@
 		<input  type="hidden" name="id_genero" value="{{ $esp1_array[ $i ]->idGenero }}">
 		<input  type="hidden" name="n_esp" value="{{ $esp1_array[ $i ]->nombreEspecie }}">
 		<div class="row">
-		<h4 class="taxo"> &nbsp;Taxonomía de Especie</h4>
-		<h4><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}</label>  </h4>
+		<h4 class="taxo"> &nbsp;Taxonomía de la Especie:</h4>
+		<h4 style="color: #122D85;" >&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }} </h4>
 
 		</div>
 
@@ -314,12 +318,7 @@
 <div class="col-xs-12 col-md-4"><!--Columna2-->
 	<div class="row" style="float: left;"><!--FILa-1 interna-->
 		<div class="col-xs-12 col-md-12 ">
-			<label >Clase Tipo:</label>
-
-			@foreach(  $t_esp as $c )
-					<label  class="show1 " > {{ $c->nombreClaseDeTipo }} </label>
-			@endforeach
-			<br>
+			
 			<label >Apéndice CITES:</label>
 			@foreach(  $a_esp as $a )
 					<label  class="show1 "  > {{  $a->nombreApendiceCITES }} </label>
