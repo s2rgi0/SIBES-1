@@ -3,9 +3,9 @@
 <head>
 
   <title> MARN | SIBES </title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta charset="utf-8">
+ <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
 
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
@@ -28,10 +28,14 @@
 <!-- menu -->
 <style type="text/css">
 
-  
+.carousel{
+        box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.3);
+    }
+
+
 
   @media screen and (min-width: 400px) {
-    
+
     .panel
     {
       width:75%;
@@ -39,33 +43,34 @@
   }
 
   @media screen and (min-width: 1000px) {
-    
 
     .cuerpo{
-      height:300px;
+      height:600px;
     }
 
   }
 
   @media screen and (min-width: 700px) {
-
         header{
             position: fixed;
             z-index: 500;
         }
         .side_BAR{
             position: fixed;
-            z-index: 1;
-            padding-top: 85px;
+            z-index: 500;
+            padding-top: 107px;
         }
         .contenido{
-            padding-top: 100px;
+            padding-top: 120px;
             padding-left: 45%;"
         }
     }
 
-
-
+</style>
+<style>
+body{
+    background-image: url("/imagen/patron2.png");
+}
 </style>
 
 
@@ -76,10 +81,6 @@
 function alpha1(){
 
 $("#cargador").hide();
-//$("#reino_id").select2("open");
-//setTimeout ("$('#reino_id').select2('open');", 2000);
-//document.getElementById('reino_id').focus();
-
 
 }
 
@@ -122,7 +123,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     </header>
 
 
-<div id="cargador" style="background-color: white;
+<div id="cargador" style="background-color: white;>
     width: 100%;
     bottom: 0px;
     position: fixed;
@@ -130,27 +131,23 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     height: 100%;">
 </div>
 
-  <div class="row">
+  <div class="row" id="publico_sibes">
 
   <div class="col-md-2  side_BAR" >
 
     @include('publico.menu.menu_side_bar')
-    @include('publico.menu.menu_forms')  
+    @include('publico.menu.menu_forms')
 
   </div>
-
-
-
-
   <div class="col-md-6" >
 
 
   <div class="container contenido">
 
   <center>
-  <br>
-    <h3 style="font-family: 'Ubuntu',  sans-serif;" ><b>Catálogo de Especies de El Salvador</b></h3>
-    <br>
+
+  <h4 style="font-family: 'Ubuntu',  sans-serif;" ><b>Descarga Informacion del Catálogo de Especies de El Salvador</b></h4><br>
+
 
   <div class="panel" >
     <form action="/mostrar" method="GET" name="busqueda" id="consulta-esp-frm" >
@@ -290,7 +287,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     <div class="row">
       <!--
       <div style="padding-top: 5px;padding-bottom: 5px;" >
-        <input type="radio" name="gender" value="male"checked class="taxon" > Taxonomia <input type="radio" name="gender" value="female" class="aviston" > Avistamiento  
+        <input type="radio" name="gender" value="male"checked class="taxon" > Taxonomia <input type="radio" name="gender" value="female" class="aviston" > Avistamiento
       </div>
       -->
 
@@ -299,7 +296,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
         <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="width: 200px;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
         -->
         <br>
-          <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel_" style="background-color: #b9c14d ; border-color: #b9c14d ;width: 200px;" >Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span>
+          <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel_" style="background-color: #b0a54f ; border-color: #8e7200 ;width: 200px;" >Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span>
           </button>
 
         <!--
@@ -321,7 +318,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 <center>
 
 <input type="hidden" id="taxo" name="taxo"  >
-<input type="hidden" id="avisto" name="avisto"  >      
+<input type="hidden" id="avisto" name="avisto"  >
 
 <form method="get" id="frm-excel-especie" action="Excel_especies_sub" >
 
@@ -336,7 +333,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
 </form>
 <form method="get" id="frm-excel-avistos" action="Excel_avistamientos" >
-   
+
   <input type="hidden" id="id_sub_v" name="id_sub"  >
   <input type="hidden" id="id_esp_v" name="id_esp"  >
   <input type="hidden" id="id_gen_v" name="id_gen"  >
@@ -345,7 +342,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
   <input type="hidden" id="id_cla_v" name="id_cla"  >
   <input type="hidden" id="id_div_v" name="id_div"  >
   <input type="hidden" id="id_rei_v" name="id_rei"  >
-  
+
 </form>
 
   <div class="" >

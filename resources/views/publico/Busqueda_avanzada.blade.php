@@ -6,8 +6,8 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
-
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
 
 <!--SELECT-->
@@ -41,13 +41,16 @@
 }
 
 @media screen and (min-width: 1000px) {
-    body {
-        height: 100%;
-    }
 
     .cuerpo{
-      height:300px;
+      height:600px;
     }
+    .side_BAR{
+      position: fixed;
+      z-index: 500;
+      padding-top: 100px;
+    }
+
 }
 
 @media screen and (min-width: 700px) {
@@ -58,16 +61,22 @@
         }
         .side_BAR{
             position: fixed;
-            z-index: 1;
-            padding-top: 85px;
+            z-index: 500;
+            padding-top: 107px;
         }
         .contenido{
-            padding-top: 80px;
-            padding-left: 35%;"
+            padding-top: 110px;
+            padding-left: 30%;
         }
     }
 
 
+
+</style>
+<style>
+body  {
+    background-image: url("/imagen/patron2.png");
+      }
 </style>
 
 <!--MOVIEMIENTO DE LOS SELECT -->
@@ -77,10 +86,6 @@
 function alpha1(){
 
 $("#cargador").hide();
-//$("#reino_id").select2("open");
-//setTimeout ("$('#reino_id').select2('open');", 2000);
-//document.getElementById('reino_id').focus();
-
 
 }
 
@@ -122,35 +127,32 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
          @include('parciales.nav')
   </header>
 
-    
 
 
+  <div class="row" id="publico_sibes">
 
-  <div class="row">
+  <div class="col-md-2 side_BAR"  >
 
-  <div class="col-md-2 side_BAR "  >
-
-    @include('publico.menu.menu_side_bar')
-    @include('publico.menu.menu_forms')  
+      @include('publico.menu.menu_side_bar')
+      @include('publico.menu.menu_forms')
 
   </div>
 
 
 
 
-  <div class="col-md-8" >
+  <div class="col-md-10" >
 
 
   <div class="container contenido">
 
   <center>
-  <br><br>
-    <h3 style="font-family: 'Ubuntu',  sans-serif;" ><b>Catálogo de Especies de El Salvador</b></h3>
-    <br>
-
+  <br>
+  <h4 style="font-family: 'Ubuntu',  sans-serif;" ><b>Consulta el Catálogo de Especies de El Salvador</b></h4>
+  <br>
   <div class="panel" >
-    <form action="/mostrar" method="GET" name="busqueda" id="consulta-esp-frm" >
-    <br>
+  <br>
+  <form action="/mostrar" method="GET" name="busqueda" id="consulta-esp-frm" >
 
 <!--REINO-->
 
@@ -275,92 +277,28 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
     </div>
 
-
-
-
-
 <!---->
     <div class="col-xs-12 hidden-lg" >
       <input type="hidden" name="estadoMarn" class="estadoMarn" >
     </div>
     <div class="row">
-    <!--
-      <div style="padding-top: 5px;padding-bottom: 5px;" >
-        <input type="radio" name="gender" value="male"checked class="taxon" > Taxonomia <input type="radio" name="gender" value="female" class="aviston" > Avistamiento  
-      </div>
-      -->
+
       <br>
+        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="background-color: #b0a54f ; border-color: #8e7200 ;width: 200px;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
 
-      <center>
-
-        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="background-color: #b9c14d ; border-color: #b9c14d ;width: 200px;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
-
-        <!--
-        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel_" style="width: 200px;" >Descargar Excel <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span></button>
-        -->
-      </center>
     </div>
     <br>
-
-
     </form>
 
   </div>
-
-
   </center>
+  <div id="msg_res" style="color:#660000;font-family: 'Ubuntu', bold sans-serif;"   >
 
-<center>
-
-<input type="hidden" id="taxo" name="taxo"  >
-<input type="hidden" id="avisto" name="avisto"  >      
-
-<form method="get" id="frm-excel-especie" action="Excel_especies_sub" >
-
-  <input type="hidden" id="id_sub" name="id_sub"  >
-  <input type="hidden" id="id_esp" name="id_esp"  >
-  <input type="hidden" id="id_gen" name="id_gen"  >
-  <input type="hidden" id="id_fam" name="id_fam"  >
-  <input type="hidden" id="id_ord" name="id_ord"  >
-  <input type="hidden" id="id_cla" name="id_cla"  >
-  <input type="hidden" id="id_div" name="id_div"  >
-  <input type="hidden" id="id_rei" name="id_rei"  >
-
-</form>
-<form method="get" id="frm-excel-avistos" action="Excel_avistamientos" >
-   
-  <input type="hidden" id="id_sub_v" name="id_sub"  >
-  <input type="hidden" id="id_esp_v" name="id_esp"  >
-  <input type="hidden" id="id_gen_v" name="id_gen"  >
-  <input type="hidden" id="id_fam_v" name="id_fam"  >
-  <input type="hidden" id="id_ord_v" name="id_ord"  >
-  <input type="hidden" id="id_cla_v" name="id_cla"  >
-  <input type="hidden" id="id_div_v" name="id_div"  >
-  <input type="hidden" id="id_rei_v" name="id_rei"  >
-  
-</form>
-
-  <div class="" >
-    <!--
-    <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Excel" style="width: 200px;float: left;display: none;" >Descargar Excel <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span></button>
-    -->
   </div>
-
-
-
-    <br>
-    <div id="msg_res" style="color:#527041;font-family: 'Ubuntu', bold sans-serif;"   >
-
-    </div>
-    <br><br>
-    <div id="tabla_res" style="font-size:small;"   >
-
-    </div>
-
-</center>
-
-
-</div>  
+  <br>
+  <div id="tabla_res" style="font-size:small;"   >
+</div>
+</div>
 </div>
 </div>
 

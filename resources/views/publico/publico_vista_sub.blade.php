@@ -2,6 +2,9 @@
 <html>
 <head>
   <title>MARN | SIBES</title>
+  <meta charset="utf-8">
+  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
 
 <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
@@ -13,32 +16,52 @@
 
 <style type="text/css">
 
+    .carousel{
+        box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.3);
+    }
+
    @media screen and (min-width: 1000px) {
 
     .cuerpo{
       height:500px;/*creo que no es necesario esto*/
     }
-    
+
     }
     @media screen and (min-width: 700px) {
 
+        header{
+            position: fixed;
+            z-index: 500;
+        }
+
         .side_BAR{
             position: fixed;
-            z-index: 1;
+            z-index: 500;
+            padding-top: 105px;
         }
         .contenido{
-            padding-left: 17%;"
+            padding-left: 17%;
+            padding-top: 105px;
         }
     }
+</style>
+<style>
+body  {
+    background-image: url("/imagen/patron2.png");
+
 </style>
 
 </head>
 <body>
-  
+
+    <header >
+         @include('parciales.nav')
+    </header>
+
 
 <!-- Este solamente muestra la informacion -->
 
-  <div class="row">
+  <div class="row" id="publico_sibes">
 
     <div class="col-md-2 side_BAR " >
  <div id="yolo">
@@ -49,9 +72,9 @@
     </div>
     <div class="col-md-12" >
     <div class="contenido" >
-      
 
-    
+
+
             <article>
             <div class="container-fluid">
 
@@ -62,7 +85,7 @@
 
             <br>
             <div class="panel" style="width: 100%;" >
-              <div class="row" style="padding-left: 40px;padding-right: 40px;" ><h3><label> Nombre:</label>  {{ $avista[0]->nombreSubespecie }} , {{ $avista[0]->nombreEspecie }} <!--<label class="btn btn-success" id="desc_avista_uni"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label> --></h3> </div>
+              <div class="row" style="padding-left: 40px;padding-right: 40px;" ><h4><label> Nombre:</label>  {{ $avista[0]->nombreSubespecie }} , {{ $avista[0]->nombreEspecie }} <!--<label class="btn btn-success" id="desc_avista_uni"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label> --></h4> </div>
 
             </div>
 
@@ -222,11 +245,20 @@
                       Publicacion en PDF:
                   </label>
                   <br>
-                      <p id="publicacion_PDF" >
+                    <div style=";border-radius: 3px;border: 1px solid  #b0a54f ; padding: 7px;" >
+                      <div  style="padding-left: 30px;width: 50%">
+                      @foreach( $pdf as $doc )
 
-                        {{ $avista[0]->publicacionPdf }}
+                        <div class="row" >{{ $doc->nombrePublicacion}}
+                        <a href="/publicacion_especie/{{ $doc->nombreEspecie}}/{{ $doc->nombrePublicacion}}" target="_blank" class="btn btn-default btn-sm" style="float: right;" >documento PDF</a>
+                        </div>
 
-                      </p>
+                      @endforeach
+                    </div>
+                    </div>
+
+
+
                   <br>
                   </div>
 
