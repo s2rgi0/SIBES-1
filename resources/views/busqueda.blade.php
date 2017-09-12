@@ -1,26 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 	<title> MARN | SIBES </title>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
+<link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
-
 <!--SELECT-->
 <link rel="stylesheet" href="http://css.cdn.tl/normalize.css" />
 <link href="css/select2.css" rel="stylesheet"/>
+<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
- <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
 <script src="js/zelect.js"></script>
 <script src="sweetalert/dist/sweetalert.min.js"></script>
-<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
-
-
 <!--SELECT -->
-
 <!--MOVIEMIENTO DE LOS SELECT -->
 
 <script type="text/javascript">
@@ -63,17 +58,9 @@ setTimeout ("$('#btn_gg').select2();", 4000);
   }
  </script>
 <!--MOVIEMIENTO DE LOS SELECT -->
-
-
-
 </head>
-<body onload="alpha1();">
 
-<header>
-<!--
-    <img src="imagen/cafe.jpg" alt="SIBES" class="img-responsive" >
--->
-</header>
+<body onload="alpha1();">
 
 <div id="cargador" style="background-color: white;
     width: 100%;
