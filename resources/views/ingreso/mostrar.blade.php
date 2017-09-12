@@ -10,12 +10,10 @@
     <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-        <link href="/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
-	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+       	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
 	<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="/js/plugins/sortable.js" type="text/javascript"></script>
-        <script src="/themes/explorer/theme.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js"> </script>
         <script src="sweetalert/dist/sweetalert.min.js"></script>
        
