@@ -1,8 +1,8 @@
 <!DOCTYPE doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title>MARN | SIBES</title>
+        <meta charset="utf-8">
         <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
@@ -21,7 +21,7 @@
     </style>
     <body>
 
-    
+
 <header>
     <img src="imagen/cafe_1.jpg" alt="SIBES" class="img-responsive" >
 </header>
@@ -60,58 +60,37 @@
 <div  style="width:700px;" >
 <div class="row">
   <div class="col-xs-6 col-sm-12">
-     <center><h3>Agregar Usuario</h3></center>
+     <center><h3>Agregar Colector</h3></center>
   </div>
 </div>
 <br>
 
-  <form class="form-horizontal" method="post" action="agregar_usr_dos" id="frm-agr-usr" >
+  <form class="form-horizontal" method="post" action="Guardar_Colector_dos" id="frm-colector_agr" >
   <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
   <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 
-  <div class="form-group row ">
-    <label for="textTipoU" class="col-lg-3  col-sm-6 control-label hidden-xs ">Tipo Usuario:</label>
-    <div class=" col-xs-6  col-sm-6 col-lg-9">
-
-     <select class="form-control" id="textTipoU" name="textTipoU">
-     <option value="0" disabled="false" selected="true"><center>--Seleccionar--</center></option>
-      @foreach( $tipo as $tip )
-        <option value="{{$tip->idTipo}}" > {{$tip->tipoUsuario}} </option>
-      @endforeach
-
-      </select>
-    </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_textTipoU" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('textTipoU') }} </strong></span></div>
-  </div>
 
   <div class="form-group row">
     <label for="textCodU" class=" col-sm-6 col-lg-3 control-label hidden-xs ">Nombre:</label>
     <div class=" col-xs-6  col-sm-6 col-lg-9">
-      <input type="text" class="form-control " id="textCodU" name="textCodU"  placeholder="Nombre Usuario">
-    </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_textCodU" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('textCodU') }} </strong></span></div>
+      <input type="text" class="form-control " id="nombre_Colector" name="nombre_Colector"  placeholder="Nombre Colector">
+    </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_nombre_Colector" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('nombre_Colector') }} </strong></span></div>
   </div>
 
   <div class="form-group">
 
-    <label for="textNomdU" class=" col-sm-6 col-lg-3 control-label hidden-xs" >Usuario:</label>
+    <label for="textNomdU" class=" col-sm-6 col-lg-3 control-label hidden-xs" >Descripcion:</label>
     <div class=" col-xs-6 col-sm-6 col-lg-9">
-      <input type="text" class="form-control" id="textNomdU" name="textNomdU"  placeholder=" Usuario">
-    </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_textNomdU" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('textNomdU') }} </strong></span></div>
-  </div>
-
-  <div class="form-group">
-
-    <label for="texContraU" class=" col-sm-6 col-lg-3 control-label hidden-xs" >Contraseña</label>
-    <div class=" col-xs-6 col-lg-9">
-      <input type="password" class="form-control" id="texContraU" name="texContraU"  placeholder="Contraseña">
-    </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_texContraU" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('texContraU') }} </strong></span></div>
-
-
+      <textarea class="form-control" id="descri_Colector" rows="2" name="descri_Colector" placeholder="breve descripcion del colector" ></textarea>
+    </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_descri_Colector" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('descri_Colector') }} </strong></span></div>
 
   </div>
+
 
   <div class="form-group">
     <div class=" col-xs-6 col-sm-12">
-&nbsp;&nbsp;      <button type="submit" class="btn btn-default  btn btn-default "  id="btn_agr_usr"  style="width: 200px;"  >Agregar
+&nbsp;&nbsp;
+    <button type="submit" class="btn btn-default  btn btn-default "  id="btn_agr_usr"  style="width: 200px;"  >Agregar
       </button>
 
     </div>
@@ -126,23 +105,16 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
-  
+
 $(document).ready(function(){
 
-  
 
-$('#textTipoU').val('0');
 
-$('#textCodU').val('');
+$('#descri_Colector').val('');
 
-$('#textNomdU').val('');
+$('#nombre_Colector').val('');
 
-$('#texContraU').val('');
-
-$('input:text').val('');
-
-  
-$('#frm-agr-usr')[0].reset();
+$('#frm-colector')[0].reset();
 
 
       $('#id_agregar_esp').click(function(){
@@ -196,20 +168,20 @@ $('#frm-agr-usr')[0].reset();
 
       });
 
-    $("#frm-agr-usr button").click(function(ev){
+    $("#frm-colector_agr button").click(function(ev){
 
       ev.preventDefault();
 
 
       if($(this).attr("id")=="btn_agr_usr"){
         //alert('VAMOS AQUI ')
-        var form = document.querySelector('#frm-agr-usr');
+        var form = document.querySelector('#frm-colector_agr');
         var formdata = new FormData(form);
         console.log(form)
         console.log(formdata)
         $.ajax({
           type : 'post',
-          url  : '{!! URL::to('agregar_usr') !!}',
+          url  : '{!! URL::to('Guardar_Colector') !!}',
           data : formdata,
                 contentType: false,
                 processData: false,
@@ -217,13 +189,11 @@ $('#frm-agr-usr')[0].reset();
                 success:function(data){
                   console.log(data.errors)
 
-                  $('#_textTipoU').fadeOut();
-                  $('#_textCodU').fadeOut();
-                  $('#_textNomdU').fadeOut();
-                  $('#_texContraU').fadeOut();
-                  //$('#textTipoU').fadeOut();
+                  $('#_descri_Colector').fadeOut();
+                  $('#_nombre_Colector').fadeOut();
+
                   if(data.success == false ){
-                    $('#_textTipoU,#_textCodU,#_textNomdU,#_texContraU').text('');
+                    $('#_nombre_Colector,#_descri_Colector').text('');
                     //$('#avis-error').fadeIn();
                     $.each(data.errors , function(index,value){
                     $('#_'+index).fadeIn();
@@ -231,10 +201,10 @@ $('#frm-agr-usr')[0].reset();
                     });
                   }else{
 
-                    swal("Usuario ingresado!", "", "success")
+                    swal("Colector ingresado!", "", "success")
                      //delay(200)
                     form.submit();
-                  
+
                   }
 
 

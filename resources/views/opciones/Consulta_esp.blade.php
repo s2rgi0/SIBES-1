@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-
   <title> MARN | SIBES </title>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
-
-<!--SELECT-->
-
 <link href="css/select2.css" rel="stylesheet"/>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="js/zelect.js"></script>
 <script src="sweetalert/dist/sweetalert.min.js"></script>
-<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
-
-
-
-
-<!--SELECT -->
-
 <!--MOVIEMIENTO DE LOS SELECT -->
-
 <script type="text/javascript">
 
 function alpha1(){
@@ -62,16 +50,17 @@ setTimeout ("$('#btn_gug').select2();", 4000);
   }
  </script>
 <!--MOVIEMIENTO DE LOS SELECT -->
-
-
-
+<style>
+nav{
+    box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+body  {
+    background-image: url("/imagen/patron2.png");
+   }
+</style>
 </head>
 <body onload="alpha1();">
-<header>
-    <!--
-    <img src="imagen/cafe.jpg" alt="SIBES" class="img-responsive" >
-    -->
-</header>
+
 <div id="cargador" style="background-color: white;
     width: 100%;
     bottom: 0px;
@@ -112,6 +101,12 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 <form id="frm-estado-usr" method="get" action="estado_usuario" >
   <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
+<form id="frm-colector" method="get" action="Agregar_Colector" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
+<form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
 <input type="hidden" id="usr_id" name="" value="{{ $usuario[0]->idUsuario }}" >
 
 
@@ -122,7 +117,7 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 
   <center>
   <br>
-    <h3><b>Consultar Catálogo de Especies</b></h3>
+    <h3><b>Consulta de Especies al Catálogo de El Salvador</b></h3>
     <br>
 
   <div class="panel" >
@@ -264,7 +259,7 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 
     <div class="row">
       <center>
-        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="width: 200px;background-color: : orange;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
+        <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="background-color: #b0a54f ; border-color: #8e7200 ;width: 200px;"  >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
       </center>
     </div>
     <br>
@@ -289,7 +284,7 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 
 
 </center>
-  
+
 
 
 
@@ -350,4 +345,3 @@ setTimeout ("$('#btn_gug').select2();", 4000);
 
 </body>
 </html>
-
