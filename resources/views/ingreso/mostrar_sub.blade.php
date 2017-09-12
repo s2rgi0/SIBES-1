@@ -7,7 +7,7 @@
 	<title>MARN | SIBES</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
 
 	<!-- Fonts -->
@@ -18,17 +18,18 @@
         <link href="/themes/explorer/theme.css" media="all" rel="stylesheet" type="text/css"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="/js/plugins/sortable.js" type="text/javascript"></script>
-        <script src="/js/fileinput.js" type="text/javascript"></script>
-        <script src="/js/locales/fr.js" type="text/javascript"></script>
-        <script src="/js/locales/es.js" type="text/javascript"></script>
         <script src="/themes/explorer/theme.js" type="text/javascript"></script>
         <script src="/css/bootstrap-theme.min.css" type="text/css"></script>
         <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+       	<script src="js/bootstrap.min.js"> </script>
         <script src="sweetalert/dist/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
 
-
+<style type="text/css">
+	.navbar{
+    		box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+  		}
+</style>
 
 </head>
 <body > <!--onload="nobackbutton();"-->
@@ -79,10 +80,16 @@
 	<input type="hidden" id="id_especie" name="sub_id" value="{{ $esp1_array[ $i ]->idSubespecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 </form>
+<form id="frm-colector" method="get" action="Agregar_Colector" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
 
 <form method="get" action="Informacion_Sub" id="frm-modificando" >
 	<input type="hidden" id="id_sub" name="id_sub" value="{{ $esp1_array[ $i ]->idSubespecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
+</form>
+<form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
 
 <input type="hidden" name="" id="accion" value="{{$msg}}">
@@ -197,46 +204,8 @@
 <!----><!----><!----><!----><!--COLUMNA 2--><!----><!----><!----><!----><!----><!---->
 
 <div class="col-xs-12 col-md-4"><!--Columna2-->
-<div class="row" style="float: left;"><!--FILa-1 interna-->
-	<div class="col-xs-6 col-md-12 ">
-		<label class="hidden-xs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Clase Tipo</label>
 
-
-		@if( count( $t_sub ) == 1 )
-
-			<select style="width:200px;" class="especie" name="clase_tipo" id="clase_id" >
-
-				@foreach( $t_sub as $a )
-				<option value="{{ $a->idClaseDeTipo }}" selected="selected" >{{ $a->nombreClaseDeTipo }}</option>
-				@endforeach
-
-				@foreach( $tipo as $a )
-				<option value="{{ $a->idClaseDeTipo }}" >{{ $a->nombreClaseDeTipo }}</option>
-				@endforeach
-			</select>
-
-		@else
-
-			<select style="width:200px;" class="especie" name="clase_tipo" id="clase_id" >
-
-			<option valueid="0" disabled="true" selected="true">  -- Clase Tipo --</option>
-				@foreach( $tipo as $a )
-					<option value="{{ $a->idClaseDeTipo }}" >{{ $a->nombreClaseDeTipo }}</option>
-				@endforeach
-
-			</select>
-
-
-		@endif
-
-
-		<div class="" style="display: none;color:#ff3700;float: right;padding-right: 70px;" id="_clase_tipo" ><span class="help-block" ><strong style="color:  #00ff19 ;" >{{ $errors->  first('clase_tipo') }}</strong></span>  </div>
-
-
-
-
-	</div>
-</div><!--FILa-1f interna-->
+<!--FILa-1f interna-->
 <div class="row" style="float: left;"><!--FILa-2 interna-->
 	<div class="col-xs-6 col-md-12">
 		<label class="hidden-xs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Apéndice CITES</label>
@@ -417,13 +386,8 @@
 
 	</div>
 </div>
-
-
-
-    	</div>
-
-	
-   </div>
+</div>
+</div>
 
 @include('modales.mensajes')
 @include('modales.mensaje_sub')
@@ -437,6 +401,13 @@
 
 
 	$(document).ready(function(){
+
+		$('#_clase_tipo').fadeOut();
+		$('#_cat_uicn').fadeOut();
+		$('#_cat_uicn').fadeOut();
+		$('#_append_cites').fadeOut();
+		$('#_proce_especie').fadeOut();
+		$('#_file').fadeOut();
 
 		 
         /////////////////////////////////////////////////////
@@ -567,7 +538,6 @@
 	       					if(data.success == false ){
 
 	       						if(data.errors == 'no es una imagen'){
-                                    //alert('no es una imagen')
                                    sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");   
                                 }
 
@@ -678,6 +648,22 @@
   			$('#frm-estado-usr').submit();
 
   		});
+
+  		$('#id_colector').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector').submit();
+
+      });
+
+  		$('#id_colectoX').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector-tabla').submit();
+
+      });
+
+
 
   		$('#btn-cancelar').click(function(){
 
