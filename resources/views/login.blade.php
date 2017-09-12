@@ -1,5 +1,5 @@
 <!DOCTYPE doctype html>
-<html lang="en">
+<html lang="es">
 <head>
         <meta charset="utf-8">
         <title>MARN | SIBES</title>
@@ -7,12 +7,12 @@
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
         <script language="JavaScript">
-  function nobackbutton(){
-   window.location.hash="no-back-button";
-   window.location.hash="Again-No-back-button" //chrome
-   window.onhashchange=function(){window.location.hash="no-back-button";}
-}
-</script>
+          function nobackbutton(){
+           window.location.hash="no-back-button";
+           window.location.hash="Again-No-back-button" //chrome
+           window.onhashchange=function(){window.location.hash="no-back-button";}
+        }
+        </script>
 </head>
 <body onload="nobackbutton();">
     <header>
