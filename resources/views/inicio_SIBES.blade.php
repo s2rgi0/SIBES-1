@@ -2,21 +2,20 @@
 <html>
 <head>
   <title> MARN | SIBES </title>
-
+    <meta charset="utf-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
-     <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
-     <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
+    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
     <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
     <script language="JavaScript">
-  function nobackbutton(){
-   window.location.hash="no-back-button";
-   window.location.hash="Again-No-back-button" //chrome
-   window.onhashchange=function(){window.location.hash="no-back-button";}
-}
-</script>
+      function nobackbutton(){
+       window.location.hash="no-back-button";
+       window.location.hash="Again-No-back-button" //chrome
+       window.onhashchange=function(){window.location.hash="no-back-button";}
+       }
+    </script>
 
 </head>
 <body onload="nobackbutton();">
@@ -68,9 +67,7 @@
 
   });
 
-
       $('#id_agregar_usr').click(function(){
-
         //alert('iremos agregar usuario')
         $('#frm-agregar-usr').submit();
 
@@ -89,12 +86,7 @@
         $('#frm-inicio-esp').submit();
 
       });
-
-
-
-
 </script>
-
 
 <div class="row">
     <div class="col-md-3">
@@ -107,14 +99,11 @@
     <br>
     <img src="imagen/hoja.png" alt="SIBES" class="img-responsive" width="25%" >
 
-
     </div>
     <div class="col-md-3">
 
     </div>
 </div>
-
-
 
   @foreach( $usuario as $xr )
 
