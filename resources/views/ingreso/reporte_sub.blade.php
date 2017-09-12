@@ -6,7 +6,8 @@
 	<!-- Fonts -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	
     <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -96,9 +97,29 @@
   		});
 
 
+  		$('#id_colector').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector').submit();
+
+      });
+
+  		$('#id_colectoX').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector-tabla').submit();
+
+      });
+
+
 	})
 
 </script>
+<style type="text/css">
+	.navbar{
+    box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+</style>
 
 
 
@@ -111,9 +132,6 @@
     <img src="imagen/cafe.jpg" alt="SIBES" class="img-responsive" >
 -->
 </header>
-
-
-
 
 		@if( $usuario[0]->idTipo == 1   )
 			<nav>
@@ -130,32 +148,23 @@
 
 		@endif
 
-
-
-
-
-
-
-
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-
+@foreach( $esp11 as $esp12 )
 
 
 	@for ($i = 0; $i < 1 ; $i++)
 
 <form method="get" action="Avistamiento_sub" id="frm-avista" >
-	<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idSubespecie }}">
+	<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->idSubespecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 </form>
-
 <form method="get" action="GET_subespecie" id="frm-InfoX" >
-	<input type="hidden" id="id_especie" name="sub_id" value="{{ $esp1_array[ $i ]->idSubespecie }}">
+	<input type="hidden" id="id_especie" name="sub_id" value="{{ $esp12->idSubespecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 </form>
-
 <form method="get" action="mapa_show_sub" id="MAPA-frm" >
-	<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idSubespecie }}">
+	<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->idSubespecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 </form>
 
@@ -169,43 +178,37 @@
 <form id="frm-consultar-esp" method="get" action="consultar_especie" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
-
 <form id="frm-agregar-usr" method="get" action="Agregar_usuarios" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
 <form id="frm-estado-usr" method="get" action="estado_usuario" >
 	<input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
-
-
-
-
+<form id="frm-colector" method="get" action="Agregar_Colector" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
+<form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
 
 <nav>
-
   	<ul class="nav nav-tabs">
-
 		<li role="presentation" class="active" id="" ><a>Especie</a></li>
-
 		<li role="presentation" id="Avista_link" ><a>Avistamientos</a></li>
-
 		<li role="presentation"  id="mapa-AVIS" ><a>Mapa</a></li>
-		
 
-		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
-		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idSubespecie }}">
-		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->nombreSubespecie }}">
-		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->fotografiaEspecie }}">
-
+		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->idEspecie }}">
+		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->idSubespecie }}">
+		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->nombreSubespecie }}">
+		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->fotografiaEspecie }}">
 	</ul>
-
 </nav>
 
 <div class="container-fluid" >
 <div class="row">
 
 	<div class="col-xs-6  col-md-12">
-		<h3 class="titulo"> Información de Especie&nbsp; <label class="btn btn-default btn-group " id="Info_link"  style="float: right ;" >
+		<h3 class="titulo"> Información de Subespecie&nbsp; <label class="btn btn-default btn-group " id="Info_link"  style="float: right ;" >
 			Editar  <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 		</label>  <label class="btn btn-default btn-group " id="id_consultar_esp_rep"  style="float: right ;" >  Consultar  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 		</label><label class="btn btn-default btn-group " id="id_agregar_esp_rep"  style="float: right ;" > Agregar  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -221,49 +224,43 @@
 	<form  method="POST" action="/guardar_especie" id="frm-especie" enctype="multipart/form-data"  >
     	<div class="panel-body" >
     	<input name="_token" type="hidden" value="{{ csrf_token() }}"/>
-		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
+		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp12->idEspecie }}">
 
-		<input  type="hidden" name="id_genero" value="{{ $esp1_array[ $i ]->idGenero }}">
-		<input  type="hidden" name="n_esp" value="{{ $esp1_array[ $i ]->nombreEspecie }}">
+		<input  type="hidden" name="id_genero" value="{{ $esp12->idGenero }}">
+		<input  type="hidden" name="n_esp" value="{{ $esp12->nombreEspecie }}">
 		<div class="row">
-		<h4 class="taxo">&nbsp;Taxonomía de Especie</h4>
-		<h4><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}&nbsp;{{ $esp1_array[ $i ]->nombreSubespecie }}</label></h4>
+		<h4 class="taxo">&nbsp;Taxonomía de la Subespecie:</h4>
+		<h4 style="color:  #122D85 ;">&nbsp;{{ $esp12->nombreEspecie }}&nbsp;{{ $esp12->nombreSubespecie }}</h4>
 		</div>
 
 		<div class="row">
 			<div class="col-xs-12 col-lg-2">
                   <label>Reino </label><br>
-                  <label class="show1">{{ $esp1_array[ $i ]->nombreReino }} </label>
+                  <label class="show1">{{ $esp12->nombreReino }} </label>
             </div>
-            <!--!<div class="col-xs-6 col-lg-1">
-                    <label style="float: left;" >{{ $esp1_array[ $i ]->nombreReino }} </label>
-            </div>-->
+            
 			<div class="col-xs-12 col-lg-2 ">
                   <label > División </label><br>
-                  <label class="show1"   >{{ $esp1_array[ $i ]->nombreDivision }}</label>
+                  <label class="show1"   >{{ $esp12->nombreDivision }}</label>
             </div>
-           <!-- <div class="col-xs-6 col-lg-1">
-                    <label style="float: left;" >{{ $esp1_array[ $i ]->nombreDivision }}</label>
-            </div>-->
+           
             <div class="col-xs-12 col-lg-2 ">
                   <label> Clase</label><br>
-                  <label  class="show1" " >{{ $esp1_array[ $i ]->nombreClase }} </label>
+                  <label  class="show1" " >{{ $esp12->nombreClase }} </label>
             </div>
-            <!--<div class="col-xs-6 col-lg-1">
-            		<label style="float: left;" >{{ $esp1_array[ $i ]->nombreClase }} </label>
-            </div>-->
+            
             <div class="col-xs-12 col-lg-2">
                   <label> Orden</label><br>
-                  <label class="show1"  >{{ $esp1_array[ $i ]->nombreOrden }}  </label>
+                  <label class="show1"  >{{ $esp12->nombreOrden }}  </label>
             </div>
             <div class="col-xs-12 col-lg-2">
                   <label> Familia</label><br>
-                  <label class="show1" "  >{{ $esp1_array[ $i ]->nombreFamilia }}</label>
+                  <label class="show1" "  >{{ $esp12->nombreFamilia }}</label>
 
             </div>
             <div class="col-xs-12 col-lg-2">
                   <label> Género</label><br>
-                  <label  class="show1" >{{ $esp1_array[ $i ]->nombreGenero }} </label>
+                  <label  class="show1" >{{ $esp12->nombreGenero }} </label>
             </div>
 
 
@@ -297,7 +294,7 @@
 		<div class="row">
 		<div class="col-xs-12 col-md-12"><!--col2.1-->
 			<label> Nombre Ingles:</label>
-			<label class="show1" > {{ $esp1_array[ $i ]->nombreEnIngles }} </label>
+			<label class="show1" > {{ $esp12->nombreEnIngles }} </label>
 
 		</div><!--col2.1-->
 		</div>
@@ -311,12 +308,8 @@
 <div class="col-xs-12 col-md-4"><!--Columna2-->
 	<div class="row" style="float: left;"><!--FILa-1 interna-->
 	<div class="col-xs-12 col-md-12">
-			<label >Clase de Tipo:</label>
-			@foreach(  $t_sub as $a )
-				<label class="show1"  > {{  $a->nombreClaseDeTipo }} </label>
-			@endforeach
-			<br>
 			<label >Apéndice CITES:</label>
+			
 			@foreach(  $a_sub as $a )
 				<label class="show1"  > {{  $a->nombreApendiceCITES }} </label>
 			@endforeach
@@ -356,14 +349,11 @@
 		<div class="col-xs-12 col-md-12">
 			<!--<label> Fotografía de Especie</label><br>-->
 
-			@if(count($esp1_array[ $i ]->fotografiaEspecie)==1)
+			@if(count($esp12->fotografiaEspecie2)==1)
 			<center>
-				<img src="/imagen_especie/{{ $esp1_array[ $i ]->nombreEspecie }}/{{ $esp1_array[ $i ]->nombreSubespecie }}/{{ $esp1_array[ $i ]->fotografiaEspecie }}""class="img-rounded" width="304" height="236">
+				<img src="/imagen_especie/{{ $esp12->nombreEspecie }}/{{ $esp12->nombreSubespecie }}/{{ $esp12->fotografiaEspecie2 }}" class="img-rounded" width="304" height="236">
 			</center>
-
-
 			@else
-
 			<center>
 				<img src="/imagen/placeholder.png" class="img-rounded" width="304" height="236">
 			</center>
@@ -390,7 +380,7 @@
 			<label for="name">Descripción de Ejemplar</label>
 
 			<p class="show1" >
-			{{ $esp1_array[ $i ]->descripcionDelEjemplar }}
+			{{ $esp12->descripcionDelEjemplar }}
 		</p>
 	</div>
 </div>
@@ -402,6 +392,8 @@
 </div><!--contanier-->
 
     @endfor
+
+    @endforeach
 
 
 
