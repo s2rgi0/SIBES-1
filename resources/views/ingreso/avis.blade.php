@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
     <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
