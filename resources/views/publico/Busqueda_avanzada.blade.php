@@ -6,8 +6,8 @@
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
+
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
 
 <!--SELECT-->
@@ -66,7 +66,7 @@
         }
         .contenido{
             padding-top: 110px;
-            padding-left: 30%;
+            padding-left: 30%;            
         }
     }
 
@@ -125,16 +125,16 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
   <header>
          @include('parciales.nav')
-  </header>
+  </header>   
 
 
 
-  <div class="row" id="publico_sibes">
+  <div class="row">
 
   <div class="col-md-2 side_BAR"  >
 
       @include('publico.menu.menu_side_bar')
-      @include('publico.menu.menu_forms')
+      @include('publico.menu.menu_forms')  
 
   </div>
 
@@ -152,7 +152,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
   <br>
   <div class="panel" >
   <br>
-  <form action="/mostrar" method="GET" name="busqueda" id="consulta-esp-frm" >
+  <form action="/mostrar" method="GET" name="busqueda" id="consulta-esp-frm" >    
 
 <!--REINO-->
 
@@ -282,10 +282,10 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
       <input type="hidden" name="estadoMarn" class="estadoMarn" >
     </div>
     <div class="row">
-
+    
       <br>
         <button  type="submit" class="btn btn-success btn-guardar btn-md" id="btn_Buscar" style="background-color: #b0a54f ; border-color: #8e7200 ;width: 200px;" >Buscar <span class="glyphicon glyphicon-search" aria-hidden="true"  ></span></button>
-
+      
     </div>
     <br>
     </form>
@@ -298,7 +298,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
   <br>
   <div id="tabla_res" style="font-size:small;"   >
 </div>
-</div>
+</div>  
 </div>
 </div>
 
