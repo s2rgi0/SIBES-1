@@ -40,7 +40,7 @@
              <li id="id_colectoX" ><a >Colectores</a></li>
           </ul>
         </li>
-        <li ><a href="pdf/MANUAL-DE-USUARIO.pdf" target="_blank">Ayuda</a></li>
+        <li ><a href="pdf/MANUAL DE USUARIO.pdf" target="_blank">Ayuda</a></li>
 
 
       </ul>
