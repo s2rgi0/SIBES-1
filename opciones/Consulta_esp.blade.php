@@ -1,30 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-
   <title> MARN | SIBES </title>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
-
-<!--SELECT-->
-
 <link href="css/select2.css" rel="stylesheet"/>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script src="js/zelect.js"></script>
 <script src="sweetalert/dist/sweetalert.min.js"></script>
-<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
-
-
-
-
-<!--SELECT -->
-
 <!--MOVIEMIENTO DE LOS SELECT -->
-
 <script type="text/javascript">
 
 function alpha1(){
@@ -70,15 +58,9 @@ body  {
     background-image: url("/imagen/patron2.png");
    }
 </style>
-
-
 </head>
 <body onload="alpha1();">
-<header>
-    <!--
-    <img src="imagen/cafe.jpg" alt="SIBES" class="img-responsive" >
-    -->
-</header>
+
 <div id="cargador" style="background-color: white;
     width: 100%;
     bottom: 0px;
@@ -302,7 +284,7 @@ body  {
 
 
 </center>
-  
+
 
 
 
