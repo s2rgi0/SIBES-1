@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> MARN | SIBES </title>
-	<meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
-        <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="/js/plugins/sortable.js" type="text/javascript"></script>       
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-        <script async defer    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc-0JilQZiy7Nls1hdG9-n-wUctabeVQ&callback=initMap">
-        </script>
+    <title> MARN | SIBES </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
+    <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script async defer    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc-0JilQZiy7Nls1hdG9-n-wUctabeVQ&callback=initMap">
+   </script>
 
 <script>
 
       function initMap() {
-        
+
         var centro = {lat: 13.7954, lng: -89.000};
 
 
@@ -38,14 +37,14 @@
         console.log(lat)
 
         var uluru = new google.maps.LatLng( lat , long );
-        
+
         var marker_{{$cord->idAvistamiento}} = new google.maps.Marker({
           position: uluru,
           map: map,
           id:{{$cord->idAvistamiento}}
         });
-        
-        
+
+
 
         marker_{{$cord->idAvistamiento}}.addListener('click',function(){
             console.log(this.id)
@@ -101,27 +100,27 @@
 
                     if(data[0].fotografiaAvistamiento){
 
-                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].fotografiaAvistamiento).fadeIn();    
+                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].fotografiaAvistamiento).fadeIn();
                     }
 
                 },error:function(){
                     console.log('no se pudo get la info')
                     llenar_campos_avis( id, div );
                 }
-            })            
+            })
         }
 
         function publi_pdf_avis( id, div){
 
 
-            var fue = "";            
+            var fue = "";
             $.ajax({
                         type : 'get',
                         url  : '{!! URL::to('Publi_PDF_AVIS') !!}',
                         data :  { 'id':id },
                         success:function(data){
                             console.log('success pdf info')
-                            console.log(data)                            
+                            console.log(data)
                             fue = "";
                             for(var i = 0 ; i < data.length ; i++ )
                             {
@@ -136,7 +135,7 @@
                             publi_pdf_avis( id, div);
                         }
                     })
-        }      
+        }
 
 
 
@@ -152,14 +151,14 @@
 
 <style>
     #map {
-    	
-    	width: 100%;
+
+        width: 100%;
         height: 600px;
         background-color: grey;
     }
 </style>
 <script type="text/javascript">
-    
+
     $(document).ready(function(){
 
         $('#Info-AVIS').click(function(){
@@ -169,7 +168,7 @@
         })
 
         $('#Esp-AVIS').click(function(){
-            
+
             $('#frm-avista').submit();
 
         })
@@ -227,14 +226,14 @@
 
 
 
-        
+
     })
 
 </script>
 </head>
 <body>
 
-@if( $usuario[0]->idTipo == 1   ) 
+@if( $usuario[0]->idTipo == 1   )
       <nav>
             @include('parciales.menu')
         </nav>
@@ -245,13 +244,13 @@
 
       <nav>
         @include('parciales.menuUseRegis')
-      </nav>  
-    
+      </nav>
+
     @endif
 
 
 @foreach( $espec as $esp )
-	<form method="get" action="informacion_avis" id="AVIS-frm" >
+    <form method="get" action="informacion_avis" id="AVIS-frm" >
         <input type="hidden" name="id_especie" value="{{ $esp->idEspecie }}" >
         <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
     </form>
@@ -284,15 +283,15 @@
         <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
     </form>
 <nav>
-  	<ul class="nav nav-tabs">
+    <ul class="nav nav-tabs">
 
         <li role="presentation" id="Info-AVIS" ><a>Especie</a></li>
 
         <li role="presentation" id="Esp-AVIS" ><a>Avistamientos</a></li>
 
         <li role="presentation" class="active" ><a>Mapa</a></li>
-		
-	</ul>
+
+    </ul>
 </nav>
 <div class="row" >
     <div  class="col-lg-2">
@@ -312,7 +311,7 @@
            <br><br>
         </div>
 
-   
+
         <div style="padding-left: 20px;" >
 
         <div class="col-xs-12 ">
@@ -339,7 +338,7 @@
             <label> Género</label><br>
             <label  class="show1" >{{ $esp->nombreGenero }} </label>
         </div>
-            
+
         </div>
     </div>
     <div  class="col-lg-10">
@@ -349,7 +348,7 @@
             <div id="map"></div>
 
         </center>
-        
+
     </div>
 </div>
 
