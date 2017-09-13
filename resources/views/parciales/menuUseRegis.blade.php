@@ -32,7 +32,7 @@
           </ul>
         </li>
         <li ><a href="/SistemadeBiodiversidadsv" target="_blank">Publico</a></li>
-         <li><a href="pdf/MANUAL DE USUARIO.pdf" target="_blank">Ayuda</a></li>
+         <li><a href="pdf/MANUAL-DE-USUARIO.pdf" target="_blank">Ayuda</a></li>
        </ul>
 
        <ul class="nav navbar-nav navbar-right">
