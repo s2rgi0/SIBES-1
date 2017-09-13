@@ -11,28 +11,27 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title"> </h4>
           </div>
-          <br>
-
             <form method="get" action="Informacion_Sub" id="frm-exito-sub" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
              <input type="hidden" name="id_sub_esp" id="id_reporte_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
              <input type="hidden" name="id_sub" id="id_reporte_especie" value="{{ $esp1_array[ $i ]->idSubespecie }}">
              <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
-            <br>
+
       <div class="row">
 
-        <center>
-          <p><h4>{{$msg_exito}}</h4></p>
-        </center>
+        <div style="padding: 20px;" >
+          <center>
+            <p><h4>{{$msg_exito}}{{ $esp1_array[ $i ]->nombreSubespecie }},{{$msg_exito2}}</h4></p>
+          </center>
+        </div>
+
 
       </div>
+      </div>
+            <div class="modal-footer" style="border-color: #8e7200;" >
 
-            </div>
-            <br>
-            <div class="modal-footer">
-
-              <button type="submit" class="btn btn-success" id="btn-exito" > ACEPTAR </button>
+              <button type="submit" class="btn btn-success" id="btn-exito" style="background-color: #b0a54f ; border-color: #8e7200 ;" > ACEPTAR </button>
 
             </div>
             </form>
@@ -42,4 +41,3 @@
       </div>
 
     </div>
-
