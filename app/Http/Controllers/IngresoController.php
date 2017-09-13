@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Response;
 use Validator;
-use Carbon\Carbon;
 
 class IngresoController extends Controller
 {
@@ -31,7 +30,6 @@ class IngresoController extends Controller
     public function ingresarDivision(Request $req)
     {
 
-
         if ($req->has('reino_input')) {
             //
             $div = new Division;
@@ -45,7 +43,6 @@ class IngresoController extends Controller
             $data = Division::select('nombreDivision', 'idDivision')->where('idReino', $req->id)->take(0)->get();
 
             return response()->json($data);
-
 
         } else {
 
@@ -80,10 +77,9 @@ class IngresoController extends Controller
 
             if ($req->ajax()) {
                 //
-                $div = new Division;
-                $div->idReino = Input::get('rei_mod'); //$req->idReino;
+                $div                 = new Division;
+                $div->idReino        = Input::get('rei_mod'); //$req->idReino;
                 $div->nombreDivision = Input::get('rei_input_mod'); //$req->nombreDivision;
-                
 
                 $div->save();
 
@@ -131,7 +127,7 @@ class IngresoController extends Controller
 
         ], [
             //'rei_mod.required'       => 'seleccione un reino',
-            'div_mod.required'       => 'seleccione una división',
+            'div_mod.required'       => 'Seleccione una división',
             'cla_input_mod.required' => 'Ingrese una clase ',
             'cla_input_mod.unique'   => 'La clase existe',
         ]);
@@ -145,7 +141,7 @@ class IngresoController extends Controller
                 $cla->idDivision = Input::get('div_mod'); //$req->idDivision;
 
                 $cla->nombreClase = Input::get('cla_input_mod'); //$req->nombreClase;
-                
+
                 $cla->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -223,7 +219,7 @@ class IngresoController extends Controller
                 $ord->idClase = Input::get('cla_ord'); //$req->idClase;
 
                 $ord->nombreOrden = Input::get('ord_input_mod'); //$req->nombreOrden;
-                
+
                 $ord->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -276,7 +272,7 @@ class IngresoController extends Controller
                 $fam->idOrden = Input::get('ord_fam'); //$req->idOrden;
 
                 $fam->nombreFamilia = Input::get('fam_input'); //$req->nombreFamilia;
-                
+
                 $fam->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -329,7 +325,7 @@ class IngresoController extends Controller
                 $gen->idFamilia = Input::get('fam_gen'); //$req->idFamilia;
 
                 $gen->nombreGenero = Input::get('gen_input'); //$req->nombreGenero;
-                
+
                 $gen->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -365,9 +361,9 @@ class IngresoController extends Controller
 
         ], [
 
-            'ord_esp.required'   => 'seleccione una orden',
+            'ord_esp.required'   => 'Seleccione una orden',
             'fam_esp.required'   => 'seleccione una familia',
-            'gen_esp.required'   => 'seleccione una género',
+            'gen_esp.required'   => 'Seleccione una género',
             'esp_input.required' => 'Ingrese una especie',
             'esp_input.unique'   => 'La especie existente',
 
@@ -382,7 +378,7 @@ class IngresoController extends Controller
                 $esp->idGenero = Input::get('gen_esp'); //$req->idGenero;
 
                 $esp->nombreEspecie = Input::get('esp_input'); //$req->nombreEspecie;
-                
+
                 $esp->save();
 
                 return response(['msg' => 'por fin ingresamos']);
@@ -418,9 +414,9 @@ class IngresoController extends Controller
 
         ], [
 
-            'fam_sub.required'   => 'seleccione una familia',
-            'gen_sub.required'   => 'seleccione un género',
-            'esp_sub.required'   => 'seleccione una especie',
+            'fam_sub.required'   => 'Seleccione una familia',
+            'gen_sub.required'   => 'Seleccione un género',
+            'esp_sub.required'   => 'Seleccione una especie',
             'sub_input.required' => 'Ingrese la Subespecie',
             'sub_input.unique'   => 'La subespecie existe',
         ]);
@@ -434,7 +430,7 @@ class IngresoController extends Controller
                 $sub->idEspecie = Input::get('esp_sub'); //$req->idEspecie;
 
                 $sub->nombreSubespecie = Input::get('sub_input'); //$req->nombreSubespecie;
-                
+
                 $sub->save();
 
                 return response(['msg' => 'por fin ingresamos']);
