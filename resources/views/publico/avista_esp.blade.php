@@ -1,15 +1,19 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>MARN | SIBES</title>
     <meta charset="utf-8">
-    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
-    <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet href="css/estilo_menu.css" type="text/css">
+<link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
+
+
+
+
 
 <style type="text/css">
 
@@ -51,7 +55,7 @@
 <style>
 body  {
     background-image: url("/imagen/patron2.png");
-
+   
 </style>
 
 
@@ -63,7 +67,7 @@ body  {
          @include('parciales.nav')
     </header>
 
-    <div class="row" id="publico_sibes">
+    <div class="row">
 
         <div class="col-sm-12 col-md-2 side_BAR " >
 
@@ -80,7 +84,7 @@ body  {
         </div>
         <div class="col-md-12" >
         <div class="contenido" >
-
+         
 
         @foreach( $especie as $esp )
 
@@ -124,14 +128,14 @@ body  {
                 <div class="row" ><label> Nombre Comun :  </label>
 
                     @foreach(  $nc_esp as $nc )
-
+                        
                         {{ $nc->nombreComun }}
                         @if($loop->last)
                         @else,
                         @endif
 
                     @endforeach
-
+              
                 </div>
 
 
@@ -162,7 +166,7 @@ body  {
                 <div class="row" style="padding-left: 40px;padding-right: 40px;">
 
                     <label> Descripccion del Ejemplar : </label><p>{{ $esp->descripcionDelEjemplar }}</p><br>
-
+                    
                 </div>
 
             </div>
@@ -194,11 +198,11 @@ body  {
         @endif
 
         </div>
-
+        
         @endforeach
-
+        
         <h5 style="color: #54a049;" ><b>Lista de avistamientos de la especie {{ $esp->nombreEspecie }} en El Salvador</b></h5>
-
+        
         <div class="container-fluid panel" style="width:95%;float: left;" >
 
 
@@ -211,7 +215,7 @@ body  {
 
     </div>
     </div>
-
+        
 
     <script src="js/jquery-3.2.1.min.js"> </script>
     <script src="js/bootstrap.min.js"> </script>
