@@ -2,15 +2,13 @@
 <html>
 <head>
     <title>MARN | SIBES</title>
-    <meta charset="utf-8">
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel=stylesheet href="css/esencial.css" type="text/css">
-    <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
-    <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
-    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
+            <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
+
+            <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+            <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
+            <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+            <link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
 
     <style type="text/css">
 
@@ -62,7 +60,7 @@
 
     <article>
 
-    <div class="row" id="publico_sibes">
+    <div class="row">
 
     <div class="col-md-3 side_BAR " >
 
@@ -81,11 +79,11 @@
         @else
             <h5 style="color: #417a38 ;" ><b>Se encontraron {{ count($especie) }} resultados</b></h5>
         @endif
-
-
+       
+        
         </div>
         <br>
-
+        
         <br><br>
         <br>
         @include('publico.tablas.tabla_reinos')
@@ -96,13 +94,13 @@
         <br>
 
         <div style="float: left;" ><h3>{{ $msg }}</h3></div>
+        
 
-
-    @endif
-
+    @endif  
+        
     </div>
 
-
+    
 
     </div>
     </div>
@@ -120,3 +118,6 @@
 
 </body>
 </html>
+
+
+
