@@ -1,10 +1,10 @@
-<!-- Modal  Nueva Especie El metodo agarra_esp se encuentra en la 
+<!-- Modal  Nueva Especie El metodo agarra_esp se encuentra en la
 clase ModalesController app->Http->Controllers->ModalesControlller -->
 
 
   <div class="modal fade" id="N_ESP_Modal" role="dialog">
 
-      <div class="modal-dialog modal-sm ">
+      <div class="modal-dialog modal-md ">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -18,9 +18,10 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
 
+
               <div class="row">
                 <center>
-                  <h4>¿Desea ingresar la especie?</h4>
+                  <h4>La especie no se encuentra en el catálogo de El Salvador¿Desea agregar la especie <a id="esp_agr" style="color:#8e7200;"> </a>?</h4>
                 </center>
                 <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
                 <input type="hidden" name="esp_id"  value="" class="n_e_id" >
@@ -34,8 +35,8 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
             <div class="modal-footer">
               <center>
 
-              <button type="submit" class="btn btn-success btn-lg n_e" id="g_n_esp" style="background-color: #b9c14d ; border-color: #b9c14d ;" > Si </button>
-              <button type="button" class="btn btn-success btn-lg cerrar_esp" data-dismiss="modal" style="background-color: #b9c14d ; border-color: #b9c14d ;" > No </button>
+              <button type="submit" class="btn btn-success btn-lg n_e" id="g_n_esp" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Si </button>
+              <button type="button" class="btn btn-success btn-lg cerrar_esp" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" > No </button>
 
               </center>
 
@@ -69,7 +70,7 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
 
             <div class="row">
               <center>
-                <h4>¿Desea ingresar la Subespecie?</h4>
+                <h4>La especie no se encuentra en el catálogo de El Salvador¿Desea ingresar la subespecie <a id="sub_agr"style="color:#8e7200;"></a>?</h4>
               </center>
             </div>
             <br>
@@ -78,8 +79,8 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
             </div>
             <div class="modal-footer">
               <center>
-                <button type="submit" class="btn btn-success n_s  btn-lg " id="g_n_esp" style="background-color: #b9c14d ; border-color: #b9c14d ;" > Si </button>
-                <button type="button" class="btn btn-success cerrar_sub  btn-lg " data-dismiss="modal" style="background-color: #b9c14d ; border-color: #b9c14d ;" > No </button>
+                <button type="submit" class="btn btn-success n_s  btn-lg " id="g_n_esp" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Si </button>
+                <button type="button" class="btn btn-success cerrar_sub  btn-lg " data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" > No </button>
               </center>
             </div>
             </form>
@@ -99,7 +100,7 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
           <button type="button" class="close cerrar_continuar" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"></h4>
         </div>
-        <form action="Informacion_Sub" method="GET" id="busqueda3-frm" >           
+        <form action="Informacion_Sub" method="GET" id="busqueda3-frm" >
             <div class="modal-body">
               <div class="row">
               <center>
@@ -110,10 +111,10 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
             <div class="modal-footer">
               <center>
               <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
-                <input type="hidden" name="id_sub" id="subespecie_id2" value="" >  
+                <input type="hidden" name="id_sub" id="subespecie_id2" value="" >
 
-                <button type="submit" class="btn btn-success btn-lg" id="btn-continuar" > Continuar </button>
-                <label class="btn btn-success btn-lg" id="btn-erase-sub" >Cancelar </label>              
+                <button type="submit" class="btn btn-success btn-lg" id="btn-continuar" style="background-color: #b0a54f ; border-color: #8e7200 ;"> Continuar </button>
+                <label class="btn btn-success btn-lg" id="btn-erase-sub" style="background-color: #b0a54f ; border-color: #8e7200 ;">Cancelar </label>
               </center>
             </div>
           </form>
@@ -129,8 +130,8 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
           <button type="button" class="close cerrar_continuar" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"></h4>
         </div>
-        <form action="Informacion" method="GET" id="busqueda2-frm" >     
-            
+        <form action="Informacion" method="GET" id="busqueda2-frm" >
+
             <div class="modal-body">
               <div class="row">
               <center>
@@ -143,8 +144,8 @@ clase ModalesController app->Http->Controllers->ModalesControlller -->
               <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
                 <input type="hidden" name="id_sub" id="subespecie_id23" value="" >
                 <input type="hidden" name="id_esp" id="especie_id23" value="" >
-                <button type="submit" class="btn btn-success btn-lg" id="btn-continuar" > Continuar </button>             
-                <label class="btn btn-success btn-lg" id="btn-erase-esp" >Cancelar </label>        
+                <button type="submit" class="btn btn-success btn-lg" id="btn-continuar" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Continuar </button>
+                <label class="btn btn-success btn-lg" id="btn-erase-esp" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar </label>
               </center>
             </div>
           </form>
