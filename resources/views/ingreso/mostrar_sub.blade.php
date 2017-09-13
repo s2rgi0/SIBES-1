@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+
  	<meta name="csrf-token" content="{{ csrf_token() }}">
+
 	<title>MARN | SIBES</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-        <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+    <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+	<!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-        <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="/js/plugins/sortable.js" type="text/javascript"></script>
-        <script src="/css/bootstrap-theme.min.css" type="text/css"></script>
-      	<script src="js/bootstrap.min.js"> </script>
+        <script src="/js/fileinput.js" type="text/javascript"></script>
+        <script src="/js/locales/fr.js" type="text/javascript"></script>
+        <script src="/js/locales/es.js" type="text/javascript"></script>
+        <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="sweetalert/dist/sweetalert.min.js"></script>
-        
+        <link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
 
 <style type="text/css">
 	.navbar{
@@ -117,7 +121,7 @@
 		<div class="row">
 		<div class="col-xs-12">
 		<h4 class="taxo"> &nbsp;&nbsp;Taxonomía de Subespecie:</h4>
-		<h4><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }},&nbsp; {{ $esp1_array[ $i ]->nombreSubespecie }}</label> </h4>
+		<h4 class="nombreh4"><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }},&nbsp; {{ $esp1_array[ $i ]->nombreSubespecie }}</label> </h4>
 		</div>
 		</div>
 
@@ -189,8 +193,6 @@
 		<div class="" style="display: none;color:#ff3700;" id="_nom_ingles" ><span class="help-block" ><strong style="color:  #00ff19 ;" >{{ $errors->  first('nom_ingles') }}</strong></span>  </div>
 
 
-
-
 	</div> <!--Columna1-->
 
 
@@ -210,7 +212,7 @@
 			@foreach( $a_sub as $a )
 				<option value="{{ $a->idApendiceCITES }}" selected="selected" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
-			
+
 			@foreach( $append as $a )
 				<option value="{{ $a->idApendiceCITES }}" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
@@ -245,11 +247,11 @@
 			@foreach( $c_sub as $c )
 			<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
-			
+
 			@foreach( $cat as $c )
 				<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
-				
+
 		</select>
 
 	@else
@@ -314,11 +316,11 @@
 				@foreach( $p_sub as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" selected="selected" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
-				
+
 				@foreach( $proc as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
-				
+
 			</select>
 
 		@else
@@ -373,9 +375,9 @@
     	<button type="submit" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie">Guardar</button>
     </form>
 		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie" >Cancelar</a>
-    	
+
     </center>
-			 
+
 
 	</div>
 </div>
@@ -390,7 +392,7 @@
 
 <script type="text/javascript">
 
-  
+
 
 
 	$(document).ready(function(){
@@ -402,7 +404,7 @@
 		$('#_proce_especie').fadeOut();
 		$('#_file').fadeOut();
 
-		 
+
         /////////////////////////////////////////////////////
 
 			$("#frm-especie-sub button").click(function(ev){
@@ -531,7 +533,7 @@
 	       					if(data.success == false ){
 
 	       						if(data.errors == 'no es una imagen'){
-                                   sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");   
+                                   sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");
                                 }
 
 	       						$('#_file,#_clase_tipo,#_append_cites,#_cat_marn,#_cat_uicn,#_proce_especie,#_nom_ingles').text('');
@@ -546,7 +548,7 @@
 	       						$("#Exito_Sub_Modal").modal('show')
 	       						$("#frm-especie-sub").get(0).reset()
 	       					}
-	       					
+
 	       				},error:function(){
 	       					//console.log('errores al ingreso')
 	       					sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");
@@ -554,7 +556,7 @@
 	       					$('#frm-InfoX').submit();
 
 	       				}
-	       			})   	
+	       			})
 
     			}
     		});
@@ -663,15 +665,15 @@
   			//alert('queremos cancelar')
   			var cancelar = $('#accion').val();
   			console.log(cancelar)
-  			
+
   			if( cancelar == 'Ingreso' ){
 				console.log('estamos Ingresando')
 				$('#frm-agregar-esp').submit();
   			}else{
   				console.log('estamos Modificando')
-				$('#frm-modificando').submit();  				
+				$('#frm-modificando').submit();
   			}
-  			
+
   		});
 
 
