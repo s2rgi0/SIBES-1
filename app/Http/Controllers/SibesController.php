@@ -109,14 +109,15 @@ class SibesController extends Controller
 
         ], [
 
-            'file.image'             => 'No es una imagen, por verifique archivo',
+            'file.image'             => 'No es una imagen',
+            'file.mimes'             => 'El archivo debe ser de tipo jpeg, jpg, gif, bmp',
             //'clase_tipo.required'    => 'Elija una Clase de Tipo',
             'append_cites.required'  => 'Elija un apéndice CITES',
             'cat_marn.required'      => 'Elija una categoría MARN',
             'cat_uicn.required'      => 'Elija una categoría UICN',
             'proce_especie.required' => 'Elija una procedencia de especie',
-            'nom_ingles.regex'       => 'El campo solo permite caracteres alfabeticos',
-            'file.max'               => 'demasiado grande',
+            'nom_ingles.regex'       => 'El campo solo permite caracteres alfabéticos',
+            'file.max'               => 'El archivo es demasiado grande',
 
         ]);
 
@@ -144,7 +145,7 @@ class SibesController extends Controller
 
                 } else {
 
-                    return response::json(['success' => false, 'errors' => 'No es una imagen, por verifique archivo']);
+                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
                 }
 
             }
@@ -193,13 +194,14 @@ class SibesController extends Controller
 
         ], [
 
-            'file.image'             => 'No es una imagen, por verifique archivo',
+            'file.image'             => 'No es una imagen',
+            'file.mimes'             => 'El archivo debe ser de tipo jpeg, jpg, bmp, gif',
             //'clase_tipo.required'    => 'Elija una Clase de Tipo',
-            'append_cites.required'  => 'Elija una apéndice CITES',
+            'append_cites.required'  => 'Elija un apéndice CITES',
             'cat_marn.required'      => 'Elija una categoría MARN',
             'cat_uicn.required'      => 'Elija una categoría UICN',
             'proce_especie.required' => 'Elija una procedencia de especie',
-            'nom_ingles.regex'       => 'El campo solo permite caracteres alfabeticos',
+            'nom_ingles.regex'       => 'El campo solo permite caracteres alfabéticos',
         ]);
 
         if ($validator->passes()) {
@@ -229,7 +231,7 @@ class SibesController extends Controller
 
                 } else {
 
-                    return response::json(['success' => false, 'errors' => 'No es una imagen, por verifique archivo']);
+                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
                 }
 
             }
@@ -594,12 +596,12 @@ class SibesController extends Controller
         ], [
             'textTipoU.required'  => 'El campo tipo de usuario es requerido',
             'textCodU.required'   => 'Ingrese el nombre del usuario',
-            'textCodU.regex'      => 'Solo se permiten caracteres alfabeticos',
+            'textCodU.regex'      => 'Solo se permiten caracteres alfabéticos',
             'textNomdU.unique'    => 'El nombre de usuario ya existe',
 
-            'textCodU.min'        => 'El campo requiere al menos 6 digitos',
-            'textCodU.size'       => 'El campo requiere al menos 6 digitos',
-            'textCodU.alpha_num'  => 'El campo requiere caracteres alfanumericos',
+            'textCodU.min'        => 'El campo requiere al menos 6 dígitos',
+            'textCodU.size'       => 'El campo requiere al menos 6 dígitos',
+            'textCodU.alpha_num'  => 'El campo requiere caracteres alfanuméricos',
             'textNomdU.required'  => 'El campo nombre de usuario  es requerido',
             'texContraU.required' => 'El campo contraseña de usuario es requerido',
 
@@ -843,8 +845,8 @@ class SibesController extends Controller
 
         ], [
             'nombre_Colector.required' => 'Ingrese un nombre para el colector',
-            'descri_Colector.required' => 'Ingrese una breve descripcion para el colector',
-            'textCodU.regex'           => 'Solo se permiten caracteres alfabeticos',
+            'descri_Colector.required' => 'Ingrese una breve descripción para el colector',
+            'textCodU.regex'           => 'Solo se permiten caracteres alfabéticos',
             'textNomdU.unique'         => 'El nombre de usuario ya existe',
 
         ]);

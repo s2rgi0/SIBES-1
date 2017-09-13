@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ApendiceCites;
 use App\CategoriaMarn;
 use App\CategoriaUICN;
+use App\ClasesDeTipo;
 use App\Clase;
 use App\Division;
 use App\Especie;
@@ -17,6 +18,8 @@ use App\Reino;
 use App\Subespecie;
 use App\Usuario;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class ModalesController extends Controller
 {
@@ -548,8 +551,8 @@ class ModalesController extends Controller
     public function estadoMarn_sub(Request $req)
     {
 
-        $d = Subespecie::select('estadoMarn', 'nombreSubespecie')->where('idSubespecie', $req->id)->get();
-
+        $d = Subespecie::select('estadoMarn','nombreSubespecie')->where('idSubespecie', $req->id)->get();
+     
         return response()->json($d);
     }
 
@@ -559,6 +562,7 @@ class ModalesController extends Controller
 
         return response()->json($d);
     }
+
 
     public function cambia_estado_esp(Request $req)
     {
@@ -592,11 +596,11 @@ class ModalesController extends Controller
 
     }
 
-    //estos metodos se utilizan cuando queremos agregar una especie
+    //estos metodos se utilizan cuando queremos agregar una especie 
 
     public function agarra_esp(Request $req)
     {
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
         $d = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Especies.nombreEspecie', 'Especies.idEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Especies.nombreEnIngles', 'Especies.descripcionDelEjemplar')->where('idEspecie', $req->esp_id)->get();
 
@@ -610,25 +614,25 @@ class ModalesController extends Controller
         $cat    = CategoriaMarn::all();
         $uicn   = CategoriaUICN::all();
         $nc_esp = Nombrecomun::where('idEspecie', $req->esp_id)->get();
-
+        
         $a_esp = ApendiceCites::join('Especies', 'apendice_cites.idApendiceCITES', '=', 'Especies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Especies.idEspecie', $req->esp_id)->get();
         $p_esp = ProcedenciaEspecie::join('Especies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Especies.idProcedenciaDeLaEspecie')->where('Especies.idEspecie', $req->esp_id)->get();
         $c_esp = CategoriaMarn::join('Especies', 'categoria_marns.idCategoriaMARN', '=', 'Especies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idEspecie', $req->esp_id)->get();
         $u_esp = CategoriaUICN::join('Especies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Especies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idEspecie', $req->esp_id)->get();
-        $msg   = 'Ingreso';
+        $msg = 'Ingreso';
 
-        $msg_exito  = 'La información de la especie ';
-        $msg_exito2 = 'fue ingresada al catálogo de especies de El Salvador';
+        $msg_exito = 'La información de la especie ';
+        $msg_exito2 = ' fue ingresada al catálogo de especies de El Salvador';
 
-        return view('ingreso.mostrar', compact('msg', 'msg_exito', 'msg_exito2', 'esp1_array', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_esp', 'a_esp', 'p_esp', 'c_esp', 'u_esp'));
+        return view('ingreso.mostrar', compact('msg','msg_exito','msg_exito2','esp1_array', 'usuario' ,'elementCount','append','proc','cat','uicn','nc_esp','a_esp','p_esp', 'c_esp', 'u_esp'));
 
     }
 
     public function agarra_sub(Request $req)
     {
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $d = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Subespecies.idSubespecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar')->where('Subespecies.idSubespecie', $req->sub_id)->get();
+        $d = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie','Subespecies.idSubespecie' ,'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar')->where('Subespecies.idSubespecie', $req->sub_id)->get();
 
         $elementCount = 1;
 
@@ -639,16 +643,16 @@ class ModalesController extends Controller
         $uicn       = CategoriaUICN::all();
         $nc_sub     = Nombrecomun::where('idSubespecie', $req->sub_id)->get();
 
-        $a_sub = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->sub_id)->get();
-        $p_sub = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $req->sub_id)->get();
-        $c_sub = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $req->sub_id)->get();
-        $u_sub = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $req->sub_id)->get();
+        $a_sub      = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->sub_id)->get();
+        $p_sub      = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $req->sub_id)->get();
+        $c_sub      = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $req->sub_id)->get();
+        $u_sub      = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $req->sub_id)->get();
 
-        $msg        = 'Ingreso';
-        $msg_exito  = 'La información de la subespecie ';
-        $msg_exito2 = 'fue ingresada al catálogo de especies de El Salvador';
-
-        return view('ingreso.mostrar_sub', compact('msg', 'msg_exito', 'msg_exito2', 'msg_exito2', 'esp1_array', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
+        $msg = 'Ingreso';
+        $msg_exito = 'La información de la subespecie ';
+        $msg_exito2 = ' fue ingresada al catálogo de especies de El Salvador';
+        
+        return view('ingreso.mostrar_sub', compact('msg','msg_exito','msg_exito2','msg_exito2','esp1_array', 'usuario','elementCount','append','proc','cat','uicn','nc_sub','a_sub','p_sub','c_sub','u_sub'));
 
     }
 
@@ -657,7 +661,7 @@ class ModalesController extends Controller
 
         //dd($req->all());
 
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
         $d = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Especies.nombreEspecie', 'Especies.idEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Especies.nombreEnIngles', 'Especies.descripcionDelEjemplar', 'Especies.fotografiaEspecie')->where('idEspecie', $req->id_esp)->get();
 
@@ -675,7 +679,7 @@ class ModalesController extends Controller
         $c_esp = CategoriaMarn::join('Especies', 'categoria_marns.idCategoriaMARN', '=', 'Especies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idEspecie', $req->id_esp)->get();
         $u_esp = CategoriaUICN::join('Especies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Especies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idEspecie', $req->id_esp)->get();
 
-        return view('ingreso.reporte', compact('esp1_array', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_esp', 'a_esp', 'p_esp', 'c_esp', 'u_esp'));
+        return view('ingreso.reporte', compact('esp1_array', 'usuario' ,'elementCount','append', 'proc', 'cat', 'uicn', 'nc_esp', 'a_esp', 'p_esp', 'c_esp', 'u_esp'));
 
     }
 
@@ -684,27 +688,28 @@ class ModalesController extends Controller
 
         //dd($req->all());
 
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar', 'Subespecies.fotografiaEspecie2')->where('Subespecies.idSubespecie', $req->id_sub)->get();
+        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie','Subespecies.idSubespecie','Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar', 'Subespecies.fotografiaEspecie2')->where('Subespecies.idSubespecie', $req->id_sub)->get();
 
         //dd($esp11);
 
         //$elementCount = count($esp11);
-        $esp1_array = json_decode($esp11);
+        $esp1_array   = json_decode($esp11);
 
         $append = ApendiceCites::all();
         $proc   = ProcedenciaEspecie::all();
         $cat    = CategoriaMarn::all();
         $uicn   = CategoriaUICN::all();
         $nc_sub = Nombrecomun::where('idSubespecie', $req->id_sub)->get();
+        
+        $a_sub  = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->id_sub)->get();
+        $p_sub  = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $req->id_sub)->get();
+        $c_sub  = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $req->id_sub)->get();
+        $u_sub  = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $req->id_sub)->get();
 
-        $a_sub = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->id_sub)->get();
-        $p_sub = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $req->id_sub)->get();
-        $c_sub = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $req->id_sub)->get();
-        $u_sub = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $req->id_sub)->get();
-
-        return view('ingreso.reporte_sub', compact('esp11', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
+        
+        return view('ingreso.reporte_sub', compact('esp11','usuario','elementCount','append','proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
 
     }
 
@@ -713,7 +718,9 @@ class ModalesController extends Controller
     public function GET_especie(Request $req)
     {
 
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+
+
+       $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get(); 
 
         $d = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Especies.nombreEspecie', 'Especies.idEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Especies.nombreEnIngles', 'Especies.descripcionDelEjemplar')->where('idEspecie', $req->esp_id)->get();
 
@@ -725,22 +732,24 @@ class ModalesController extends Controller
         $cat    = CategoriaMarn::all();
         $uicn   = CategoriaUICN::all();
         $nc_esp = Nombrecomun::where('idEspecie', $req->esp_id)->get();
+        
+        $a_esp = ApendiceCites::join('Especies', 'apendice_cites.idApendiceCITES', '=', 'Especies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Especies.idEspecie', $req->esp_id)->get();
+        $p_esp = ProcedenciaEspecie::join('Especies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Especies.idProcedenciaDeLaEspecie')->where('Especies.idEspecie', $req->esp_id)->get();
+        $c_esp = CategoriaMarn::join('Especies', 'categoria_marns.idCategoriaMARN', '=', 'Especies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idEspecie', $req->esp_id)->get();
+        $u_esp = CategoriaUICN::join('Especies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Especies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idEspecie', $req->esp_id)->get();
+        $msg = 'Modificación';
+        $msg_exito = 'Los cambios de la especie ';
+        $msg_exito2 = ' fueron ingresados al catálogo de especies de El Salvador';
 
-        $a_esp      = ApendiceCites::join('Especies', 'apendice_cites.idApendiceCITES', '=', 'Especies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Especies.idEspecie', $req->esp_id)->get();
-        $p_esp      = ProcedenciaEspecie::join('Especies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Especies.idProcedenciaDeLaEspecie')->where('Especies.idEspecie', $req->esp_id)->get();
-        $c_esp      = CategoriaMarn::join('Especies', 'categoria_marns.idCategoriaMARN', '=', 'Especies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idEspecie', $req->esp_id)->get();
-        $u_esp      = CategoriaUICN::join('Especies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Especies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idEspecie', $req->esp_id)->get();
-        $msg        = 'Modificación';
-        $msg_exito  = 'Los cambios de la especie ';
-        $msg_exito2 = 'fueron ingresados al catálogo de especies de El Salvador';
+        return view('ingreso.mostrar', compact('msg','msg_exito','msg_exito2','esp1_array', 'usuario' ,'elementCount','append','proc','cat','uicn','nc_esp','a_esp','p_esp', 'c_esp', 'u_esp'));
 
-        return view('ingreso.mostrar', compact('msg', 'msg_exito', 'msg_exito2', 'esp1_array', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_esp', 'a_esp', 'p_esp', 'c_esp', 'u_esp'));
+
 
     }
 
     public function GET_subespecie(Request $req)
     {
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
         $d = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar')->where('Subespecies.idSubespecie', $req->sub_id)->get();
 
@@ -752,31 +761,33 @@ class ModalesController extends Controller
         $cat        = CategoriaMarn::all();
         $uicn       = CategoriaUICN::all();
         $nc_sub     = Nombrecomun::where('idSubespecie', $req->sub_id)->get();
-
+       
         $a_sub      = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $req->sub_id)->get();
         $p_sub      = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $req->sub_id)->get();
         $c_sub      = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $req->sub_id)->get();
         $u_sub      = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $req->sub_id)->get();
-        $msg        = 'Modificación';
-        $msg_exito  = 'Los cambios de la subespecie ';
-        $msg_exito2 = 'fueron ingresados al catálogo de especies de El Salvador';
+        $msg = 'Modificación';
+        $msg_exito = 'Los cambios de la subespecie ';
+        $msg_exito2 = ' fueron ingresados al catálogo de especies de El Salvador';
 
-        return view('ingreso.mostrar_sub', compact('msg', 'msg_exito', 'msg_exito2', 'esp1_array', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
+        return view('ingreso.mostrar_sub', compact('msg','msg_exito','msg_exito2','esp1_array','usuario','elementCount','append','proc','cat','uicn','nc_sub','a_sub','p_sub','c_sub','u_sub'));
+
 
     }
 
     public function informacion_avis(Request $req)
     {
-        $id      = $req->id_especie;
-        $d2      = Subespecie::select('nombreSubespecie')->where('idEspecie', $id)->get();
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $id = $req->id_especie;
+        $d2 = Subespecie::select('nombreSubespecie')->where('idEspecie',$id)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
         //$cuenta = count($d);
         /*
 
         if( $cuenta > 0 )
-        {*/
+        {*/ 
 
-        $d = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Especies.nombreEspecie', 'Especies.idEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Especies.nombreEnIngles', 'Especies.descripcionDelEjemplar', 'Especies.fotografiaEspecie')->where('idEspecie', $id)->get();
+
+            $d = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Especies.nombreEspecie', 'Especies.idEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Especies.nombreEnIngles', 'Especies.descripcionDelEjemplar', 'Especies.fotografiaEspecie')->where('idEspecie', $id)->get();
 
         $esp1_array   = json_decode($d);
         $elementCount = 1;
@@ -786,24 +797,26 @@ class ModalesController extends Controller
         $cat    = CategoriaMarn::all();
         $uicn   = CategoriaUICN::all();
         $nc_esp = Nombrecomun::where('idEspecie', $id)->get();
-
+        
         $a_esp = ApendiceCites::join('Especies', 'apendice_cites.idApendiceCITES', '=', 'Especies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Especies.idEspecie', $id)->get();
         $p_esp = ProcedenciaEspecie::join('Especies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Especies.idProcedenciaDeLaEspecie')->where('Especies.idEspecie', $id)->get();
         $c_esp = CategoriaMarn::join('Especies', 'categoria_marns.idCategoriaMARN', '=', 'Especies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idEspecie', $id)->get();
         $u_esp = CategoriaUICN::join('Especies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Especies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idEspecie', $id)->get();
 
-        return view('ingreso.reporte', compact('esp1_array', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_esp', 'a_esp', 'p_esp', 'c_esp', 'u_esp'));
+
+
+        return view('ingreso.reporte', compact('esp1_array', 'usuario' ,'elementCount','append', 'proc', 'cat', 'uicn', 'nc_esp', 'a_esp', 'p_esp', 'c_esp', 'u_esp'));
     }
 
-    public function informacion_avis_sub(Request $req)
+    public function informacion_avis_sub( Request $req )
     {
 
         $id_sub = $req->id_especie;
 
         //dd($)
-        $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('idUsuario','nombreUsuario','idTipo')->where('idUsuario',$req->id_usuario)->get();
 
-        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar', 'Subespecies.fotografiaEspecie2', 'Subespecies.idSubespecie')->where('Subespecies.idSubespecie', $id_sub)->get();
+        $esp11 = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Especies.nombreEspecie', 'Generos.nombreGenero', 'Familias.nombreFamilia', 'Ordens.nombreOrden', 'Clases.nombreClase', 'Divisions.nombreDivision', 'Reinos.nombreReino', 'Especies.idGenero', 'Subespecies.nombreEnIngles', 'Subespecies.descripcionDelEjemplar','Subespecies.fotografiaEspecie2','Subespecies.idSubespecie')->where('Subespecies.idSubespecie', $id_sub)->get();
 
         $elementCount = count($esp11);
         $esp1_array   = json_decode($esp11);
@@ -814,15 +827,20 @@ class ModalesController extends Controller
         $uicn   = CategoriaUICN::all();
         $nc_sub = Nombrecomun::where('idSubespecie', $id_sub)->get();
 
-        $elementCount = 1;
+            $elementCount = 1;
 
-        $a_sub = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $id_sub)->get();
-        $p_sub = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $id_sub)->get();
-        $c_sub = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $id_sub)->get();
-        $u_sub = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $id_sub)->get();
+        $a_sub  = ApendiceCites::join('Subespecies', 'apendice_cites.idApendiceCITES', '=', 'Subespecies.idApendiceCITES')->select('apendice_cites.idApendiceCITES', 'apendice_cites.nombreApendiceCITES')->where('Subespecies.idSubespecie', $id_sub)->get();
+        $p_sub  = ProcedenciaEspecie::join('Subespecies', 'procedencia_especies.idProcedenciaDeLaEspecie', '=', 'Subespecies.idProcedenciaDeLaEspecie')->where('Subespecies.idSubespecie', $id_sub)->get();
+        $c_sub  = CategoriaMarn::join('Subespecies', 'categoria_marns.idCategoriaMARN', '=', 'Subespecies.idCategoriaMARN')->select('categoria_marns.idCategoriaMARN', 'categoria_marns.nombreCategoriaMARN')->where('idSubespecie', $id_sub)->get();
+        $u_sub  = CategoriaUICN::join('Subespecies', 'categoria_u_i_c_ns.idCategoriaUICN', '=', 'Subespecies.idCategoriaUICN')->select('categoria_u_i_c_ns.idCategoriaUICN', 'categoria_u_i_c_ns.nombreCategoriaUICN')->where('idSubespecie', $id_sub)->get();
 
-        return view('ingreso.reporte_sub', compact('esp11', 'usuario', 'elementCount', 'append', 'proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
+        return view('ingreso.reporte_sub', compact('esp11', 'usuario','elementCount','append','proc', 'cat', 'uicn', 'nc_sub', 'a_sub', 'p_sub', 'c_sub', 'u_sub'));
 
     }
+
+
+
+
+
 
 }
