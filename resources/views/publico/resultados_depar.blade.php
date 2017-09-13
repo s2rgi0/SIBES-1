@@ -2,12 +2,14 @@
 <html>
 <head>
     <title>MARN | SIBES</title>
+    <meta charset="utf-8">
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
-            <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
-            <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
-            <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
-            <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-            <link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
+    <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
+    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
 
     <style type="text/css">
 
@@ -49,7 +51,7 @@
     <header  >
          @include('parciales.nav')
     </header>
-    <div class="row">
+    <div class="row" id="publico_sibes">
 
         <div class="col-md-3 side_BAR " >
 
@@ -60,11 +62,11 @@
        <div class="col-md-11"  >
 
         <div class="contenido" >
-                
+
             @if( count($especie) > 0 )
 
-            <br><h3 style="color: #54a049;" ><label>Departamento {{ $dpto }}</label> 
-            <!--  
+            <br><h3 style="color: #54a049;" ><label>Departamento {{ $dpto }}</label>
+            <!--
             <label class="btn btn-success" id="depto_tax"  >  Descargar <span class="glyphicon glyphicon-save" aria-hidden="true"  ></span> </label>
             -->
             </h3>
@@ -73,7 +75,7 @@
             @else
             <h5 style="color: #417a38 ;" ><b>Se encontraron {{ count($especie) }} resultados</b></h5>
             @endif
-            
+
             <center>
                 @include('publico.tablas.tabla_reinos')
             </center>
@@ -90,7 +92,7 @@
 
        </div>
 
-    
+
 
     </div>
 <form action="depto_taxo" method="get" id="frm-depto">
