@@ -9,14 +9,19 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="/js/plugins/sortable.js" type="text/javascript"></script> 
+    <script src="/js/plugins/sortable.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
     <script async defer    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc-0JilQZiy7Nls1hdG9-n-wUctabeVQ&callback=initMap">
-</script>   
+   </script>
+
 
 <script>
+
       function initMap() {
+
         var centro = {lat: 13.7954, lng: -89.000};
+
+
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 9,
           center: centro
@@ -47,17 +52,19 @@
             publi_pdf_avis( id, div);
 
             $('#VER_Avist').modal('show');
-            
+
         })
 
         @endforeach
+
+
       }
 
       function llenar_campos_avis( id, div ){
 
             $.ajax({
                  type : 'get',
-                url  : '{!! URL::to('get_Avista_BY_ID_sub') !!}',
+                url  : '{!! URL::to('get_Avista_BY_ID') !!}',
                 data :  { 'id':id },
                 success:function(data){
                     console.log(data)
@@ -89,27 +96,27 @@
 
                     if(data[0].fotografiaAvistamiento){
 
-                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].nombreSubespecie+'/'+data[0].fotografiaAvistamiento).fadeIn();    
+                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].fotografiaAvistamiento).fadeIn();
                     }
 
                 },error:function(){
                     console.log('no se pudo get la info')
                     llenar_campos_avis( id, div );
                 }
-            })            
+            })
         }
 
         function publi_pdf_avis( id, div){
 
 
-            var fue = "";            
+            var fue = "";
             $.ajax({
                         type : 'get',
                         url  : '{!! URL::to('Publi_PDF_AVIS') !!}',
                         data :  { 'id':id },
                         success:function(data){
                             console.log('success pdf info')
-                            console.log(data)                            
+                            console.log(data)
                             fue = "";
                             for(var i = 0 ; i < data.length ; i++ )
                             {
@@ -209,6 +216,9 @@
 
       });
 
+
+
+
     })
 
 </script>
@@ -262,6 +272,8 @@
         <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
     </form>
 
+
+
 <nav>
     <ul class="nav nav-tabs">
 
@@ -292,7 +304,7 @@
            <br><br>
         </div>
         <div style="padding-left: 20px;" >
-            
+
             <div class="col-xs-12">
             <label>Reino </label><br>
             <label class="show1">{{ $esp->nombreReino }} </label>
@@ -316,12 +328,12 @@
         <div class="col-xs-12">
             <label> Género</label><br>
             <label  class="show1" >{{ $esp->nombreGenero }} </label>
-        </div>  
+        </div>
 
         </div>
-        
 
-        
+
+
     </div>
     <div  class="col-lg-10">
 
@@ -330,7 +342,7 @@
             <div id="map"></div>
 
         </center>
-        
+
     </div>
 </div>
 
