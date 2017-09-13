@@ -6,19 +6,17 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-        <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+	<link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
     <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-       	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
-	<link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="/js/plugins/sortable.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js"> </script>
-        <script src="sweetalert/dist/sweetalert.min.js"></script>
-       
-
-	 <!-- Scripts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="sweetalert/dist/sweetalert.min.js"></script>
+  	<!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -32,9 +30,6 @@
     		box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
   		}
     </style>
-   
-	
-
 
 </head>
 <body >
@@ -88,13 +83,13 @@
 </form>
 
 <form method="get" action="GET_especie" id="frm-Info" >
-	
+
 	<input type="hidden" id="id_especie" name="esp_id" value="{{ $esp1_array[ $i ]->idEspecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 
 </form>
 <form method="get" action="Informacion" id="frm-modificando" >
-	
+
 	<input type="hidden" id="id_especie" name="id_esp" value="{{ $esp1_array[ $i ]->idEspecie }}">
 	<input type="hidden" id="id_usuario" name="id_usuario" value="{{ $usuario[0]->idUsuario }}">
 
@@ -141,7 +136,7 @@
 		<div class="row">
 		<div class="col-xs-12">
 		<h4 class="taxo"> &nbsp;&nbsp;Taxonomía de Especie</h4>
-		<h4><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}</label> </h4>
+		<h4 class="nombreh4 ><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}</label> </h4>
 		</div>
 		</div>
 		<br>
@@ -219,7 +214,7 @@
 			@foreach( $a_esp as $a )
 				<option value="{{ $a->idApendiceCITES }}" selected="selected" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
-			
+
 			@foreach( $append as $a )
 				<option value="{{ $a->idApendiceCITES }}" >{{ $a->nombreApendiceCITES }}</option>
 			@endforeach
@@ -249,11 +244,11 @@
 			@foreach( $c_esp as $c )
 			<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
-			
+
 			@foreach( $cat as $c )
 				<option value="{{ $c->idCategoriaMARN }}" selected="selected" >{{ $c->nombreCategoriaMARN }}</option>
 			@endforeach
-				
+
 		</select>
 
 	@else
@@ -321,11 +316,11 @@
 				@foreach( $p_esp as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" selected="selected" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
-				
+
 				@foreach( $proc as $p )
 				<option value="{{ $p->idProcedenciaDeLaEspecie }}" >{{ $p->nombreProcedenciaDeLaEspecie }}</option>
 				@endforeach
-				
+
 			</select>
 
 		@else
@@ -378,9 +373,9 @@
     <center>
     	<button type="submit"  style="background-color: #b0a54f ; border-color: #8e7200 ;" class="btn btn-success" value="guardado_especie">Guardar</button>
     </form>
-		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie" >Cancelar</a>    	
+		<a id="btn-cancelar" class="btn btn-success" style="background-color: #b0a54f ; border-color: #8e7200 ;" value="guardado_especie" >Cancelar</a>
     </center>
-			
+
 	</div>
 </div>
 <!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
@@ -529,7 +524,7 @@
 
 	       						if(data.errors == 'no es una imagen'){
                                     //alert('no es una imagen')
-                                   sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");   
+                                   sweetAlert("Ingrese una imagen", "jpg,bmp o gif!", "error");
                                 }
 
 	       						$('#_file,#_clase_tipo,#_append_cites,#_cat_marn,#_cat_uicn,#_proce_especie,#_nom_ingles').text('');
@@ -545,11 +540,11 @@
 
 	       				},error:function(){
 	       					console.log('errores al ingreso')
-	       					sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");   
+	       					sweetAlert("No se pudo ingresar", "intente de nuevo!", "error");
 	       					//$("#Error_Modal").modal('show')
 	       					$('#frm-Info').submit();
 	       				}
-	       			})	       			
+	       			})
 	       		}
 			});
 
@@ -656,7 +651,7 @@
   				console.log('estamos Modificando')
   				$('#frm-modificando').submit();
   			}
-  			
+
 
   		});
 
