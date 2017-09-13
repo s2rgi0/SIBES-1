@@ -10,13 +10,14 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
 	<script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
-	<script language="JavaScript">
+
+<script language="JavaScript">
 	function nobackbutton(){
-	   window.location.hash="no-back-button";
-	   window.location.hash="Again-No-back-button" //chrome
-	   window.onhashchange=function(){window.location.hash="no-back-button";}
-	}
-	</script>
+   window.location.hash="no-back-button";
+   window.location.hash="Again-No-back-button" //chrome
+   window.onhashchange=function(){window.location.hash="no-back-button";}
+}
+</script>
 <script type="text/javascript">
 
 	$(document).ready(function(){
@@ -194,7 +195,7 @@
 
 		<li role="presentation"  id="mapa-AVIS" ><a>Mapa</a></li>
 
-		
+
 
 		<input type="hidden" id="id_especie" name="id_especie" value="{{ $esp1_array[ $i ]->idEspecie }}">
 
@@ -232,7 +233,7 @@
 		<input  type="hidden" name="n_esp" value="{{ $esp1_array[ $i ]->nombreEspecie }}">
 		<div class="row">
 		<h4 class="taxo"> &nbsp;Taxonomía de la Especie:</h4>
-		<h4 style="color: #122D85;" >&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }} </h4>
+		<h4 class="nombreh4 style="color: #122D85;" >&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }} </h4>
 
 		</div>
 
@@ -314,7 +315,7 @@
 <div class="col-xs-12 col-md-4"><!--Columna2-->
 	<div class="row" style="float: left;"><!--FILa-1 interna-->
 		<div class="col-xs-12 col-md-12 ">
-			
+
 			<label >Apéndice CITES:</label>
 			@foreach(  $a_esp as $a )
 					<label  class="show1 "  > {{  $a->nombreApendiceCITES }} </label>
