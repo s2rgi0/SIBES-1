@@ -9,7 +9,7 @@
                 <th>Colector</th>
                 <th>Acciones</th>
             </tr>
-        
+
         </thead>
         <tbody class="row_avista">
 
@@ -29,10 +29,10 @@
             @endforeach
 
         </tbody>
-       
+
     </table>
     <div id="links" >
-        
-        
+
+
 
     </div>
