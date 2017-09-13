@@ -2,11 +2,8 @@
 <html>
 <head>
   <title>MARN | SIBES</title>
-  <meta charset="utf-8">
-  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
-  <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
+   <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
   <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
   <link rel="stylesheet" type="text/css" href="css/side_bar_nav.css">
 
@@ -18,7 +15,7 @@
     }
 
     @media screen and (min-width: 1000px) {
-
+  
       .cuerpo{
       height:500px;
     }
@@ -50,7 +47,7 @@
   <style>
 body  {
     background-image: url("/imagen/patron2.png");
-
+   
 </style>
 
 
@@ -61,12 +58,12 @@ body  {
   <header >
     @include('parciales.nav')
   </header>
-
+ 
 
 <!-- Este solamente muestra la informacion -->
 
 
-  <div class="row" id="publico_sibes">
+  <div class="row">
 
     <div class="col-md-2 side_BAR " >
     <div id="yolo" >
@@ -248,15 +245,15 @@ body  {
                       <div  style="padding-left: 30px;width: 50%">
                       @foreach( $pdf as $doc )
 
-                        <div class="row" >{{ $doc->nombrePublicacion}}
+                        <div class="row" >{{ $doc->nombrePublicacion}}  
                         <a href="/publicacion_especie/{{ $doc->nombreEspecie}}/{{ $doc->nombrePublicacion}}" target="_blank" class="btn btn-default btn-sm" style="float: right;" >documento PDF</a>
                         </div>
 
                       @endforeach
                     </div>
                   </div>
-
-
+                    
+                      
                   <br>
                   </div>
 
