@@ -2,33 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\ApendiceCites;
-use App\CategoriaMarn;
-use App\CategoriaUICN;
 use App\Clase;
-use App\ClasesDeTipo;
+use App\Colectore;
 use App\Division;
 use App\Especie;
 use App\Familia;
 use App\Genero;
 use App\Nombrecomun;
 use App\Orden;
-use App\ProcedenciaEspecie;
-use App\publicacionPDF;
 use App\Reino;
 use App\Subespecie;
 use App\Tipo;
 use App\Usuario;
-use App\Colectore;
+use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Hash;
 use Response;
 use Validator;
-use File;
-use Auth;
-use Carbon\Carbon;
 
 class SibesController extends Controller
 {
@@ -97,8 +89,6 @@ class SibesController extends Controller
 
     }
 
-    
-
     //AQUI GUARDA ESPECIE Y SUBESPECIE
 
     public function SAVE_Especie(Request $req)
@@ -117,17 +107,16 @@ class SibesController extends Controller
             //'file'          => 'nullable|max:2048',
             'file'          => 'image|mimes:jpeg,jpg,png,bmp',
 
-
         ], [
 
-            'file.image'             => 'no es una imagen',
+            'file.image'             => 'No es una imagen, por verifique archivo',
             //'clase_tipo.required'    => 'Elija una Clase de Tipo',
-            'append_cites.required'  => 'Elija un Apendice CITES',
-            'cat_marn.required'      => 'Elija una Categoria MARN',
-            'cat_uicn.required'      => 'Elija una Categoria UICN',
-            'proce_especie.required' => 'Elija una Procedencia de Especie',
+            'append_cites.required'  => 'Elija un apéndice CITES',
+            'cat_marn.required'      => 'Elija una categoría MARN',
+            'cat_uicn.required'      => 'Elija una categoría UICN',
+            'proce_especie.required' => 'Elija una procedencia de especie',
             'nom_ingles.regex'       => 'El campo solo permite caracteres alfabeticos',
-            'file.max' => 'demasiado grande',
+            'file.max'               => 'demasiado grande',
 
         ]);
 
@@ -145,33 +134,31 @@ class SibesController extends Controller
                 $id_especie     = $req->id_especie;
                 $extension      = Input::file('file')->getClientOriginalExtension();
                 $filename       = $file->getClientOriginalName();
-                $bytes = File::size($file);
+                $bytes          = File::size($file);
 
-                if( $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' ){
+                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif') {
 
-                    $cad_imagen     = $id_especie . '_' . $nombre_especie . '.' . $extension;
+                    $cad_imagen = $id_especie . '_' . $nombre_especie . '.' . $extension;
                     $file->move('imagen_especie/' . $nombre_especie, $cad_imagen);
                     $especie->fotografiaEspecie = $cad_imagen;
 
-                }else{
+                } else {
 
-
-                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
-                }              
-
+                    return response::json(['success' => false, 'errors' => 'No es una imagen, por verifique archivo']);
+                }
 
             }
 
-            $especie->idGenero                 = $req->id_genero;
-            $especie->descripcionDelEjemplar   = $req->descripcion_ejemplar;
-            $especie->nombreEnIngles           = $req->nom_ingles;
-            $especie->estadoMarn               = 1;
+            $especie->idGenero               = $req->id_genero;
+            $especie->descripcionDelEjemplar = $req->descripcion_ejemplar;
+            $especie->nombreEnIngles         = $req->nom_ingles;
+            $especie->estadoMarn             = 1;
             //$especie->idClaseDeTipo            = $req->clase_tipo;
             $especie->idProcedenciaDeLaEspecie = $req->proce_especie;
             $especie->idCategoriaMARN          = $req->cat_marn;
             $especie->idCategoriaUICN          = $req->cat_uicn;
             $especie->idApendiceCITES          = $req->append_cites;
-            
+
             $especie->save();
 
         } else {
@@ -202,16 +189,16 @@ class SibesController extends Controller
             'cat_uicn'      => 'required',
             'proce_especie' => 'required',
             'nom_ingles'    => 'nullable|regex:/^[\pL\s\-]+$/u',
-            'file'   => 'image|mimes:jpeg,jpg,png,bmp',
+            'file'          => 'image|mimes:jpeg,jpg,png,bmp',
 
         ], [
 
-            'file.image'             => 'no es una imagen',
+            'file.image'             => 'No es una imagen, por verifique archivo',
             //'clase_tipo.required'    => 'Elija una Clase de Tipo',
-            'append_cites.required'  => 'Elija una Apendice CITES',
-            'cat_marn.required'      => 'Elija una Categoria MARN',
-            'cat_uicn.required'      => 'Elija una Categoria UICN',
-            'proce_especie.required' => 'Elija una Prodedencia de Especie',
+            'append_cites.required'  => 'Elija una apéndice CITES',
+            'cat_marn.required'      => 'Elija una categoría MARN',
+            'cat_uicn.required'      => 'Elija una categoría UICN',
+            'proce_especie.required' => 'Elija una procedencia de especie',
             'nom_ingles.regex'       => 'El campo solo permite caracteres alfabeticos',
         ]);
 
@@ -228,36 +215,35 @@ class SibesController extends Controller
                 $id_especie     = $req->id_subespe;
                 $extension      = Input::file('file')->getClientOriginalExtension();
                 //$bytes          = Input::file('file')->getClientSize();
-                $size           = Input::file('file')->getSize();
+                $size  = Input::file('file')->getSize();
                 $bytes = File::size($file);
 
-                $filename       = $file->getClientOriginalName();
-                
-                if( $extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' ){
+                $filename = $file->getClientOriginalName();
 
-                    $cad_imagen     = $id_especie . '_' . $nombre_subesp . '.' . $extension;
-                    $filename       = $file->getClientOriginalName();
+                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif') {
+
+                    $cad_imagen = $id_especie . '_' . $nombre_subesp . '.' . $extension;
+                    $filename   = $file->getClientOriginalName();
                     $file->move('imagen_especie/' . $nombre_especie . '/' . $nombre_subesp, $cad_imagen);
                     $especie->fotografiaEspecie2 = $cad_imagen;
 
-                }else{
+                } else {
 
-
-                    return response::json(['success' => false, 'errors' => 'no es una imagen']);
-                }                
+                    return response::json(['success' => false, 'errors' => 'No es una imagen, por verifique archivo']);
+                }
 
             }
 
-            $especie->idEspecie                = $req->id_especie;
-            $especie->descripcionDelEjemplar   = $req->descripcion_ejemplar;
-            $especie->nombreEnIngles           = $req->nom_ingles;
-            $especie->estadoMarn               = 1;
+            $especie->idEspecie              = $req->id_especie;
+            $especie->descripcionDelEjemplar = $req->descripcion_ejemplar;
+            $especie->nombreEnIngles         = $req->nom_ingles;
+            $especie->estadoMarn             = 1;
             //$especie->idClaseDeTipo            = $req->clase_tipo;
             $especie->idProcedenciaDeLaEspecie = $req->proce_especie;
             $especie->idCategoriaMARN          = $req->cat_marn;
             $especie->idCategoriaUICN          = $req->cat_uicn;
             $especie->idApendiceCITES          = $req->append_cites;
-            
+
             $especie->save();
 
         } else {
@@ -284,7 +270,7 @@ class SibesController extends Controller
 
             $n->idEspecie   = $req->id;
             $n->nombreComun = $req->nombre;
-            
+
             $n->save();
 
             return response(['msg' => 'por fin ingresamos']);
@@ -303,7 +289,7 @@ class SibesController extends Controller
 
             $n->idSubespecie = $req->id;
             $n->nombreComun  = $req->nombre;
-            
+
             $n->save();
 
             return response(['msg' => 'por fin ingresamos']);
@@ -329,61 +315,57 @@ class SibesController extends Controller
 
     }
 
-//////////////////////////////////      PUBLICO         ///////////////////////////////////////    
+//////////////////////////////////      PUBLICO         ///////////////////////////////////////
 
     public function buscarPublico()
     {
 
-        $reino_ani = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Animalia'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Animalia'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_ani = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Animalia'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Animalia'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_bac = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Bacteria'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Bacteria'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_bac = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Bacteria'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Bacteria'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_chro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Chromista'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Chromista'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_chro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Chromista'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Chromista'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_fun = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Fungi'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Fungi'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_fun = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Fungi'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Fungi'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_pla = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Plantae'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Plantae'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_pla = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Plantae'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Plantae'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_pro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Protozoa'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Protozoa'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_pro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Protozoa'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Protozoa'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $depar_ahua = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_ahua = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_santa = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_santa = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_sonso = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_sonso = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_chal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_chal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_lali = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_lali = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_ssal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_ssal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_cusca = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_cusca = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_cab = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_cab = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_lapaz = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_lapaz = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_sanvi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_sanvi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_usul = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_usul = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_sanmi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_sanmi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_mor = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_mor = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_launi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_launi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-
-
-
-        $r_ani = count($reino_ani);
-        $r_bac = count($reino_bac);
-        $r_fun = count($reino_fun);
-        $r_pro = count($reino_pro);
-        $r_pla = count($reino_pla);
+        $r_ani  = count($reino_ani);
+        $r_bac  = count($reino_bac);
+        $r_fun  = count($reino_fun);
+        $r_pro  = count($reino_pro);
+        $r_pla  = count($reino_pla);
         $r_chro = count($reino_chro);
-
 
         $d_ahua = count($depar_ahua);
         $d_sant = count($depar_santa);
@@ -400,65 +382,64 @@ class SibesController extends Controller
         $d_mora = count($depar_mor);
         $d_laun = count($depar_launi);
 
-
-        return view('publico.SIBES' ,compact('r_ani','r_bac','r_fun','r_pro','r_pla','r_chro','d_ahua','d_sant','d_sons','d_chal','d_lali','d_ssal','d_cusc','d_caba','d_lapa','d_sanv','d_usul','d_sanm','d_mora','d_laun') );
+        return view('publico.SIBES', compact('r_ani', 'r_bac', 'r_fun', 'r_pro', 'r_pla', 'r_chro', 'd_ahua', 'd_sant', 'd_sons', 'd_chal', 'd_lali', 'd_ssal', 'd_cusc', 'd_caba', 'd_lapa', 'd_sanv', 'd_usul', 'd_sanm', 'd_mora', 'd_laun'));
     }
     public function login()
     {
         return view('login');
     }
 
-     public function PUBLIC_busqueda(){
+    public function PUBLIC_busqueda()
+    {
 
         $reino = Reino::all();
 
-        $reino_ani = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Animalia'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Animalia'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_ani = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Animalia'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Animalia'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_bac = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Bacteria'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Bacteria'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_bac = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Bacteria'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Bacteria'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_chro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Chromista'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Chromista'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_chro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Chromista'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Chromista'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_fun = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Fungi'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Fungi'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_fun = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Fungi'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Fungi'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_pla = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Plantae'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Plantae'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_pla = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Plantae'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Plantae'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $reino_pro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Protozoa'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Protozoa'], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $reino_pro = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie')->where([['Reinos.nombreReino', '=', 'Protozoa'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.nombreReino', '=', 'Protozoa'], ['Subespecies.estadoMarn', '=', 1]])->get();
 
-        $depar_ahua = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_ahua = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'AHUACHAPAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_santa = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_santa = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SANTA ANA'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_sonso = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_sonso = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SONSONATE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_chal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_chal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CHALATENANGO'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_lali = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_lali = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA LIBERTAD'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_ssal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_ssal = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN SALVADOR'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_cusca = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_cusca = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CUSCATLAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_cab = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_cab = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'CABANAS'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_lapaz = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_lapaz = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA PAZ'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_sanvi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_sanvi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN VICENTE'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_usul = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_usul = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'USULUTAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_sanmi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_sanmi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'SAN MIGUEL'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_mor = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_mor = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'MORAZAN'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $depar_launi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos','Especies.idEspecie','=','Avistamientos.idEspecie')->join('Departamento','Avistamientos.codigoDepartamento','=','Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie','Subespecies.nombreSubespecie','Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
+        $depar_launi = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->join('Avistamientos', 'Especies.idEspecie', '=', 'Avistamientos.idEspecie')->join('Departamento', 'Avistamientos.codigoDepartamento', '=', 'Departamento.codigoDepartamento')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Departamento.nombreDepartamento', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Reinos.nombreReino')->where([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Especies.estadoMarn', '=', 1]])->orWhere([['Departamento.nombreDepartamento', '=', 'LA UNION'], ['Subespecies.estadoMarn', '=', 1]])->distinct()->get();
 
-        $r_ani = count($reino_ani);
-        $r_bac = count($reino_bac);
-        $r_fun = count($reino_fun);
-        $r_pro = count($reino_pro);
-        $r_pla = count($reino_pla);
+        $r_ani  = count($reino_ani);
+        $r_bac  = count($reino_bac);
+        $r_fun  = count($reino_fun);
+        $r_pro  = count($reino_pro);
+        $r_pla  = count($reino_pla);
         $r_chro = count($reino_chro);
-
 
         $d_ahua = count($depar_ahua);
         $d_sant = count($depar_santa);
@@ -477,14 +458,13 @@ class SibesController extends Controller
 
         $no_especie = 0;
 
-         $especie = Reino::where('idReino', 1)->get();
+        $especie = Reino::where('idReino', 1)->get();
 
-        return view('publico.Busqueda_avanzada', compact('especie','no_especie','reino','r_ani','r_bac','r_fun','r_pro','r_pla','r_chro','d_ahua','d_sant','d_sons','d_chal','d_lali','d_ssal','d_cusc','d_caba','d_lapa','d_sanv','d_usul','d_sanm','d_mora','d_laun'));
+        return view('publico.Busqueda_avanzada', compact('especie', 'no_especie', 'reino', 'r_ani', 'r_bac', 'r_fun', 'r_pro', 'r_pla', 'r_chro', 'd_ahua', 'd_sant', 'd_sons', 'd_chal', 'd_lali', 'd_ssal', 'd_cusc', 'd_caba', 'd_lapa', 'd_sanv', 'd_usul', 'd_sanm', 'd_mora', 'd_laun'));
 
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     public function Consulta_interna_ESP()
     {
@@ -496,12 +476,10 @@ class SibesController extends Controller
 
     ///////////////////////////////////////////CONSULTAS//////////////////////////////////////////////////
 
-   
-
     public function Consulta_x_Subespecie(Request $req)
     {
 
-        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2')->where([['Subespecies.idSubespecie', $req->id],[ 'Subespecies.estadoMarn', '=', 1 ]])->get();
+        $especie = Subespecie::join('Especies', 'Subespecies.idEspecie', '=', 'Especies.idEspecie')->join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Subespecies.nombreSubespecie', 'Especies.idEspecie', 'Subespecies.idSubespecie', 'Subespecies.fotografiaEspecie2')->where([['Subespecies.idSubespecie', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -514,8 +492,7 @@ class SibesController extends Controller
     public function Consulta_x_reino_ESP(Request $req)
     {
 
-        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Especies.fotografiaEspecie','Subespecies.fotografiaEspecie2')->where([['Reinos.idReino', '=', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.idReino', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
-
+        $especie = Reino::join('Divisions', 'Reinos.idReino', '=', 'Divisions.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Especies.fotografiaEspecie', 'Subespecies.fotografiaEspecie2')->where([['Reinos.idReino', '=', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Reinos.idReino', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         //dd()
 
@@ -528,7 +505,7 @@ class SibesController extends Controller
     public function Consulta_x_Division_ESP(Request $req)
     {
 
-        $especie = Division::join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Divisions.idDivision', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.idDivision', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Division::join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Clases', 'Divisions.idDivision', '=', 'Clases.idDivision')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Subespecies.fotografiaEspecie2', 'Especies.fotografiaEspecie')->where([['Divisions.idDivision', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Divisions.idDivision', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -540,7 +517,7 @@ class SibesController extends Controller
     {
 
         $especie = Clase::join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Ordens', 'Clases.idClase', '=', 'Ordens.idClase')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie'
-        ,'Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Clases.idClase', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.idClase', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+            , 'Subespecies.fotografiaEspecie2', 'Especies.fotografiaEspecie')->where([['Clases.idClase', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Clases.idClase', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -551,7 +528,7 @@ class SibesController extends Controller
     public function Consulta_x_Orden_ESP(Request $req)
     {
 
-        $especie = Orden::join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Ordens.idOrden', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Ordens.idOrden','=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Orden::join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Familias', 'Ordens.idOrden', '=', 'Familias.idOrden')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Subespecies.fotografiaEspecie2', 'Especies.fotografiaEspecie')->where([['Ordens.idOrden', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Ordens.idOrden', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -560,7 +537,7 @@ class SibesController extends Controller
     public function Consulta_x_Familia_ESP(Request $req)
     {
 
-        $especie = Familia::join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Familias.idFamilia', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.idFamilia', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Familia::join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Generos', 'Familias.idFamilia', '=', 'Generos.idFamilia')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Subespecies.fotografiaEspecie2', 'Especies.fotografiaEspecie')->where([['Familias.idFamilia', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Familias.idFamilia', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
@@ -571,7 +548,7 @@ class SibesController extends Controller
     public function Consulta_x_Genero_ESP(Request $req)
     {
 
-        $especie = Genero::join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Generos.idGenero', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.idGenero', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Genero::join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->join('Especies', 'Generos.idGenero', '=', 'Especies.idGenero')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Subespecies.fotografiaEspecie2', 'Especies.fotografiaEspecie')->where([['Generos.idGenero', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Generos.idGenero', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
         //dd($req->id);
@@ -580,15 +557,13 @@ class SibesController extends Controller
 
     public function Consulta_x_Especie_ESP(Request $req)
     {
-        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie','Subespecies.fotografiaEspecie2','Especies.fotografiaEspecie')->where([['Especies.idEspecie', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.idEspecie', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
+        $especie = Especie::join('Generos', 'Especies.idGenero', '=', 'Generos.idGenero')->join('Familias', 'Generos.idFamilia', '=', 'Familias.idFamilia')->join('Ordens', 'Familias.idOrden', '=', 'Ordens.idOrden')->join('Clases', 'Ordens.idClase', '=', 'Clases.idClase')->join('Divisions', 'Clases.idDivision', '=', 'Divisions.idDivision')->join('Reinos', 'Divisions.idReino', '=', 'Reinos.idReino')->leftJoin('Subespecies', 'Especies.idEspecie', '=', 'Subespecies.idEspecie')->select('Reinos.nombreReino', 'Divisions.nombreDivision', 'Clases.nombreClase', 'Ordens.nombreOrden', 'Familias.nombreFamilia', 'Generos.nombreGenero', 'Especies.nombreEspecie', 'Especies.idEspecie', 'Subespecies.nombreSubespecie', 'Subespecies.idSubespecie', 'Subespecies.fotografiaEspecie2', 'Especies.fotografiaEspecie')->where([['Especies.idEspecie', $req->id], ['Especies.estadoMarn', '=', 1]])->orWhere([['Especies.idEspecie', '=', $req->id], ['Subespecies.estadoMarn', '=', 1]])->get();
 
         return response()->json($especie);
 
         //dd($req->id);
 
     }
-
-  
 
     public function Agregar_usuarios(Request $req)
     {
@@ -623,7 +598,7 @@ class SibesController extends Controller
             'textNomdU.unique'    => 'El nombre de usuario ya existe',
 
             'textCodU.min'        => 'El campo requiere al menos 6 digitos',
-            'textCodU.size'        => 'El campo requiere al menos 6 digitos',
+            'textCodU.size'       => 'El campo requiere al menos 6 digitos',
             'textCodU.alpha_num'  => 'El campo requiere caracteres alfanumericos',
             'textNomdU.required'  => 'El campo nombre de usuario  es requerido',
             'texContraU.required' => 'El campo contraseña de usuario es requerido',
@@ -637,23 +612,23 @@ class SibesController extends Controller
 
             /*
 
-            $usr = new Usuario();
+        $usr = new Usuario();
 
-            $usr->idTipo            = $req->textTipoU;
-            $usr->codigoUsuario     = $req->textCodU;
-            $usr->nombreUsuario     = $req->textNomdU;
-            $usr->contrasenaUsuario = $req->texContraU;
-            $usr->estadoUsuario     = 1;
+        $usr->idTipo            = $req->textTipoU;
+        $usr->codigoUsuario     = $req->textCodU;
+        $usr->nombreUsuario     = $req->textNomdU;
+        $usr->contrasenaUsuario = $req->texContraU;
+        $usr->estadoUsuario     = 1;
 
-            $usr->save();
+        $usr->save();
 
         //dd($usr);
 
-            $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $usr->idUsuario)->get();
+        $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $usr->idUsuario)->get();
         //dd($usuario);
-            return view('inicio_SIBES', compact('usuario'));*/
-            
-        }else{
+        return view('inicio_SIBES', compact('usuario'));*/
+
+        } else {
 
             if ($req->ajax()) {
 
@@ -662,36 +637,36 @@ class SibesController extends Controller
             } else {
 
                 //return redirect('/Busqueda')->withErrors($validator, 'fdivision')->withInput($req->flash());
-                return redirect('/Agregar_usuarios' )->withErrors($validator, 'usuarios')->withInput($req->flash());
-            }         
+                return redirect('/Agregar_usuarios')->withErrors($validator, 'usuarios')->withInput($req->flash());
+            }
 
         }
 
     }
 
-    public function agregar_usr_dos( Request $req )
-    {   
+    public function agregar_usr_dos(Request $req)
+    {
         //dd($req->all());
         //dd(date('Y-m-d H:m:s'));
 
         $usr = new Usuario();
 
-            $usr->idTipo            = $req->textTipoU;
-            $usr->nomComp           = $req->textCodU;
-            $usr->nombreUsuario     = $req->textNomdU;
-            //$usr->contrasenaUsuario =  Hash::make($req->texContraU);
-            $usr->contrasenaUsuario =  bcrypt($req->texContraU);
-            $usr->estadoUsuario     = 1;
-            //$datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
-            $usr->save();
-            //dd($usr);
-            $tipo = Tipo::all();
+        $usr->idTipo        = $req->textTipoU;
+        $usr->nomComp       = $req->textCodU;
+        $usr->nombreUsuario = $req->textNomdU;
+        //$usr->contrasenaUsuario =  Hash::make($req->texContraU);
+        $usr->contrasenaUsuario = bcrypt($req->texContraU);
+        $usr->estadoUsuario     = 1;
+        //$datetime = Carbon::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $usr->save();
+        //dd($usr);
+        $tipo = Tipo::all();
 
-            $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
         //dd($usuario);
-            return view('opciones.agregarUsuario', compact('usuario','tipo'));
-            //return redirect('/Agregar_usuarios')->with('usuario','tipo');
-            
+        return view('opciones.agregarUsuario', compact('usuario', 'tipo'));
+        //return redirect('/Agregar_usuarios')->with('usuario','tipo');
+
     }
 
     public function login_usr(Request $req)
@@ -710,16 +685,15 @@ class SibesController extends Controller
         $usr = count($usuario);
 
         if ($usr < 1) {
-            $msg = 'verifique su nombre y contraseña';
+        $msg = 'verifique su nombre y contraseña';
 
-            return view('login', compact('msg'));
+        return view('login', compact('msg'));
 
         } else {
-            return view('inicio_SIBES', compact('usuario'));
+        return view('inicio_SIBES', compact('usuario'));
         }*/
 
- 
-        $usuario = Usuario::select('idTipo', 'nombreUsuario', 'idUsuario','contrasenaUsuario')->where([['nombreUsuario', $req->nombre_usr], ['estadoUsuario', 1]])->get();
+        $usuario = Usuario::select('idTipo', 'nombreUsuario', 'idUsuario', 'contrasenaUsuario')->where([['nombreUsuario', $req->nombre_usr], ['estadoUsuario', 1]])->get();
 
         //'contrasenaUsuario', $req->intento_usr
 
@@ -729,35 +703,32 @@ class SibesController extends Controller
 
         //$password = bcrypt($req['intento_usr']);
 
-
         //$password = Hash::make($req->intento_usr);
 
-
-        if( count($usuario) > 0 ){
+        if (count($usuario) > 0) {
 
             $Contra_Hash = $usuario[0]->contrasenaUsuario;
 
-            if( Hash::check( $req->intento_usr , $Contra_Hash) ){
+            if (Hash::check($req->intento_usr, $Contra_Hash)) {
 
-            //if (Auth::attempt(['nombreUsuario' => $req->nombre_usr, 'contrasenaUsuario' => $password])) {
+                //if (Auth::attempt(['nombreUsuario' => $req->nombre_usr, 'contrasenaUsuario' => $password])) {
 
-            return view('inicio_SIBES', compact('usuario'));
+                return view('inicio_SIBES', compact('usuario'));
 
-            }else{
+            } else {
 
-            $msg = 'Verifique su contraseña';
+                $msg = 'Verifique su contraseña';
 
-            return view('login', compact('msg'));
+                return view('login', compact('msg'));
             }
 
+        } else {
 
-        }else{
-            
             $msg = 'Verifique su nombre de usuario';
 
             return view('login', compact('msg'));
 
-        }     
+        }
 
     }
 
@@ -789,7 +760,7 @@ class SibesController extends Controller
         $usar = Usuario::find($req->id);
 
         $usar->estadoUsuario = 0;
-          
+
         $usar->save();
 
     }
@@ -800,7 +771,7 @@ class SibesController extends Controller
         $usar = Usuario::find($req->id);
 
         $usar->idTipo = $req->rol;
-             
+
         $usar->save();
         //dd($usar);
 
@@ -847,15 +818,17 @@ class SibesController extends Controller
 
     }
 
-    public function Agregar_Colector( Request $req ){
+    public function Agregar_Colector(Request $req)
+    {
 
         $usuario = Usuario::select('idUsuario', 'nombreUsuario', 'idTipo')->where('idUsuario', $req->id_usuario)->get();
 
-        return view('opciones.agregarColector' , compact('usuario') );
+        return view('opciones.agregarColector', compact('usuario'));
 
     }
 
-    public function Guardar_Colector( Request $req ){
+    public function Guardar_Colector(Request $req)
+    {
 
         //dd($req->all());
 
@@ -865,20 +838,20 @@ class SibesController extends Controller
 
         $validator = Validator::make($req->all(), [
 
-            'nombre_Colector'  => 'required|regex:/^[\pL\s\-]+$/u|unique:Usuario,nombreUsuario',
+            'nombre_Colector' => 'required|regex:/^[\pL\s\-]+$/u|unique:Usuario,nombreUsuario',
             'descri_Colector' => 'required',
 
         ], [
-            'nombre_Colector.required'  => 'Ingrese un nombre para el colector',
-            'descri_Colector.required'   => 'Ingrese una breve descripcion para el colector',
-            'textCodU.regex'      => 'Solo se permiten caracteres alfabeticos',
-            'textNomdU.unique'    => 'El nombre de usuario ya existe',         
+            'nombre_Colector.required' => 'Ingrese un nombre para el colector',
+            'descri_Colector.required' => 'Ingrese una breve descripcion para el colector',
+            'textCodU.regex'           => 'Solo se permiten caracteres alfabeticos',
+            'textNomdU.unique'         => 'El nombre de usuario ya existe',
 
         ]);
 
         if ($validator->passes()) {
-            
-        }else{
+
+        } else {
 
             if ($req->ajax()) {
 
@@ -886,51 +859,48 @@ class SibesController extends Controller
 
             } else {
 
-                return redirect('/Agregar_usuarios' )->withErrors($validator, 'usuarios')->withInput($req->flash());
+                return redirect('/Agregar_usuarios')->withErrors($validator, 'usuarios')->withInput($req->flash());
 
-            }         
+            }
 
         }
 
-
-
     }
 
-    public function Guardar_Colector_dos( Request $req ){
+    public function Guardar_Colector_dos(Request $req)
+    {
 
         //dd($req->all());
 
         $usr = new Colectore();
 
-            $usr->nombreColector     = $req->nombre_Colector;
-            $usr->descripColector     = $req->descri_Colector;
-            $usr->save();
+        $usr->nombreColector  = $req->nombre_Colector;
+        $usr->descripColector = $req->descri_Colector;
+        $usr->save();
 
-            $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
-            return view('opciones.agregarColector', compact('usuario'));
-            
+        $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
+        return view('opciones.agregarColector', compact('usuario'));
+
     }
 
-    public function Tabla_Colectores( Request $req ){
+    public function Tabla_Colectores(Request $req)
+    {
 
-            $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
+        $usuario = Usuario::select('nombreUsuario', 'idTipo', 'idUsuario')->where('idUsuario', $req->id_usuario)->get();
 
-            $colector = Colectore::all();
+        $colector = Colectore::all();
 
-            return view('opciones.estadoColector', compact('usuario','colector'));
-               
+        return view('opciones.estadoColector', compact('usuario', 'colector'));
+
     }
 
-    public function desc_Colector( Request $req ){
+    public function desc_Colector(Request $req)
+    {
 
-        $data = Colectore::select('idColector','descripColector','nombreColector')->where('idColector',$req->id)->get();
+        $data = Colectore::select('idColector', 'descripColector', 'nombreColector')->where('idColector', $req->id)->get();
 
         return response()->json($data);
 
     }
-
-    
-
-   
 
 }
