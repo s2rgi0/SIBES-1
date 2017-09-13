@@ -1,8 +1,8 @@
 <!DOCTYPE doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title>MARN | SIBES</title>
+        <meta charset="utf-8">
         <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
@@ -21,7 +21,7 @@
     </style>
     <body>
 
-    
+
 <header>
     <img src="imagen/cafe_1.jpg" alt="SIBES" class="img-responsive" >
 </header>
@@ -83,13 +83,13 @@
     <div class=" col-xs-6 col-sm-6 col-lg-9">
       <textarea class="form-control" id="descri_Colector" rows="2" name="descri_Colector" placeholder="breve descripcion del colector" ></textarea>
     </div><div class="" style="display: none;color:#ff3700;font-size:small;" id="_descri_Colector" ><span class="help-block" ><strong style="color:  #990000 ;" >{{ $errors->  first('descri_Colector') }} </strong></span></div>
-    
+
   </div>
 
 
   <div class="form-group">
     <div class=" col-xs-6 col-sm-12">
-&nbsp;&nbsp;      
+&nbsp;&nbsp;
     <button type="submit" class="btn btn-default  btn btn-default "  id="btn_agr_usr"  style="width: 200px;"  >Agregar
       </button>
 
@@ -105,15 +105,15 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
-  
+
 $(document).ready(function(){
 
-  
+
 
 $('#descri_Colector').val('');
 
 $('#nombre_Colector').val('');
-  
+
 $('#frm-colector')[0].reset();
 
 
@@ -204,7 +204,7 @@ $('#frm-colector')[0].reset();
                     swal("Colector ingresado!", "", "success")
                      //delay(200)
                     form.submit();
-                  
+
                   }
 
 
