@@ -5,11 +5,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-        <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+	<link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	
+	<link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+
+
 <script language="JavaScript">
 	function nobackbutton(){
    window.location.hash="no-back-button";
@@ -226,7 +227,7 @@
 		<input  type="hidden" name="n_esp" value="{{ $esp12->nombreEspecie }}">
 		<div class="row">
 		<h4 class="taxo">&nbsp;Taxonomía de la Subespecie:</h4>
-		<h4 style="color:  #122D85 ;">&nbsp;{{ $esp12->nombreEspecie }}&nbsp;{{ $esp12->nombreSubespecie }}</h4>
+		<h4 class="nombreh4" style="color:#122D85 ;">&nbsp;{{ $esp12->nombreEspecie }}&nbsp;{{ $esp12->nombreSubespecie }}</h4>
 		</div>
 
 		<div class="row">
@@ -234,17 +235,17 @@
                   <label>Reino </label><br>
                   <label class="show1">{{ $esp12->nombreReino }} </label>
             </div>
-            
+
 			<div class="col-xs-12 col-lg-2 ">
                   <label > División </label><br>
                   <label class="show1"   >{{ $esp12->nombreDivision }}</label>
             </div>
-           
+
             <div class="col-xs-12 col-lg-2 ">
                   <label> Clase</label><br>
                   <label  class="show1" " >{{ $esp12->nombreClase }} </label>
             </div>
-            
+
             <div class="col-xs-12 col-lg-2">
                   <label> Orden</label><br>
                   <label class="show1"  >{{ $esp12->nombreOrden }}  </label>
@@ -305,7 +306,7 @@
 	<div class="row" style="float: left;"><!--FILa-1 interna-->
 	<div class="col-xs-12 col-md-12">
 			<label >Apéndice CITES:</label>
-			
+
 			@foreach(  $a_sub as $a )
 				<label class="show1"  > {{  $a->nombreApendiceCITES }} </label>
 			@endforeach
@@ -335,13 +336,13 @@
 
 
 <div class="col-xs-12 col-md-4"><!--Columna3-->
-	
+
 		<center>
 
 		<div class="row"> <!--FILa-1- interna-->
 
 
-		
+
 		<div class="col-xs-12 col-md-12">
 			<!--<label> Fotografía de Especie</label><br>-->
 
@@ -360,10 +361,10 @@
 		</div>
 
 	</div>
-			
+
 
 		</center>
-	
+
 
 </div><!--Columna3-->
 
