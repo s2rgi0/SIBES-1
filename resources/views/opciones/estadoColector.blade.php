@@ -21,10 +21,7 @@
     </style>
     <body>
 
-    
-<header>
-    <img src="imagen/cafe_1.jpg" alt="SIBES" class="img-responsive" >
-</header>
+
 
     <nav>
           @include('parciales.menu')
@@ -98,10 +95,10 @@
         <div class="modal-header">
           <button type="button" class="close cerrar_continuar btn-cerrar" data-dismiss="modal">&times;</button>
           <h4 class="modal-title"></h4>
-        </div>                 
+        </div>
             <div class="modal-body-desc">
               <div class="row">
-            
+
                   <div style="padding-left: 40px;">
                     <label for="GeoTextarea"  style="padding-top: 10px;">
                       Descripcion del colector:
@@ -111,15 +108,15 @@
                     </div>
                     <br>
                   </div>
-            
+
               </div>
             </div>
             <div class="modal-footer">
               <center>
               <input type="hidden" name="id_usuario" value="" >
-                <input type="hidden" name="id_sub" id="subespecie_id2" value="" >  
+                <input type="hidden" name="id_sub" id="subespecie_id2" value="" >
 
-                <button type="submit" class="btn btn-success btn-lg btn-cerrar" id="btn-cerrar" style="background-color: #b0a54f ; border-color: #8e7200 ;"> Cerrar </button>          
+                <button type="submit" class="btn btn-success btn-lg btn-cerrar" id="btn-cerrar" style="background-color: #b0a54f ; border-color: #8e7200 ;"> Cerrar </button>
               </center>
             </div>
         </div>
@@ -130,15 +127,15 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
-  
+
 $(document).ready(function(){
 
-  
+
 
 $('#descri_Colector').val('');
 
 $('#nombre_Colector').val('');
-  
+
 $('#frm-colector')[0].reset();
 
 
@@ -203,7 +200,7 @@ $('#frm-colector')[0].reset();
 
 
     $(document).on('click','.btn-desc',function(e){
-            
+
             var id = $(this).val();
 
             var div = $('#desc_col').parent().parent();
@@ -215,13 +212,13 @@ $('#frm-colector')[0].reset();
                         data :  { 'id':id },
                         success:function(data){
                             console.log('success pdf info')
-                            console.log(data)   
-                            //desc_col                         
+                            console.log(data)
+                            //desc_col
                             //alert(data[0].descripColector);
-                            
+
                             div.find('#nom_col').text(data[0].nombreColector)
                             div.find('#desc_col').text(data[0].descripColector)
-                         
+
 
                         },
                         error:function(){
@@ -240,7 +237,7 @@ $('#frm-colector')[0].reset();
 
       $('#colector_desc').modal('hide');
       $('#nom_col').text('');
-      $('#desc_col').text('');      
+      $('#desc_col').text('');
 
     });
 

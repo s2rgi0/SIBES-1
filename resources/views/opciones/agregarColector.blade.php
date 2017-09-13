@@ -1,8 +1,8 @@
 <!DOCTYPE doctype html>
 <html lang="en">
     <head>
-        <title>MARN | SIBES</title>
         <meta charset="utf-8">
+        <title>MARN | SIBES</title>
         <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
@@ -22,9 +22,6 @@
     <body>
 
 
-<header>
-    <img src="imagen/cafe_1.jpg" alt="SIBES" class="img-responsive" >
-</header>
 
     <nav>
           @include('parciales.menu')

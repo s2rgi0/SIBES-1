@@ -3,14 +3,15 @@
 <head>
   <title>SIBES | MARN</title>
   <meta charset="utf-8">
-  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+  <link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
   <script src="sweetalert/dist/sweetalert.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
+
 <style>
 nav{
     box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
@@ -23,9 +24,7 @@ body{
 </head>
 <body>
 
-<header>
-    <img src="imagen/cafe_1.jpg" alt="SIBES" class="img-responsive" >
-</header>
+
 <nav>
   @include('parciales.menu')
 </nav>
@@ -53,7 +52,7 @@ body{
 </form>
 
 <br>
-<center><h1>Tabla de Usuarios</h1></center>
+<center><h3>Tabla de usuarios</h3></center>
 <br>
   <center>
 

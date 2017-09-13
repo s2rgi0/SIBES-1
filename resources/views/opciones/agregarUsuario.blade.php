@@ -1,5 +1,5 @@
 <!DOCTYPE doctype html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <title>MARN | SIBES</title>
@@ -21,10 +21,7 @@
     </style>
     <body>
 
-    
-<header>
-    <img src="imagen/cafe_1.jpg" alt="SIBES" class="img-responsive" >
-</header>
+
 
     <nav>
           @include('parciales.menu')
@@ -126,10 +123,10 @@
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script type="text/javascript">
-  
+
 $(document).ready(function(){
 
-  
+
 
 $('#textTipoU').val('0');
 
@@ -141,7 +138,7 @@ $('#texContraU').val('');
 
 $('input:text').val('');
 
-  
+
 $('#frm-agr-usr')[0].reset();
 
 
@@ -234,7 +231,7 @@ $('#frm-agr-usr')[0].reset();
                     swal("Usuario ingresado!", "", "success")
                      //delay(200)
                     form.submit();
-                  
+
                   }
 
 
