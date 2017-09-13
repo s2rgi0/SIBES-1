@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
     <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
@@ -12,7 +13,7 @@
     <script src="/js/plugins/sortable.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
     <script async defer    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyc-0JilQZiy7Nls1hdG9-n-wUctabeVQ&callback=initMap">
-   </script>
+</script>
 
 
 <script>
@@ -64,7 +65,7 @@
 
             $.ajax({
                  type : 'get',
-                url  : '{!! URL::to('get_Avista_BY_ID') !!}',
+                url  : '{!! URL::to('get_Avista_BY_ID_sub') !!}',
                 data :  { 'id':id },
                 success:function(data){
                     console.log(data)
@@ -96,7 +97,7 @@
 
                     if(data[0].fotografiaAvistamiento){
 
-                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].fotografiaAvistamiento).fadeIn();
+                        $('#img-avista').attr('src','/imagen_especie/'+data[0].nombreEspecie+'/'+data[0].nombreSubespecie+'/'+data[0].fotografiaAvistamiento).fadeIn();
                     }
 
                 },error:function(){

@@ -8,14 +8,15 @@
     <link rel=stylesheet href="css/estilo_mostrar.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />  
+    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
     <link rel="stylesheet" type="text/css" href="sweetalert/dist/sweetalert.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/js/plugins/sortable.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
     <script src="sweetalert/dist/sweetalert.min.js"></script>
-      
+
+
 <script>
     webshims.setOptions('forms-ext', {types: 'date'});
     webshims.polyfill('forms forms-ext');
@@ -128,7 +129,7 @@
 
         <input type="hidden" name="id_esp" value="{{ $esp->idEspecie }}" >
         <div class="row" style="padding-right: 30px; padding-left: 30px; " >
-        <H4><label style="padding-left: 20px;">  Avistamientos de la Subespecie : </label> {{ $esp->nombreEspecie }} , {{ $esp->nombreSubespecie }} <label class="btn btn-default" id="agr_avista"  style="float: right;" >  Agregar Avistamiento <span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span> </label></H4></div>
+        <H4><label style="padding-left: 20px;">  Avistamientos de la Subespecie : </label> {{ $esp->nombreEspecie }} , {{ $esp->nombreSubespecie }} <label class="btn btn-default" id="agr_avista"  style="float: right;" >  Agregar avistamiento <span class="glyphicon glyphicon-plus" aria-hidden="true"  ></span> </label></H4></div>
         <hr>
 
      <div class="row" style="padding-left: 20px;" >
@@ -148,6 +149,7 @@
 
            <br><br>
         </div>
+        <center>
         <div class="col-xs-12">
             <label>Reino </label><br>
             <label class="show1">{{ $esp->nombreReino }} </label>
@@ -172,7 +174,7 @@
             <label> Género</label><br>
             <label  class="show1" >{{ $esp->nombreGenero }} </label>
         </div>
-
+        </center>
      </div>
      <div class="col-lg-10" >
 
@@ -180,14 +182,14 @@
 
 
             @include('opciones.tabla_avis_sub')
-   
-     
+
+
         </div>
-         
+
 
      </div>
 
-        
+
 
     </div>
 
@@ -198,15 +200,7 @@
 
 
 
- 
-
-
-    
-
-
     @include('modales.avi_mod_sub')
-
-
 
 
 <!--  ESTE es LA VENTANA EMERGENTE o Modal para agregar LOS avistamiento  -->
@@ -219,7 +213,7 @@
         <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close close-avis" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">  Ingrese la informacion del avistamiento  </h4>
+            <h4 class="modal-title">  Ingrese la información del avistamiento  </h4>
         </div>
         <form method="get" action="SAVE_avista" id="frm-avista" enctype="multipart/form-data" >
         <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -241,7 +235,7 @@
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-4">
                                 <label for="id_fecha_ing">
-                                    Fecha de Ingreso:
+                                    Fecha de ingreso:
                                 </label>
                                 <input class="form-control" id="id_fecha_ingr" readonly="" max="{{ date('Y-m-d') }}" type="date" name="fecha_ing" value="{{ date('Y-m-d') }}" >
 
@@ -249,7 +243,7 @@
 
                             <div class="col-xs-12 col-md-4 ">
                                 <label for="id_fecha_avis">
-                                    Fecha de Avistamiento:
+                                    Fecha de avistamiento:
                                 </label>
                                 <input class="form-control" id="fecha_avis" type="date" max="{{ date('Y-m-d') }}" name="fecha_av" >
                                 <!--
@@ -257,13 +251,13 @@
                                 -->
                                 <center>
                                 <div class="" style="display: none;color:#ff3700;font-size:small;" id="_fecha_av" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('fecha_av') }}</strong></span></div></center>
-                                 
+
                             </div>
                             <div class="col-xs-12 col-md-4 ">
                                 <label for="id_fecha_avis">
-                                    Hora de Avistamiento:
+                                    Hora de avistamiento:
                                 </label>
-                                <input class="form-control" id="fecha_avis" type="time" name="hora_av" >                     
+                                <input class="form-control" id="fecha_avis" type="time" name="hora_av" >
                             </div>
 
 
@@ -288,7 +282,7 @@
                             </div>
                         <div class="col-xs-12 col-md-4">
                             <label>
-                                Fuente de Informacion:
+                                Fuente de información:
                             </label>
                             <select class="form-control" id="idFInfo" name="fuente_avis" >
                                 <option disabled="true" selected="true" value="0">
@@ -303,7 +297,7 @@
                         </div>
                             <div class="col-xs-12 col-md-4">
                                 <label>
-                                    Ejemplar Depositado:
+                                    Ejemplar depositado:
                                 </label>
                                 <input class="form-control" id="idFInfo" name="ejem_avis" >
 
@@ -312,7 +306,7 @@
                         <div "="" class="form-group row">
                             <div class="col-xs-12 col-md-12">
                                 <h4>
-                                    Lugar de Recolecta
+                                    Lugar de recolecta
                                 </h4>
                             </div>
                         </div>
@@ -327,11 +321,9 @@
                                     </option>
                                 </select>
 
-
-                    <!--            <div class="alert alert-danger" style="display: none;" id="_depar_avis" > {{ $errors->first('depar_avis') }} </div>-->
                     <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_depar_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('depar_avis') }}</strong></span>  </div>
-                    </center>        
+                    </center>
 
 
                             </div>
@@ -354,15 +346,15 @@
                             </div>
                             <div class="col-xs-12 col-md-4">
                                 <label>
-                                    Canton:
+                                    Cantón:
                                 </label>
                                 <select class="form-control" id="id_canton" name="canton_avis" >
                                     <option disabled="true" selected="true" value="0">
-                                        ---Canton---
+                                        ---Cantón---
                                     </option>
                                 </select>
                         <!--        <div class="alert alert-danger" style="display: none;" id="_canton_avis" > {{ $errors->first('canton_avis') }} </div>-->
-                                                                                
+
                         <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_canton_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('canton_avis') }}</strong></span>  </div>
                         </center>
@@ -373,15 +365,14 @@
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-12">
                                 <h4>
-                                    Coordenadas Geografica
+                                    Coordenadas geográfica
                                 </h4>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-4">
-                                <label>
-                                    Latitud:
-                                </label>
+                                <label>Latitud: </label><a style="color: #c2c2a3;" > N 13° 40' 40.848''</a>
+
 
 
 <div class="row" style="padding-left: 20px;border-radius: 4px;border: 1px solid  #bfbfbf ;padding: 7px;" >
@@ -392,13 +383,13 @@
  <input name="lati_min" style="width: 50px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
  <label> '</label>
  <input name="lati_sec" style="width: 60px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
- <label> "</label>    
+ <label> "</label>
 </div>
 
-</div> 
+</div>
 
-                                
-<!-- <input class="form-control" id="idLatitud"  name="lati_avis" placeholder="N 13° 40' 40.848''" > 
+
+<!-- <input class="form-control" id="idLatitud"  name="lati_avis" placeholder="N 13° 40' 40.848''" >
 
                                <div class="alert alert-danger" style="display: none;" id="_lati_avis" > {{ $errors->first('lati_avis') }} </div>-->
 
@@ -406,19 +397,17 @@
     <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_avis') }}</strong></span>  </div>
 </center>
 <center>
-    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_min" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_min') }}</strong></span>  
+    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_min" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_min') }}</strong></span>
     </div>
 </center>
 <center>
-    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_sec" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_sec') }}</strong></span>  
+    <div class="" style="display: none;color:#ff3700;font-size:small;" id="_lati_sec" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->  first('lati_sec') }}</strong></span>
     </div>
 </center>
 
                             </div>
         <div class="col-xs-12 col-md-4">
-            <label>
-                                    Longitud:
-            </label>
+            <label>Longitud: </label><a style="color: #c2c2a3;" > O 89° 6' 26.499'' </a>
 
 <div class="row" style="padding-left: 20px;border-radius: 4px;border: 1px solid  #bfbfbf ;padding: 7px;" >
 <div style="padding-left: 20px;" >
@@ -429,12 +418,12 @@
  <input name="long_min" style="width: 50px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
  <label> '</label>
  <input name="long_sec" style="width: 60px;border-radius: 4px;border: 1px solid  #bfbfbf;height: 30px;">
- <label> "</label>    
+ <label> "</label>
 </div>
 
-</div>  
-            
-    <!--  
+</div>
+
+    <!--
     <input class="form-control" id="idLongitud"  name="long_avis" placeholder="O 89° 6' 26.499''" >
     <div class="alert alert-danger" style="display: none;" id="_long_avis" > {{ $errors->first('long_avis') }} </div> -->
 
@@ -466,9 +455,7 @@
                         </div>
                         <div class="form-group row">
                         <div class="col-xs-12 col-md-6">
-                                <label>
-                                    Fotografia de Avistamiento:
-                                </label>
+                                <label>Fotografía de avistamiento: </label><a style="color: #a3a375 ;" > jpg, gif, png, bmp</a>
                                 <br>
                                     <input aria-describedby="fileHelp" class="form-control-file" id="idFoAvis" type="file" name="foto_graf" ><br>
                         <center>
@@ -478,14 +465,14 @@
                         <br>
                         <div class="col-xs-12 col-md-6" >
                             <label>
-                                    Numero de Especies Observadas:
+                                    Numero de especies observadas:
                             </label>
                              <input class="form-control" id="num_avis"  name="num_avis">
                         <center>
                             <div class="" style="display: none;color:#ff3700;font-size:small;" id="_num_avis" ><span class="help-block" ><strong style="color:  #f44242 ;float: right;" >{{ $errors->first('num_avis') }}</strong></span>  </div>
                         </center>
 
-                        </div>          
+                        </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-6">
@@ -507,11 +494,11 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                                 <label>
-                                    Clase de Tierra:
+                                    Clase de tierra:
                                 </label>
                                 <select class="form-control" id="id_tierra"  name="tierra_avis">
                                     <option disabled="true" selected="true" value="0">
-                                        --- Clase de Tierra ---
+                                        --- Clase de tierra ---
                                     </option>
                                 </select>
                         <!--        <div class="alert alert-danger" style="display: none;" id="_tierra_avis" > {{ $errors->first('tierra_avis') }} </div> -->
@@ -528,7 +515,7 @@
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-6">
                                 <label for="ClimaTextarea">
-                                    Descripcion del Clima:
+                                    Descripción del clima:
                                 </label>
                                 <textarea class="form-control" id="ClimaTextarea" rows="3"  name="clima_avis"></textarea>
 
@@ -539,7 +526,7 @@
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <label for="EcoTextarea">
-                                    Descripcion del Ecosistema:
+                                    Descripción del ecosistema:
                                 </label>
                                 <textarea class="form-control" id="EcoTextarea" rows="3"  name="eco_avis"></textarea>
 
@@ -552,7 +539,7 @@
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-6">
                                 <label for="FisioTextarea">
-                                    Descripcion de  Fisiografía:
+                                    Descripción de  fisiografía:
                                 </label>
                                 <textarea class="form-control" id="FisioTextarea" rows="3"  name="fisio_Avis"></textarea>
 
@@ -567,7 +554,7 @@
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <label for="GeoTextarea">
-                                    Descripcion del Geología:
+                                    Descripción del geología:
                                 </label>
                                 <textarea class="form-control" id="GeoTextarea" rows="3"  name="geo_avis"></textarea>
 
@@ -584,7 +571,7 @@
                         <div class="form-group row">
                             <div class="col-xs-12 col-md-6">
                                 <label for="HidroTextarea">
-                                    Descripcion de Hidrografía :
+                                    Descripción de hidrografía :
                                 </label>
                                 <textarea class="form-control" id="HidroTextarea" rows="3"  name="hidro_avis"></textarea>
 
@@ -595,7 +582,7 @@
                             </div>
                             <div class="col-xs-12 col-md-6">
                                 <label for="usoTextarea">
-                                    Usos de la Especies
+                                    Usos de la especies
                                 </label>
                                 <textarea class="form-control" id="usoTextarea" rows="3"  name="usos_avis"></textarea>
 

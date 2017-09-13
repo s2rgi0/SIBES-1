@@ -136,7 +136,7 @@
 		<div class="row">
 		<div class="col-xs-12">
 		<h4 class="taxo"> &nbsp;&nbsp;Taxonomía de Especie</h4>
-		<h4 class="nombreh4 ><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}</label> </h4>
+		<h4 class="nombreh4" ><label  class="espec">&nbsp;{{ $esp1_array[ $i ]->nombreEspecie }}</label> </h4>
 		</div>
 		</div>
 		<br>
@@ -363,7 +363,7 @@
 <!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!---->
 <div class="form-group row">
     <div class="col-xs-12 col-md-8">
-        <label for="descripcion">Descripcion de Ejemplar:</label>
+        <label for="descripcion">Descripción de Ejemplar:</label>
         <textarea class="form-control" name="descripcion_ejemplar" id="descripcion" rows="3">{{ $esp1_array[ $i ]->descripcionDelEjemplar }}</textarea>
 
     </div>

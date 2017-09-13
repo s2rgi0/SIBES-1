@@ -364,7 +364,7 @@
 <br>
 <div class="form-group row">
     <div class="col-xs-12 col-md-8">
-        <label for="descripcion">Descripcion de Ejemplar:</label>
+        <label for="descripcion">Descripción de Ejemplar:</label>
         <textarea class="form-control" name="descripcion_ejemplar" id="descripcion" rows="3">{{ $esp1_array[ $i ]->descripcionDelEjemplar }}</textarea>
 
     </div>
