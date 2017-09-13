@@ -11,8 +11,6 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title"> </h4>
           </div>
-          <br>
-
             <form method="get" action="Informacion" id="frm-exito" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
@@ -21,18 +19,20 @@
             <br>
       <div class="row">
 
-        <center>
-          <p><h4>{{ $msg_exito }}</h4></p>
-        </center>
+        <div style="padding: 20px;" >
+          <center>
+            <p><h4>{{$msg_exito}}{{ $esp1_array[ $i ]->nombreEspecie }},{{$msg_exito2}}</h4></p>
+          </center>
+        </div>
 
       </div>
 
             </div>
             <br>
-            <div class="modal-footer">
+            <div class="modal-footer"  style="border-color: #8e7200;"  >
 
               <center>
-              <button type="submit" class="btn btn-success" id="btn-exito" > Aceptar </button>
+              <button type="submit" class="btn btn-success" id="btn-exito" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Aceptar </button>
               </center>
 
             </div>
@@ -45,7 +45,7 @@
     </div>
 
 
-  
+
 
   <!-- Modal MODAL DE FALLA AL AGUARDAR -->
 
@@ -71,7 +71,7 @@
       <div class="row">
 
         <center>
-          <p><h4> Nose pudo guardar en el sistema </h4></p>
+          <p><h4> No se puede agregar la especie al catálogo de El Salvador </h4></p>
         </center>
 
       </div>
@@ -80,7 +80,7 @@
             <br>
             <div class="modal-footer">
 
-              <center><button type="submit" class="btn btn-success" id="btn-error" > Aceptar </button></center>
+              <center><button type="submit" class="btn btn-success" id="btn-error" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Aceptar </button></center>
 
             </div>
             </form>
