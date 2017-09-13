@@ -3,9 +3,9 @@
 <head>
 
   <title> MARN | SIBES </title>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta charset="utf-8">
+ <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel=stylesheet href="css/estilo_menu.css" type="text/css">
 
 <link rel=stylesheet href="css/estilo_busqueda.css" type="text/css">
@@ -32,17 +32,17 @@
         box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.3);
     }
 
-  
+
 
   @media screen and (min-width: 400px) {
-    
+
     .panel
     {
       width:75%;
     }
   }
 
-  @media screen and (min-width: 1000px) {    
+  @media screen and (min-width: 1000px) {
 
     .cuerpo{
       height:600px;
@@ -131,12 +131,12 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     height: 100%;">
 </div>
 
-  <div class="row">
+  <div class="row" id="publico_sibes">
 
   <div class="col-md-2  side_BAR" >
 
     @include('publico.menu.menu_side_bar')
-    @include('publico.menu.menu_forms')  
+    @include('publico.menu.menu_forms')
 
   </div>
   <div class="col-md-6" >
@@ -145,9 +145,9 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
   <div class="container contenido">
 
   <center>
-  
-  <h4 style="font-family: 'Ubuntu',  sans-serif;" ><b>Descarga Información del Catálogo de Especies de El Salvador</b></h4><br>  
-   
+
+  <h4 style="font-family: 'Ubuntu',  sans-serif;" ><b>Descarga Informacion del Catálogo de Especies de El Salvador</b></h4><br>
+
 
   <div class="panel" >
     <form action="/mostrar" method="GET" name="busqueda" id="consulta-esp-frm" >
@@ -287,7 +287,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
     <div class="row">
       <!--
       <div style="padding-top: 5px;padding-bottom: 5px;" >
-        <input type="radio" name="gender" value="male"checked class="taxon" > Taxonomia <input type="radio" name="gender" value="female" class="aviston" > Avistamiento  
+        <input type="radio" name="gender" value="male"checked class="taxon" > Taxonomia <input type="radio" name="gender" value="female" class="aviston" > Avistamiento
       </div>
       -->
 
@@ -318,7 +318,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 <center>
 
 <input type="hidden" id="taxo" name="taxo"  >
-<input type="hidden" id="avisto" name="avisto"  >      
+<input type="hidden" id="avisto" name="avisto"  >
 
 <form method="get" id="frm-excel-especie" action="Excel_especies_sub" >
 
@@ -333,7 +333,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
 
 </form>
 <form method="get" id="frm-excel-avistos" action="Excel_avistamientos" >
-   
+
   <input type="hidden" id="id_sub_v" name="id_sub"  >
   <input type="hidden" id="id_esp_v" name="id_esp"  >
   <input type="hidden" id="id_gen_v" name="id_gen"  >
@@ -342,7 +342,7 @@ setTimeout ("$('#btn_Bug').select2();", 3000);
   <input type="hidden" id="id_cla_v" name="id_cla"  >
   <input type="hidden" id="id_div_v" name="id_div"  >
   <input type="hidden" id="id_rei_v" name="id_rei"  >
-  
+
 </form>
 
   <div class="" >
