@@ -2,20 +2,31 @@
 <html>
 <head>
   <title> MARN | SIBES </title>
-    <meta charset="utf-8">
-    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel=stylesheet href="css/estilo_esencial.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
-    <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" name="viewport">
+     <link href="https://fonts.googleapis.com/css?family=Advent+Pro|Baloo|Raleway" " rel="stylesheet">
+     <link rel="shortcut icon" type="image/ico" href="/imagen/favicon.ico" />
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/webshim/1.14.5/polyfiller.js"></script>
     <script language="JavaScript">
-      function nobackbutton(){
-       window.location.hash="no-back-button";
-       window.location.hash="Again-No-back-button" //chrome
-       window.onhashchange=function(){window.location.hash="no-back-button";}
-       }
-    </script>
+  function nobackbutton(){
+   window.location.hash="no-back-button";
+   window.location.hash="Again-No-back-button" //chrome
+   window.onhashchange=function(){window.location.hash="no-back-button";}
+}
+</script>
+<style>
+  nav{
+    box-shadow: 0 7px 10px 0 rgba(0, 0, 0, 0.2);
+  }
+
+
+body{
+    background-image: url("/imagen/patron2.png");
+  }
+</style>
 
 </head>
 <body onload="nobackbutton();">
@@ -27,7 +38,7 @@
 
 
     @if( $usuario[0]->idTipo == 1   )
-      <nav>
+        <nav>
             @include('parciales.menu')
         </nav>
 
@@ -67,7 +78,9 @@
 
   });
 
+
       $('#id_agregar_usr').click(function(){
+
         //alert('iremos agregar usuario')
         $('#frm-agregar-usr').submit();
 
@@ -86,7 +99,23 @@
         $('#frm-inicio-esp').submit();
 
       });
+
+      $('#id_colector').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector').submit();
+
+      });
+
+      $('#id_colectoX').click(function(){
+
+        //alert('iremos al comienzo')
+        $('#frm-colector-tabla').submit();
+
+      });
+
 </script>
+
 
 <div class="row">
     <div class="col-md-3">
@@ -94,16 +123,20 @@
     </div>
     <div class="col-md-6">
     <center>
+    <br>
     <h2 style="font-family: 'Raleway', sans-serif; color: #aa913f;" >SISTEMA DE BIODIVERSIDAD </h2>
     <h2 style="font-family: 'Baloo', cursive;color: #aa913f;" > EL SALVADOR</h2>
     <br>
     <img src="imagen/hoja.png" alt="SIBES" class="img-responsive" width="25%" >
+
 
     </div>
     <div class="col-md-3">
 
     </div>
 </div>
+
+
 
   @foreach( $usuario as $xr )
 
@@ -124,6 +157,14 @@
   <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
 <form id="frm-estado-usr" method="get" action="estado_usuario" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
+
+<form id="frm-colector" method="get" action="Agregar_Colector" >
+  <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
+</form>
+
+<form id="frm-colector-tabla" method="get" action="Tabla_Colectores" >
   <input type="hidden" name="id_usuario" value="{{ $usuario[0]->idUsuario }}" >
 </form>
 
