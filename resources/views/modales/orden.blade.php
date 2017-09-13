@@ -15,6 +15,7 @@
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
 
+            <!--
             <div class="row">
             <div class="col-xs-4">
               <label >Reino : </label>
@@ -53,11 +54,11 @@
             </div>
 
             </div>
-
-          <br>
+          -->
+      <input type="hidden" name="cla_ord" id="id_cla" >
       <div class="row">
       <div class="col-xs-4">
-        <label > Orden : </label>
+      <label style="float: right;" > Orden : </label>
       </div>
       <div class="col-xs-4">
         <input required type="text" style="width:200px;float: left; height: 30px;" name="ord_input_mod" id="ord_input_mod" >
@@ -66,7 +67,6 @@
 
       </div>
 
-      <br>
           <center>
         <div class="form-group">
 
@@ -86,8 +86,8 @@
 
 
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" id="g_ord" > Guardar </button>
-            <button type="button" class="btn btn-success can_ord" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="g_ord"  style="background-color: #b0a54f ; border-color: #8e7200 ;" > Guardar </button>
+            <button type="button" class="btn btn-success can_ord" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar</button>
             </div>
 
 

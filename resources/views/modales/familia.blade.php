@@ -14,7 +14,7 @@
             <form method="post" action="ingr_fam_modal" id="fam_modal" name="ffamilia" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
-
+<!--
             <div class="row">
             <div class="col-xs-4">
               <label >Reino : </label>
@@ -65,18 +65,17 @@
 
             </div>
             <br>
+-->
+      <input type="hidden" name="ord_fam" id="id_ord">
       <div class="row">
        <div class="col-xs-4">
-        <label > Familia:</label>
+        <label style="float: right;" > Familia:</label>
        </div>
         <div class="col-xs-4">
           <input required type="text" style="width:200px;float: left; height: 30px;" name="fam_input" id="fam_input" >
         </div>
 
       </div>
-
-
-      <br>
       <center>
         <div class="form-group">
 
@@ -100,8 +99,8 @@
 
 
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" id="g_fam" > Guardar </button>
-            <button type="button" class="btn btn-success can_fam" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="g_fam" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Guardar </button>
+            <button type="button" class="btn btn-success can_fam" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar</button>
             </div>
 
 

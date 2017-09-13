@@ -7,14 +7,14 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close close_esp" data-dismiss="modal">&times;</button>
-            <h3 class="modal-title">Desea ingresar una nueva especie?</h3>
+            <h4 class="modal-title">Desea ingresar una nueva especie?</h4>
           </div>
           <br>
 
             <form method="post" action="ingr_esp_modal" id="esp_modal" name="fespecie" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
-
+            <!--
             <div class="row">
             <div class="col-xs-4">
               <label  >Reino:</label>
@@ -87,19 +87,18 @@
                 </div>
             </div>
           <br>
+          -->
+          <input type="hidden" name="gen_esp" id="id_gen">
       <div class="row">
         <div class="col-xs-4">
-          <label> Especie:</label>
+          <label style="float: right;" > Especie:</label>
         </div>
          <div class="col-xs-4">
           <input required type="text" style="width:200px;float: left; height: 30px;" name="esp_input" id="esp_input" >
          </div>
 
       </div>
-
-
-      <br>
-        <center>
+      <center>
         <div class="form-group">
 
           <div class="alert alert-danger" style="display: none;" id="msg-error-especie">
@@ -120,8 +119,8 @@
 
 
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" id="g_esp" > Guardar </button>
-            <button type="button" class="btn btn-success can_esp" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="g_esp" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Guardar </button>
+            <button type="button" class="btn btn-success can_esp" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar</button>
             </div>
 
 

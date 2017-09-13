@@ -25,30 +25,29 @@
   	      	<form method="post" action="ingr_div_modal" id="div_modal" name="fdivision" >
   	      	<input name="_token" type="hidden" value="{{ csrf_token() }}"/>
   	      	<div class="modal-body">
-
+            <!--
   	        	<div class="row">
   	        	<div class="col-xs-4">
   	        		<label >Reino: </label>
   	        	</div>
   	        	<div class="col-xs-4">
   	        			<select style="width:200px;height: 32px;" class="reino_modal" name="rei_mod" id="rm_id"  onchange="prueba();" >
-						<option value="0" disabled="true" selected="true">  -- Reino --  </option>
+						<option value="0" disabled="true" selected="true">   Reino   </option>
 						<option></option>
 					</select>
   	        	</div>
-
   	      		</div>
-  	      		<br>
+              -->
+        <input type="hidden" name="rei_mod" id="id_rei">
 				<div class="row">
 				<div class="col-xs-4">
-					<label>Division:</label>
+					<label style="float: right;" >Division:</label>
 				</div>
 				<div class="col-xs-4">
 					<input required type="text" style="width:200px;float: left; height: 30px;" name="rei_input_mod" id="rei_input_mod" >
 				</div>
 
 				</div>
-				<br>
 				<center>
 				<div class="form-group">
 
@@ -71,8 +70,8 @@
 
 
   	      	<div class="modal-footer">
-  	      		<button type="submit" class="btn btn-success" id="g_div" > Guardar </button>
- 	        	<button type="button" class="btn btn-success can_div" data-dismiss="modal">Cancelar</button>
+  	      		<button type="submit" class="btn btn-success" id="g_div" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Guardar </button>
+ 	        	<button type="button" class="btn btn-success can_div" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar</button>
   	      	</div>
 
 

@@ -17,6 +17,7 @@
             <form method="post" action="ingr_cla_modal" id="cla_modal" name="fclase" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
+            <!--
             <div class="row">
             <div class="col-xs-4">
               <label >Reino: </label>
@@ -36,25 +37,23 @@
             </div>
             <div class="col-xs-4">
               <select style="width:200px;height: 32px;" class="divisionc" name="div_mod" id="dm_id">
-            <option value="0" disabled="true" selected="true">  -- División --  </option>
+            <option value="0" disabled="true" selected="true">   División  </option>
             <option></option>
           </select>
             </div>
 
         </div>
-
-          <br>
+        -->
+      <input type="hidden" name="div_mod" id="id_div">
       <div class="row">
         <div class="col-xs-4">
-          <label > Clase:</label>
+          <label style="float: right;"> Clase:</label>
         </div>
           <div class="col-xs-4">
             <input required type="text" style="width:200px;float: left; height: 30px;" name="cla_input_mod" id="cla_input_mod">
           </div>
       </div>
-
-        <br>
-            <center>
+        <center>
         <div class="form-group">
 
           <div class="alert alert-danger" style="display: none;" id="msg-error-clase">
@@ -72,8 +71,8 @@
 
 
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" id="g_cla" > Guardar </button>
-            <button type="button" class="btn btn-success can_cla" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="g_cla" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Guardar </button>
+            <button type="button" class="btn btn-success can_cla" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar</button>
             </div>
 
 

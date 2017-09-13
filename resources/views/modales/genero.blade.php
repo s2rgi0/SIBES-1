@@ -14,7 +14,7 @@
             <form method="post" action="ingr_gen_modal" id="gen_modal" name="fgenero" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
-
+              <!--
             <div class="row">
                 <div class="col-xs-4">
                   <label >Reino:</label>
@@ -79,9 +79,11 @@
 
             </div>
           <br>
+          -->
+          <input type="hidden" name="fam_gen" id="id_fam">
       <div class="row">
       <div class="col-xs-4">
-        <label > Género:</label>
+        <label  style="float:right;" > Género:</label>
 
       </div>
             <div class="col-xs-4">
@@ -90,8 +92,6 @@
 
 
       </div>
-
-      <br>
      <center>
         <div class="form-group">
 
@@ -115,8 +115,8 @@
 
 
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" id="g_gen" > Guardar </button>
-            <button type="button" class="btn btn-success can_gen" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="g_gen" style="background-color: #b0a54f ; border-color: #8e7200 ;" > Guardar </button>
+            <button type="button" class="btn btn-success can_gen" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;" >Cancelar</button>
             </div>
 
 

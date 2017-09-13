@@ -22,7 +22,7 @@
 
         <div style="padding: 20px;" >
           <center>
-            <p><h4>{{$msg_exito}}{{ $esp1_array[ $i ]->nombreSubespecie }},{{$msg_exito2}}</h4></p>
+            <p><h4>{{$msg_exito}}{{ $esp1_array[ $i ]->nombreSubespecie }},{{$msg_exito2}}.</h4></p>
           </center>
         </div>
 

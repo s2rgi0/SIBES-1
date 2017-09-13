@@ -15,7 +15,7 @@
             <form method="post" action="ingr_sub_modal" id="sub_modal" name="fsubespecie" >
             <input name="_token" type="hidden" value="{{ csrf_token() }}"/>
             <div class="modal-body">
-
+            <!--
             <div class="row">
                 <div class="col-xs-4">
                   <label >Reino:</label>
@@ -97,9 +97,11 @@
             </div>
             </div>
           <br>
+          -->
+      <input type="hidden" name="esp_sub" id="id_esp">
       <div class="row">
       <div class="col-xs-4">
-        <label > Subespecie: </label>
+        <label style="float: right;" > Subespecie: </label>
       </div>
             <div class="col-xs-4">
               <input required type="text" style="width:200px;float: left; height: 30px;" name="sub_input" id="sub_input" >
@@ -107,8 +109,6 @@
 
 
       </div>
-
-      <br>
       <center>
         <div class="form-group">
 
@@ -131,8 +131,8 @@
 
 
             <div class="modal-footer">
-              <button type="submit" class="btn btn-success" id="g_sub" > Guardar </button>
-            <button type="button" class="btn btn-success can_sub" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" id="g_sub"  style="background-color: #b0a54f ; border-color: #8e7200 ;"  > Guardar </button>
+            <button type="button" class="btn btn-success can_sub" data-dismiss="modal" style="background-color: #b0a54f ; border-color: #8e7200 ;"  >Cancelar</button>
             </div>
 
 
