@@ -362,7 +362,7 @@ class AvistaController extends Controller
                 $id_especie     = $req->id_esp;
                 $extension      = Input::file('foto_graf')->getClientOriginalExtension();
 
-                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif') {
+                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' || $extension == 'JPG'   ) {
 
                     $cad_imagen = 'avis_' . $id_especie . '_' . $nombre_especie . '.' . $extension;
                     $foto->move('imagen_especie/' . $nombre_especie, $cad_imagen);
@@ -798,7 +798,7 @@ class AvistaController extends Controller
                 $id_especie     = $req->id_avis_ver;
                 $extension      = Input::file('foto-graf_ver')->getClientOriginalExtension();
 
-                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif') {
+                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif'  || $extension == 'JPG' || $extension == 'JPEG'   ) {
 
                     $cad_imagen = 'avis_' . $id_especie . '_' . $nombre_subespe . '.' . $extension;
                     $foto->move('imagen_especie/' . $nombre_especie . '/' . $nombre_subespe, $cad_imagen);
@@ -1030,7 +1030,7 @@ class AvistaController extends Controller
                 $id_especie     = $req->id_esp;
                 $extension      = Input::file('foto_graf')->getClientOriginalExtension();
 
-                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif') {
+                if ($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'bmp' || $extension == 'gif' || $extension == 'JPG' || $extension == 'JPEG'   ) {
 
                     $cad_imagen = 'avis_' . $id_especie . '_' . $nombre_subespe . '.' . $extension;
                     $foto->move('imagen_especie/' . $nombre_especie . '/' . $nombre_subespe, $cad_imagen);
