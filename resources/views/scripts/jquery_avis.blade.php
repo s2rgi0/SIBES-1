@@ -337,6 +337,8 @@
             var row = $('.row_avista').parent().parent();
             var date = $('#fecha_avis').val();
             var i_e = "";
+            
+            // si vamos a guarlar el link del PDF
 
             if($(this).attr("id")=="guardar_link"){
 
@@ -374,6 +376,8 @@
                 }
 
             }
+            
+            ///Si presionamos el boton de guardar avistamiento
 
             if($(this).attr("id")=="guardar_avista"){
                     //alert("on Button 1");
